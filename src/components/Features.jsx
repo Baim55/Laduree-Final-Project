@@ -22,8 +22,9 @@ const features = [
 
 function Features() {
   return (
-    <section className="bg-[#fefbf4] border-t border-dotted border-[#bfb7ab]">
-      <div className="container pt-16 pb-9">
+    <section className="bg-[#fefbf4]  border-[#bfb7ab]">
+      <div className="dotted-line w-full"></div>
+      <div className="container pt-16 pb-9 lg:py-22">
         <div className="hidden md:grid grid-cols-4 gap-3">
           {features.map((item) => (
             <div key={item.title} className="text-center garamond px-10">

@@ -40,3 +40,10 @@
 .swiper-pagination-bullet-active {
   background: #2e2c2a;
 }
+
+.dotted-line {
+  height: 20px;
+  background-image: radial-gradient(circle, #c8c0b5 1px, transparent 1px);
+  background-size: 6px 6px;
+  background-repeat: repeat-x;
+}
