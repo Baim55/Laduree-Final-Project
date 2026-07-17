@@ -17,23 +17,6 @@ function TailorMadeBox() {
           </div>
         </div>
       </section>
-      <section className="relative h-screen overflow-hidden">
-        <video
-          className="absolute inset-0 h-full w-full object-cover"
-          autoPlay
-          muted
-          loop
-          playsInline
-          controls
-        >
-          <source
-            src="https://laduree.com/cdn/shop/videos/c/vp/52f05b95eaf6476b80f9e15eb35e2907/52f05b95eaf6476b80f9e15eb35e2907.HD-1080p-4.8Mbps-43751471.mp4?v=0"
-            type="video/mp4"
-          />
-        </video>
-
-        <div className="absolute inset-0 bg-black/20"></div>
-      </section>
     </>
   );
 }

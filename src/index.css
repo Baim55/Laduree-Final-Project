@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&display=swap");
-
+@import "swiper/css";
+@import "swiper/css/pagination";
 .container {
   max-width: 1450px;
   margin: 0 auto;
@@ -23,4 +24,19 @@
 /* IE və köhnə Edge */
 .scrollbar-hide {
   -ms-overflow-style: none;
+}
+
+.swiper-pagination {
+  bottom: 0 !important;
+}
+
+.swiper-pagination-bullet {
+  width: 6px;
+  height: 6px;
+  background: #6b6b6b;
+  opacity: 1;
+}
+
+.swiper-pagination-bullet-active {
+  background: #2e2c2a;
 }
