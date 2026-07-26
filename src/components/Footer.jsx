@@ -54,26 +54,32 @@ function Footer() {
     setOpenIndex((prev) => (prev === index ? null : index));
   };
 
+  const linkHoverClass =
+    "relative cursor-pointer transition-all duration-300 hover:translate-x-4 before:absolute before:-left-4 before:top-1/2 before:h-1 before:w-1 before:-translate-y-1/2 before:scale-0 before:rounded-full before:bg-[#2e2c2a] before:transition-transform before:duration-300 hover:before:scale-100";
+
   return (
     <footer className="bg-[#dce7c6] text-[#2e2c2a]">
+      {/* Top Frise */}
       <div
-        className="w-full h-[23px] bg-repeat-x"
+        className="h-[23px] w-full bg-repeat-x"
         style={{ backgroundImage: "url(/assets/img/frise.png)" }}
       />
 
       <div className="container px-6 py-14">
-        <div className="hidden lg:grid grid-cols-5 gap-10">
+        {/* DESKTOP */}
+        <div className="hidden grid-cols-5 gap-10 lg:grid">
           {footerLinks.map((section) => (
             <div key={section.title}>
-              <h3 className="garamond text-[15px] tracking-wide uppercase mb-5">
+              <h3 className="garamond mb-5 text-[15px] uppercase tracking-wide">
                 {section.title}
               </h3>
+
               <ul className="flex flex-col">
                 {section.items.map((item) => (
-                  <li key={item.label}>
+                  <li key={item.label} className={linkHoverClass}>
                     <Link
                       to={item.to}
-                      className="text-[15px] garamond text-[#46413de3]/80 hover:text-[#2e2c2a] transition-colors"
+                      className="garamond text-[15px] text-[#46413de3]/80 transition-colors hover:text-[#2e2c2a]"
                     >
                       {item.label}
                     </Link>
@@ -83,55 +89,66 @@ function Footer() {
             </div>
           ))}
 
+          {/* Newsletter */}
           <div>
-            <h3 className="garamond text-[15px] tracking-wide uppercase mb-5">
+            <h3 className="garamond mb-5 text-[15px] uppercase tracking-wide">
               Join our newsletter
             </h3>
+
             <form className="flex items-center justify-between border-b border-[#2e2c2a]/40 pb-2">
               <input
                 type="email"
                 placeholder="Email address*"
-                className="bg-transparent outline-none text-[15px] placeholder-[#2e2c2a]/70 w-full"
+                className="w-full bg-transparent text-[15px] outline-none placeholder:text-[#2e2c2a]/70"
               />
+
               <button type="submit" aria-label="Subscribe">
                 →
               </button>
             </form>
 
-            <label className="flex items-start gap-2 mt-4 text-[13px] text-[#2e2c2a]/80 cursor-pointer">
+            <label className="mt-4 flex cursor-pointer items-start gap-2 text-[13px] text-[#2e2c2a]/80">
               <input type="checkbox" className="mt-1 accent-[#2e2c2a]" />I agree
               to receive news and exclusive creations from Ladurée via email,
               phone, WhatsApp, and Wallet.
             </label>
 
-            <h3 className="garamond text-[15px] tracking-wide uppercase mt-10 mb-4">
+            <h3 className="garamond mb-4 mt-10 text-[15px] uppercase tracking-wide">
               Follow us
             </h3>
+
             <div className="flex items-center gap-4 text-[18px]">
               <a
                 href="https://www.instagram.com/laduree.cafe/"
                 aria-label="Instagram"
                 target="_blank"
+                rel="noreferrer"
               >
                 <FaInstagram />
               </a>
+
               <a
                 href="https://www.tiktok.com/@ladureecafe"
                 aria-label="TikTok"
                 target="_blank"
+                rel="noreferrer"
               >
                 <FaTiktok />
               </a>
+
               <a
                 href="https://www.linkedin.com/company/maison-laduree/"
                 aria-label="LinkedIn"
                 target="_blank"
+                rel="noreferrer"
               >
                 <FaLinkedin />
               </a>
             </div>
           </div>
         </div>
+
+        {/* MOBILE */}
         <div className="lg:hidden">
           {footerLinks.map((section, index) => (
             <div
@@ -140,11 +157,12 @@ function Footer() {
             >
               <button
                 onClick={() => toggleSection(index)}
-                className="flex items-center justify-between w-full"
+                className="flex w-full items-center justify-between"
               >
-                <span className="garamond text-[17px] tracking-wide uppercase">
+                <span className="garamond text-[17px] uppercase tracking-wide">
                   {section.title}
                 </span>
+
                 {openIndex === index ? (
                   <IoRemove size={20} />
                 ) : (
@@ -154,12 +172,12 @@ function Footer() {
 
               <div
                 className={`overflow-hidden transition-all duration-300 ${
-                  openIndex === index ? "max-h-[400px] mt-4" : "max-h-0"
+                  openIndex === index ? "mt-4 max-h-[400px]" : "max-h-0"
                 }`}
               >
                 <ul className="flex flex-col gap-3 pb-2">
                   {section.items.map((item) => (
-                    <li key={item.label}>
+                    <li key={item.label} className={linkHoverClass}>
                       <Link
                         to={item.to}
                         className="text-[15px] text-[#2e2c2a]/80"
@@ -173,51 +191,61 @@ function Footer() {
             </div>
           ))}
 
+          {/* Mobile Newsletter */}
           <div className="mt-10">
-            <h3 className="garamond text-[17px] tracking-wide uppercase mb-5">
+            <h3 className="garamond mb-5 text-[17px] uppercase tracking-wide">
               Join our newsletter
             </h3>
+
             <form className="flex items-center justify-between border-b border-[#2e2c2a]/40 pb-2">
               <input
                 type="email"
                 placeholder="Email address*"
-                className="bg-transparent outline-none text-[15px] placeholder-[#2e2c2a]/70 w-full"
+                className="w-full bg-transparent text-[15px] outline-none placeholder:text-[#2e2c2a]/70"
               />
+
               <button type="submit" aria-label="Subscribe">
                 →
               </button>
             </form>
 
-            <label className="flex items-start gap-2 mt-4 text-[13px] text-[#2e2c2a]/80 cursor-pointer">
+            <label className="mt-4 flex cursor-pointer items-start gap-2 text-[13px] text-[#2e2c2a]/80">
               <input type="checkbox" className="mt-1 accent-[#2e2c2a]" />I agree
               to receive news and exclusive creations from Ladurée via email,
               phone, WhatsApp, and Wallet.
             </label>
           </div>
 
+          {/* Mobile Socials */}
           <div className="mt-10 text-center">
-            <h3 className="garamond text-[17px] tracking-wide uppercase mb-5">
+            <h3 className="garamond mb-5 text-[17px] uppercase tracking-wide">
               Follow us
             </h3>
+
             <div className="flex items-center justify-center gap-6 text-[20px]">
               <a
                 href="https://www.instagram.com/laduree.cafe/"
                 aria-label="Instagram"
                 target="_blank"
+                rel="noreferrer"
               >
                 <FaInstagram />
               </a>
+
               <a
                 href="https://www.tiktok.com/@ladureecafe"
                 aria-label="TikTok"
                 target="_blank"
+                rel="noreferrer"
               >
                 <FaTiktok />
               </a>
+
               <a
                 href="https://www.linkedin.com/company/maison-laduree/"
                 aria-label="LinkedIn"
                 target="_blank"
+                rel="noreferrer"
               >
                 <FaLinkedin />
               </a>
@@ -225,35 +253,51 @@ function Footer() {
           </div>
         </div>
       </div>
+
+      {/* Logo */}
       <hr className="text-[#2e2c2a]/20" />
+
       <div className="flex items-center justify-center">
-        <img src={FooterLogo} alt="" className="lg:w-[200px] w-[250px] my-20" />
+        <img
+          src={FooterLogo}
+          alt="Ladurée"
+          className="my-20 w-[250px] lg:w-[200px]"
+        />
       </div>
+
       <hr className="text-[#2e2c2a]/20" />
-      <div className="container px-6  garamond">
-        <div className="container px-6 garamond">
-          <div className="py-6 grid grid-cols-1 lg:grid-cols-3 items-center gap-4 text-[14px] text-[#2e2c2a]/80">
-            <div className="hidden lg:flex items-center gap-6 justify-self-start">
-              <Link to="#" className="hover:text-[#2e2c2a] transition-colors">
+
+      {/* Bottom Links */}
+      <div className="container px-6 font-garamond">
+        <div className="py-6 text-[14px] text-[#2e2c2a]/80">
+          <div className="grid grid-cols-1 items-center gap-4 lg:grid-cols-3">
+            {/* Left */}
+            <div className="hidden items-center gap-6 lg:flex lg:justify-self-start">
+              <Link to="#" className="transition-colors hover:text-[#2e2c2a]">
                 Terms &amp; Conditions
               </Link>
-              <Link to="#" className="hover:text-[#2e2c2a] transition-colors">
+
+              <Link to="#" className="transition-colors hover:text-[#2e2c2a]">
                 Legal Notice
               </Link>
             </div>
 
-            <p className="justify-self-center text-center">
+            {/* Copyright */}
+            <p className="text-center lg:justify-self-center">
               © Copyright Ladurée Paris 2026
             </p>
 
-            <div className="hidden lg:flex items-center gap-6 justify-self-end">
-              <Link to="#" className="hover:text-[#2e2c2a] transition-colors">
+            {/* Right */}
+            <div className="hidden items-center gap-6 lg:flex lg:justify-self-end">
+              <Link to="#" className="transition-colors hover:text-[#2e2c2a]">
                 Data Protection Policy
               </Link>
-              <Link to="#" className="hover:text-[#2e2c2a] transition-colors">
+
+              <Link to="#" className="transition-colors hover:text-[#2e2c2a]">
                 Cookies Management
               </Link>
-              <Link to="#" className="hover:text-[#2e2c2a] transition-colors">
+
+              <Link to="#" className="transition-colors hover:text-[#2e2c2a]">
                 Accessibility
               </Link>
             </div>
@@ -261,8 +305,9 @@ function Footer() {
         </div>
       </div>
 
+      {/* Bottom Frise */}
       <div
-        className="w-full h-[23px] bg-repeat-x"
+        className="h-[23px] w-full bg-repeat-x"
         style={{ backgroundImage: "url(/assets/img/frise.png)" }}
       />
     </footer>
