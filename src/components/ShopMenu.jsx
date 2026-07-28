@@ -259,7 +259,6 @@ function ShopMenu({ isOpen, onClose }) {
                 <li className={menuItemClass}>All our pastries</li>
               </ul>
             </div>
-
             <img
               src={Patisserie}
               alt="Patisserie"
