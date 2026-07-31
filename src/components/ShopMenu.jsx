@@ -44,7 +44,6 @@ function ShopMenu({ isOpen, onClose }) {
         isOpen ? "visible opacity-100" : "invisible opacity-0"
       }`}
     >
-      {/* Overlay */}
       <div
         onClick={onClose}
         onWheel={(event) => {
@@ -53,7 +52,6 @@ function ShopMenu({ isOpen, onClose }) {
         className="absolute inset-0 bg-black/20 backdrop-blur-md"
       />
 
-      {/* Menu */}
       <div
         ref={menuRef}
         onWheel={(event) => {
@@ -63,7 +61,6 @@ function ShopMenu({ isOpen, onClose }) {
           isOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
-        {/* Delivery / Pickup */}
         <div className="sticky left-7 right-7 top-0 z-20 flex items-center justify-between bg-[#fefbf4] py-6">
           <div className="garamond grid w-full grid-cols-2 border border-gray-300">
             <button
@@ -96,10 +93,8 @@ function ShopMenu({ isOpen, onClose }) {
           </div>
         </div>
 
-        {/* DELIVERY CONTENT */}
         {activeTab === "delivery" && (
           <div className="garamond mt-2 grid grid-cols-2 gap-x-10 gap-y-8 pb-5">
-            {/* Summer editions */}
             <div>
               <h3 className="mb-2 text-[18px]">Summer editions</h3>
 
@@ -120,7 +115,6 @@ function ShopMenu({ isOpen, onClose }) {
               className="w-full object-cover"
             />
 
-            {/* Macarons */}
             <div>
               <h3 className="mb-2 text-[18px]">Macarons</h3>
 
@@ -143,7 +137,6 @@ function ShopMenu({ isOpen, onClose }) {
               className="w-full object-cover"
             />
 
-            {/* Eugénie */}
             <div>
               <h3 className="mb-2 text-[18px]">Eugénie</h3>
 
@@ -160,7 +153,6 @@ function ShopMenu({ isOpen, onClose }) {
 
             <img src={Eugénie} alt="Eugénie" className="w-full object-cover" />
 
-            {/* Selections */}
             <div>
               <h3 className="mb-2 text-[18px]">Selections</h3>
 
@@ -179,7 +171,6 @@ function ShopMenu({ isOpen, onClose }) {
               className="w-full object-cover"
             />
 
-            {/* Chocolates */}
             <div>
               <h3 className="mb-2 text-[18px]">Chocolates</h3>
 
@@ -199,7 +190,6 @@ function ShopMenu({ isOpen, onClose }) {
               alt="Chocolates"
               className="w-full object-cover"
             />
-            {/* Tea Time */}
             <div>
               <h3 className="mb-2 text-[18px]">Tea Time</h3>
               <ul className="space-y-2 text-[16px]">
@@ -212,7 +202,6 @@ function ShopMenu({ isOpen, onClose }) {
             </div>
             <img src={TeaTime} alt="Tea Time" className="w-full object-cover" />
 
-            {/* Gifts */}
             <div>
               <h3 className="mb-2 text-[18px]">Gifts</h3>
               <ul className="space-y-2 text-[16px]">
@@ -233,10 +222,8 @@ function ShopMenu({ isOpen, onClose }) {
           </div>
         )}
 
-        {/* PICKUP CONTENT */}
         {activeTab === "pickup" && (
           <div className="garamond mt-2 grid grid-cols-2 gap-x-10 gap-y-8 pb-5">
-            {/* Tea Time */}
             <div>
               <h3 className="mb-2 text-[18px]">Macarons Pyramids</h3>
               <ul className="space-y-2 text-[16px]">
@@ -247,7 +234,6 @@ function ShopMenu({ isOpen, onClose }) {
             </div>
             <img src={Pyramidas} alt="Pyramidas" className="w-full object-cover" />
 
-            {/* Gifts */}
             <div>
               <h3 className="mb-2 text-[18px]">Pastries to share</h3>
               <ul className="space-y-2 text-[16px]">
