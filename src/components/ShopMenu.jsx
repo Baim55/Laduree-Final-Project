@@ -51,7 +51,6 @@ function ShopMenu({ isOpen, onClose }) {
         }}
         className="absolute inset-0 bg-black/20 backdrop-blur-md"
       />
-
       <div
         ref={menuRef}
         onWheel={(event) => {
@@ -76,7 +75,6 @@ function ShopMenu({ isOpen, onClose }) {
             >
               Delivery
             </button>
-
             <button
               onClick={() => {
                 setActiveTab("pickup");
@@ -92,7 +90,6 @@ function ShopMenu({ isOpen, onClose }) {
             </button>
           </div>
         </div>
-
         {activeTab === "delivery" && (
           <div className="garamond mt-2 grid grid-cols-2 gap-x-10 gap-y-8 pb-5">
             <div>
@@ -108,7 +105,6 @@ function ShopMenu({ isOpen, onClose }) {
                 <li className={menuItemClass}>Ice Creams & Sorbets</li>
               </ul>
             </div>
-
             <img
               src={CasabalancaCollection}
               alt="Casablanca collection"
