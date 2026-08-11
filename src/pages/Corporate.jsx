@@ -1,7 +1,7 @@
 
 function Corporate() {
   return (
-    <div>Corporate</div>
+    <div className="pt-30">Corporate</div>
   )
 }
 

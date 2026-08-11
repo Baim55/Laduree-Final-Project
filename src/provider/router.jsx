@@ -5,6 +5,9 @@ import LaMaison from "../pages/LaMaison";
 import Layout from "../components/layout/Layout";
 import Home from "../pages/Home";
 import Club from "../pages/Club";
+import CategoryPage from "../components/CategoryPage";
+import ProductPage from "../components/ProductPage";
+import InfoPage from "../components/InfoPage";
 
 const router = createBrowserRouter([
   {
@@ -30,6 +33,22 @@ const router = createBrowserRouter([
       {
         path: "/club",
         element: <Club />,
+      },
+      {
+        path: "/shop/:slug",
+        element: <CategoryPage />,
+      },
+      {
+        path: "/shop",
+        element: <CategoryPage />,
+      },
+      {
+        path: "/products/:slug",
+        element: <ProductPage  />,
+      },
+      {
+        path: "/pages/:slug",
+        element: <InfoPage  />,
       },
     ],
   },

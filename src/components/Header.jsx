@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
-import { Link, NavLink } from "react-router";
+import { Link, NavLink, useLocation } from "react-router";
 import { HiOutlineMenu } from "react-icons/hi";
-import Logo from "../../public/assets/logo.svg";
-import Cart from "../../public/assets/cart.svg";
 import { FaRegUserCircle } from "react-icons/fa";
 import { IoSearchOutline } from "react-icons/io5";
 import MobileMenu from "./MobileMenu";
@@ -12,6 +10,9 @@ function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isShopMenuOpen, setIsShopMenuOpen] = useState(false);
+  const location = useLocation();
+
+  const isHomePage = location.pathname === "/";
 
   useEffect(() => {
     const handleScroll = () => {
@@ -19,22 +20,12 @@ function Header() {
     };
 
     window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Menyu açıq olanda arxadakı Home scroll olmasın
   useEffect(() => {
     const isAnyMenuOpen = isMobileMenuOpen || isShopMenuOpen;
-
-    if (isAnyMenuOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-
+    document.body.style.overflow = isAnyMenuOpen ? "hidden" : "";
     return () => {
       document.body.style.overflow = "";
     };
@@ -46,19 +37,21 @@ function Header() {
   const navLinkClass = ({ isActive }) =>
     `${navItem} ${isActive ? "after:w-full" : ""}`;
 
+  const headerBg = !isHomePage
+    ? "text-[#1d1a17] bg-[#fefbf4] border-white/10"
+    : isScrolled
+      ? "border-gray-200 bg-[#fefbf4] text-black"
+      : "border-white/20 bg-transparent text-[#fefbf4]";
+
+  const shouldInvert = !isHomePage ? false : !isScrolled;
+
   return (
     <>
       <header
-        className={`fixed top-0 left-0 z-[60] w-full border-b transition-all duration-300 ${
-          isScrolled
-            ? "border-gray-200 bg-[#fefbf4] text-black"
-            : "border-white/20 bg-transparent text-[#fefbf4]"
-        }`}
+        className={`fixed top-0 left-0 z-[60] w-full border-b transition-all duration-300 ${headerBg}`}
       >
         <div className="container grid h-[92px] grid-cols-3 items-center px-5">
-          {/* Left */}
           <ul className="garamond hidden items-center gap-5 justify-self-start whitespace-nowrap text-[16px] lg:flex">
-            {/* E-Shop */}
             <li className={navItem}>
               <button
                 onClick={() => setIsShopMenuOpen(true)}
@@ -67,29 +60,21 @@ function Header() {
                 E-Shop
               </button>
             </li>
-
-            {/* Our stores */}
             <li className={navItem}>
               <NavLink to="/stores" className={navLinkClass}>
                 Our stores
               </NavLink>
             </li>
-
-            {/* Corporate */}
             <li className={navItem}>
               <NavLink to="/corporate" className={navLinkClass}>
                 Corporate
               </NavLink>
             </li>
-
-            {/* La Maison */}
             <li className={navItem}>
               <NavLink to="/laMaison" className={navLinkClass}>
                 La Maison
               </NavLink>
             </li>
-
-            {/* Search */}
             <li className={navItem}>
               <NavLink
                 to="/search"
@@ -100,8 +85,6 @@ function Header() {
               </NavLink>
             </li>
           </ul>
-
-          {/* Mobile hamburger */}
           <div className="menubar justify-self-start lg:hidden">
             <button
               onClick={() => setIsMobileMenuOpen(true)}
@@ -114,18 +97,20 @@ function Header() {
 
           {/* Logo */}
           <div className="justify-self-center">
-            <img
-              src={Logo}
-              alt="logo"
-              className={`w-[160px] transition-all duration-300 ${
-                isScrolled ? "" : "brightness-0 invert"
-              }`}
-            />
+            <Link to="/">
+              <img
+                src="/assets/logo.svg"
+                alt="logo"
+                className={`w-[160px] transition-all duration-300 ${
+                  shouldInvert ? "brightness-0 invert" : ""
+                }`}
+              />
+            </Link>
           </div>
 
           {/* Mobile cart */}
           <img
-            src={Cart}
+            src="/assets/cart.svg"
             alt="cart"
             className={`justify-self-end transition-all duration-300 lg:hidden ${
               isScrolled ? "" : "brightness-0 invert"
@@ -148,10 +133,10 @@ function Header() {
 
             <li className={navItem}>
               <img
-                src={Cart}
+                src="/assets/cart.svg"
                 alt="cart"
                 className={`transition-all duration-300 ${
-                  isScrolled ? "" : "brightness-0 invert"
+                  shouldInvert ? "brightness-0 invert" : ""
                 }`}
               />
             </li>

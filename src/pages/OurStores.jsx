@@ -1,7 +1,7 @@
 
 function OurStores() {
   return (
-    <div>OurStores</div>
+    <div className="pt-30">OurStores</div>
   )
 }
 

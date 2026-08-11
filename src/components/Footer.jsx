@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Link } from "react-router";
 import { IoAdd, IoRemove } from "react-icons/io5";
 import { FaInstagram, FaTiktok, FaLinkedin } from "react-icons/fa";
-import FooterLogo from "../../public/assets/img/logo-footer.webp";
 
 function Footer() {
   const footerLinks = [
@@ -259,7 +258,7 @@ function Footer() {
 
       <div className="flex items-center justify-center">
         <img
-          src={FooterLogo}
+          src="/assets/img/logo-footer.webp"
           alt="Ladurée"
           className="my-20 w-[250px] lg:w-[200px]"
         />

@@ -1,24 +1,20 @@
-import { useEffect, useRef, useState } from "react";
-import CasabalancaCollection from "../../public/assets/img/casablanca.avif";
-import Macarons from "../../public/assets/img/macarons.avif";
-import Eugénie from "../../public/assets/img/eugenie.avif";
-import Selections from "../../public/assets/img/selections.avif";
-import Chocolates from "../../public/assets/img/chocolates.avif";
-import TeaTime from "../../public/assets/img/teaTime.avif";
-import Gifts from "../../public/assets/img/gifts.avif";
-import Pyramidas from "../../public/assets/img/pyramidas.avif";
-import Patisserie from "../../public/assets/img/patisserie.avif";
+import { useEffect, useRef, useState, Fragment } from "react";
+import { Link } from "react-router";
+import { menuData } from "../data/menuData";
+
+function getLinkPath(type, slug) {
+  if (type === "product") return `/products/${slug}`;
+  if (type === "info") return `/pages/${slug}`;
+  return `/shop/${slug}`; // collection
+}
 
 function ShopMenu({ isOpen, onClose }) {
   const menuRef = useRef(null);
-
   const [activeTab, setActiveTab] = useState("delivery");
 
   useEffect(() => {
     if (!isOpen) return;
-
     const menu = menuRef.current;
-
     if (!menu) return;
 
     const handleWheel = (event) => {
@@ -26,13 +22,8 @@ function ShopMenu({ isOpen, onClose }) {
       menu.scrollTop += event.deltaY;
     };
 
-    menu.addEventListener("wheel", handleWheel, {
-      passive: false,
-    });
-
-    return () => {
-      menu.removeEventListener("wheel", handleWheel);
-    };
+    menu.addEventListener("wheel", handleWheel, { passive: false });
+    return () => menu.removeEventListener("wheel", handleWheel);
   }, [isOpen]);
 
   const menuItemClass =
@@ -46,16 +37,12 @@ function ShopMenu({ isOpen, onClose }) {
     >
       <div
         onClick={onClose}
-        onWheel={(event) => {
-          event.preventDefault();
-        }}
+        onWheel={(event) => event.preventDefault()}
         className="absolute inset-0 bg-black/20 backdrop-blur-md"
       />
       <div
         ref={menuRef}
-        onWheel={(event) => {
-          event.stopPropagation();
-        }}
+        onWheel={(event) => event.stopPropagation()}
         className={`relative z-10 h-screen w-full max-w-[620px] overflow-y-scroll bg-[#fefbf4] px-8 pb-8 transition-transform duration-500 ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         }`}
@@ -90,164 +77,44 @@ function ShopMenu({ isOpen, onClose }) {
             </button>
           </div>
         </div>
-        {activeTab === "delivery" && (
-          <div className="garamond mt-2 grid grid-cols-2 gap-x-10 gap-y-8 pb-5">
-            <div>
-              <h3 className="mb-2 text-[18px]">Summer editions</h3>
 
-              <ul className="space-y-2 text-[16px]">
-                <li className={menuItemClass}>
-                  “Casablanca x Ladurée” Collection
-                </li>
+        <div className="garamond mt-2 grid grid-cols-2 gap-x-10 gap-y-8 pb-5">
+          {menuData[activeTab].map((section) => (
+            <Fragment key={section.id}>
+              <div>
+                <Link to={`/shop/${section.slug}`} onClick={onClose}>
+                  <h3 className="mb-2 text-[18px] hover:underline">
+                    {section.title}
+                  </h3>
+                </Link>
+                <ul className="space-y-2 text-[16px]">
+                  {section.links.map((link) => (
+                    <li key={link.slug} className={menuItemClass}>
+                      <Link
+                        to={getLinkPath(link.type, link.slug)}
+                        onClick={onClose}
+                      >
+                        {link.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
 
-                <li className={menuItemClass}>Collector's Days</li>
+              <Link to={`/shop/${section.slug}`} onClick={onClose}>
+                <img
+                  src={section.image}
+                  alt={section.title}
+                  className="w-full cursor-pointer object-cover"
+                />
+              </Link>
+            </Fragment>
+          ))}
 
-                <li className={menuItemClass}>Ice Creams & Sorbets</li>
-              </ul>
-            </div>
-            <img
-              src={CasabalancaCollection}
-              alt="Casablanca collection"
-              className="w-full object-cover"
-            />
-
-            <div>
-              <h3 className="mb-2 text-[18px]">Macarons</h3>
-
-              <ul className="space-y-2 text-[16px]">
-                <li className={menuItemClass}>
-                  “Casablanca” Macarons gift box
-                </li>
-
-                <li className={menuItemClass}>Macarons boxes</li>
-
-                <li className={menuItemClass}>Boxes to compose</li>
-
-                <li className={menuItemClass}>Flavor Guide</li>
-              </ul>
-            </div>
-
-            <img
-              src={Macarons}
-              alt="Macarons"
-              className="w-full object-cover"
-            />
-
-            <div>
-              <h3 className="mb-2 text-[18px]">Eugénie</h3>
-
-              <ul className="space-y-2 text-[16px]">
-                <li className={menuItemClass}>“Casablanca” Eugénie gift box</li>
-
-                <li className={menuItemClass}>Eugénie boxes</li>
-
-                <li className={menuItemClass}>Boxes to compose</li>
-
-                <li className={menuItemClass}>Flavor Guide</li>
-              </ul>
-            </div>
-
-            <img src={Eugénie} alt="Eugénie" className="w-full object-cover" />
-
-            <div>
-              <h3 className="mb-2 text-[18px]">Selections</h3>
-
-              <ul className="space-y-2 text-[16px]">
-                <li className={menuItemClass}>Thank you</li>
-
-                <li className={menuItemClass}>Birthday boxes</li>
-
-                <li className={menuItemClass}>Congratulations</li>
-              </ul>
-            </div>
-
-            <img
-              src={Selections}
-              alt="Selections"
-              className="w-full object-cover"
-            />
-
-            <div>
-              <h3 className="mb-2 text-[18px]">Chocolates</h3>
-
-              <ul className="space-y-2 text-[16px]">
-                <li className={menuItemClass}>Chocolates & Confectioneries</li>
-
-                <li className={menuItemClass}>Chocolate pearls</li>
-
-                <li className={menuItemClass}>Marshmallow bears</li>
-
-                <li className={menuItemClass}>Sugared Almonds</li>
-              </ul>
-            </div>
-
-            <img
-              src={Chocolates}
-              alt="Chocolates"
-              className="w-full object-cover"
-            />
-            <div>
-              <h3 className="mb-2 text-[18px]">Tea Time</h3>
-              <ul className="space-y-2 text-[16px]">
-                <li className={menuItemClass}>Signature Teas</li>
-                <li className={menuItemClass}>Jams & Honeys</li>
-                <li className={menuItemClass}>Biscuits</li>
-                <li className={menuItemClass}>Fondants</li>
-                <li className={menuItemClass}>All our tea products</li>
-              </ul>
-            </div>
-            <img src={TeaTime} alt="Tea Time" className="w-full object-cover" />
-
-            <div>
-              <h3 className="mb-2 text-[18px]">Gifts</h3>
-              <ul className="space-y-2 text-[16px]">
-                <li className={menuItemClass}>Assortments ready to offer</li>
-                <li className={menuItemClass}>Create your own hamper</li>
-                <li className={menuItemClass}>Accessories</li>
-                <li className={menuItemClass}>Personalisation offers</li>
-                <li className={menuItemClass}>Experiences to offer</li>
-                <li className={menuItemClass}>Gifting occasions</li>
-              </ul>
-            </div>
-
-            <img src={Gifts} alt="Gifts" className="w-full object-cover" />
-
-            <div>
-              <h3 className={menuItemClass}>See all</h3>
-            </div>
-          </div>
-        )}
-
-        {activeTab === "pickup" && (
-          <div className="garamond mt-2 grid grid-cols-2 gap-x-10 gap-y-8 pb-5">
-            <div>
-              <h3 className="mb-2 text-[18px]">Macarons Pyramids</h3>
-              <ul className="space-y-2 text-[16px]">
-                <li className={menuItemClass}>Pyramid of classic macarons</li>
-                <li className={menuItemClass}>Pyramid of gold macarons</li>
-                <li className={menuItemClass}>All our Pyramids</li>
-              </ul>
-            </div>
-            <img src={Pyramidas} alt="Pyramidas" className="w-full object-cover" />
-
-            <div>
-              <h3 className="mb-2 text-[18px]">Pastries to share</h3>
-              <ul className="space-y-2 text-[16px]">
-                <li className={menuItemClass}>Milk Chocolate XXL Marshmallow</li>
-                <li className={menuItemClass}>Ispahan</li>
-                <li className={menuItemClass}>Plaisir Sucré</li>
-                <li className={menuItemClass}>Flan</li>
-                <li className={menuItemClass}>Number & Letter cakes</li>
-                <li className={menuItemClass}>All our pastries</li>
-              </ul>
-            </div>
-            <img
-              src={Patisserie}
-              alt="Patisserie"
-              className="w-full object-cover"
-            />
-          </div>
-        )}
+          <Link to="/shop" onClick={onClose}>
+            <p className={menuItemClass}>See all</p>
+          </Link>
+        </div>
       </div>
     </div>
   );

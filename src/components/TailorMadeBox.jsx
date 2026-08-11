@@ -1,5 +1,3 @@
-import Box from "../../public/assets/img/Macaron_FRAMBOISE_RASPBERRY-COMPOSE.webp";
-
 function TailorMadeBox() {
   return (
     <>
@@ -13,7 +11,7 @@ function TailorMadeBox() {
             <button className="garamond mt-[25px] lg:mt-[50px] border border-[#2e2c2a] cursor-pointer px-15 lg:px-25 py-4 lg:py-3 text-[19px] hover:bg-[#2e2c2a] hover:text-white duration-150">
               Compose yours
             </button>
-            <img src={Box} alt="" className="w-[430px]" />
+            <img src="/assets/img/Macaron_FRAMBOISE_RASPBERRY-COMPOSE.webp" alt="" className="w-[430px]" />
           </div>
         </div>
       </section>

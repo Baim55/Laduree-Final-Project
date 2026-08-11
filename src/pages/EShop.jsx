@@ -1,7 +1,7 @@
 
 function EShop() {
   return (
-    <div>EShop</div>
+    <div className="pt-30">EShop</div>
   )
 }
 

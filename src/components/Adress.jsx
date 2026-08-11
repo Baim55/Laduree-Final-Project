@@ -1,11 +1,10 @@
 import { Link } from "react-router";
-import AdressImg from "../../public/assets/img/ThibautVoisin-250110-Laduree-GaleriesLafayette-043.webp";
 
 function Adress() {
   return (
     <section className="relative h-[90vh] overflow-hidden">
       <img
-        src={AdressImg}
+        src="/assets/img/ThibautVoisin-250110-Laduree-GaleriesLafayette-043.webp"
         alt="Ladurée Store"
         className="absolute inset-0 h-full w-full object-cover"
       />

@@ -1,7 +1,7 @@
 
 function Club() {
   return (
-    <div>Club</div>
+    <div className="pt-30">Club</div>
   )
 }
 

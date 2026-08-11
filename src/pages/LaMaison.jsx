@@ -1,7 +1,7 @@
 
 function LaMaison() {
   return (
-    <div>LaMaison</div>
+    <div className="pt-30">LaMaison</div>
   )
 }
 

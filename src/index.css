@@ -1,5 +1,5 @@
-@import "tailwindcss";
 @import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&display=swap");
+@import "tailwindcss";
 @import "swiper/css";
 @import "swiper/css/pagination";
 .container {
@@ -11,17 +11,14 @@
   font-family: "Cormorant Garamond", serif;
 }
 
-/* Chrome, Edge, Safari */
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
 
-/* Firefox */
 .scrollbar-hide {
   scrollbar-width: none;
 }
 
-/* IE və köhnə Edge */
 .scrollbar-hide {
   -ms-overflow-style: none;
 }

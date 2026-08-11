@@ -1,13 +1,3 @@
-import Bundle1 from "../../public/assets/img/Casablanca_Bundle_big_2.webp";
-import Bundle1Hover from "../../public/assets/img/Gift_box.webp";
-import Bundle2 from "../../public/assets/img/Casablancaeugenie_2.webp";
-import Bundle2Hover from "../../public/assets/img/Casablancaeugenie_3.webp";
-import Bundle3 from "../../public/assets/img/Casablancamacaron.webp";
-import Bundle3Hover from "../../public/assets/img/Casablancamac_1.webp";
-import Bundle4 from "../../public/assets/img/CasablancaBundlemac.webp";
-import Bundle4Hover from "../../public/assets/img/LADUREE_10-04-26_pmonetta-9419.webp";
-import Bundle5 from "../../public/assets/img/CasablancaBundleEugenie_78e550e0-ae0f-4ab1-b4a6-866d9c16e655.webp";
-import Bundle5Hover from "../../public/assets/img/Casablancaeugenie_3.webp";
 import ImageCard from "./ImageCard";
 
 function Collection() {
@@ -31,12 +21,32 @@ function Collection() {
           </ul>
         </div>
         <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
-          <ImageCard src={Bundle1} alt="Bundle 1" hoverSrc={Bundle1Hover} />
+          <ImageCard
+            src="/assets/img/Casablanca_Bundle_big_2.webp"
+            alt="Bundle 1"
+            hoverSrc="/assets/img/Gift_box.webp"
+          />
           <div className="grid grid-cols-2 gap-6">
-            <ImageCard src={Bundle2} alt="Bundle 2" hoverSrc={Bundle2Hover} />
-            <ImageCard src={Bundle3} alt="Bundle 3" hoverSrc={Bundle3Hover} />
-            <ImageCard src={Bundle4} alt="Bundle 4" hoverSrc={Bundle4Hover} />
-            <ImageCard src={Bundle5} alt="Bundle 5" hoverSrc={Bundle5Hover} />
+            <ImageCard
+              src="/assets/img/Casablancaeugenie_2.webp"
+              alt="Bundle 2"
+              hoverSrc="/assets/img/Casablancaeugenie_3.webp"
+            />
+            <ImageCard
+              src="/assets/img/Casablancamacaron.webp"
+              alt="Bundle 3"
+              hoverSrc="/assets/img/Casablancamac_1.webp"
+            />
+            <ImageCard
+              src="/assets/img/CasablancaBundlemac.webp"
+              alt="Bundle 4"
+              hoverSrc="/assets/img/LADUREE_10-04-26_pmonetta-9419.webp"
+            />
+            <ImageCard
+              src="/assets/img/CasablancaBundleEugenie_78e550e0-ae0f-4ab1-b4a6-866d9c16e655.webp"
+              alt="Bundle 5"
+              hoverSrc="/assets/img/Casablancaeugenie_3.webp"
+            />
           </div>
         </div>
         <div className="text-center">
