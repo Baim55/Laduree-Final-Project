@@ -31,7 +31,7 @@ export const menuData = {
       links: [
         {
           label: '"Casablanca" Macarons gift box',
-          slug: "casablanca-x-laduree-12-macarons-gift-box",
+          slug: "casablanca-macarons-gift-box",
           type: "product",
         },
         { label: "Macarons boxes", slug: "macarons-boxes", type: "collection" },
@@ -51,7 +51,7 @@ export const menuData = {
       links: [
         {
           label: '"Casablanca" Eugénie gift box',
-          slug: "gift-box-of-12-eugenie-casablanca-x-laduree",
+          slug: "eugenie-gift-box",
           type: "product",
         },
         { label: "Eugénie boxes", slug: "eugenie-boxes", type: "collection" },
@@ -167,12 +167,12 @@ export const menuData = {
       links: [
         {
           label: "Pyramid of classic macarons",
-          slug: "pyramid-of-classic-macarons",
+          slug: "pyramid-classic-macarons",
           type: "product",
         },
         {
           label: "Pyramid of gold macarons",
-          slug: "pyramid-of-gold-macarons",
+          slug: "pyramid-classic-macarons",
           type: "product",
         },
         { label: "All our Pyramids", slug: "all-pyramids", type: "collection" },
@@ -189,7 +189,7 @@ export const menuData = {
           slug: "milk-chocolate-xxl-marshmallow",
           type: "product",
         },
-        { label: "Ispahan", slug: "ispahan", type: "product" },
+        { label: "Ispahan", slug: "ispahan-pastry", type: "product" },
         { label: "Plaisir Sucré", slug: "plaisir-sucre", type: "product" },
         { label: "Flan", slug: "flan", type: "product" },
         {

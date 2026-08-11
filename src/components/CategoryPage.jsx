@@ -1,6 +1,7 @@
 import { useParams, Link } from "react-router";
 import { useEffect, useState } from "react";
 import { getCategories, getProducts } from "../services/api";
+import ImageCard from "./ImageCard";
 
 function CategoryPage() {
   const { slug } = useParams();
@@ -9,6 +10,7 @@ function CategoryPage() {
   const [loading, setLoading] = useState(true);
 
   const activeCategory = categories.find((c) => c.slug === slug);
+  const mainCategories = categories.filter((c) => c.isMain);
 
   useEffect(() => {
     getCategories().then(setCategories).catch(console.error);
@@ -29,7 +31,7 @@ function CategoryPage() {
   return (
     <div className="pt-[92px]">
       <div className="garamond flex items-center gap-6 border-b border-gray-200 px-8 py-4 text-[15px] italic">
-        {categories.map((cat) => (
+        {mainCategories.map((cat) => (
           <Link
             key={cat.id}
             to={`/shop/${cat.slug}`}
@@ -50,15 +52,31 @@ function CategoryPage() {
       ) : (
         <div className="grid grid-cols-4 gap-6 px-8 pb-16">
           {products.map((product) => (
-            <div key={product.id} className="text-center">
-              <img
-                src={product.image}
-                alt={product.name}
-                className="w-full object-cover"
-              />
+            <Link
+              key={product.id}
+              to={`/products/${product.slug}`}
+              className="group text-center"
+            >
+              <div className="relative overflow-hidden">
+                <img
+                  src={product.image}
+                  alt={product.name}
+                  className="block w-full object-cover transition-opacity duration-500 group-hover:opacity-0"
+                />
+
+                {product.hoverImage && (
+                  <img
+                    src={product.hoverImage}
+                    alt={product.name}
+                    className="absolute inset-0 h-full w-full object-cover opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+                  />
+                )}
+              </div>
+
               <h3 className="garamond mt-3 text-[16px]">{product.name}</h3>
+
               <p className="text-gray-600">{product.price.toFixed(2)} EUR</p>
-            </div>
+            </Link>
           ))}
         </div>
       )}
