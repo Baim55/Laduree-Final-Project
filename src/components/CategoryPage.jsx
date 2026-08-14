@@ -29,7 +29,7 @@ function CategoryPage() {
   }, [slug, categories]);
 
   return (
-    <div className="pt-[92px]">
+    <div className="pt-[92px] bg-[#fefbf4]">
       <div className="garamond flex items-center gap-6 border-b border-gray-200 px-8 py-4 text-[15px] italic">
         {mainCategories.map((cat) => (
           <Link
@@ -55,27 +55,19 @@ function CategoryPage() {
             <Link
               key={product.id}
               to={`/products/${product.slug}`}
-              className="group text-center"
+              className="block"
             >
-              <div className="relative overflow-hidden">
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  className="block w-full object-cover transition-opacity duration-500 group-hover:opacity-0"
-                />
+              <ImageCard
+                src={product.image}
+                hoverSrc={product.hoverImage || product.image}
+                alt={product.name}
+              />
 
-                {product.hoverImage && (
-                  <img
-                    src={product.hoverImage}
-                    alt={product.name}
-                    className="absolute inset-0 h-full w-full object-cover opacity-0 transition-opacity duration-500 group-hover:opacity-100"
-                  />
-                )}
+              <div className="text-center">
+                <h3 className="garamond mt-3 text-[16px]">{product.name}</h3>
+
+                <p className="text-gray-600">{product.price.toFixed(2)} EUR</p>
               </div>
-
-              <h3 className="garamond mt-3 text-[16px]">{product.name}</h3>
-
-              <p className="text-gray-600">{product.price.toFixed(2)} EUR</p>
             </Link>
           ))}
         </div>

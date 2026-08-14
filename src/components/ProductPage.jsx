@@ -8,7 +8,6 @@ function ProductPage() {
   const [product, setProduct] = useState(null);
   const [selectedImage, setSelectedImage] = useState("");
   const [loading, setLoading] = useState(true);
-
   const [openSection, setOpenSection] = useState(null);
 
   useEffect(() => {
@@ -93,33 +92,70 @@ function ProductPage() {
           </div>
 
           {/* TITLE */}
-          <h1 className="mb-8 text-center text-[#2e2c2a] font-semibold text-[36px] leading-[1.1]">
+          <h1 className="mb-8 text-center uppercase text-[#2e2c2a] font-semibold text-[36px] leading-[1.1]">
             {product.name}
           </h1>
 
           {/* INCLUDED PRODUCTS */}
           {product.includedProducts?.length > 0 && (
-            <div className="mb-10 grid grid-cols-4 gap-4">
-              {product.includedProducts.map((item) => (
-                <div key={item.id} className="text-center">
-                  <div className="mb-3 flex h-[110px] items-center justify-center">
-                    <img
-                      src={item.image}
-                      alt={item.name}
-                      className="h-full max-w-full object-contain"
-                    />
-                  </div>
+            <div className="mb-10">
+              {Array.from(
+                { length: Math.ceil(product.includedProducts.length / 4) },
+                (_, rowIndex) => {
+                  const rowItems = product.includedProducts.slice(
+                    rowIndex * 4,
+                    rowIndex * 4 + 4,
+                  );
 
-                  <p className="text-[15px] leading-[1.15]">{item.name}</p>
+                  return (
+                    <div
+                      key={rowIndex}
+                      className="mb-4 flex justify-center gap-1"
+                    >
+                      {rowItems.map((item) => (
+                        <div
+                          key={item.id}
+                          className="group w-[100px] cursor-default text-center"
+                        >
+                          {/* IMAGE / HOVER TEXT */}
+                          <div className="relative mx-auto h-[90px] w-full">
+                            <img
+                              src={item.image}
+                              alt={item.name}
+                              className={`absolute inset-0 h-full w-full object-contain ${
+                                item.hoverText
+                                  ? "transition-opacity duration-300 group-hover:opacity-0"
+                                  : ""
+                              }`}
+                            />
 
-                  <p className="mt-2 text-[14px]">x{item.quantity}</p>
-                </div>
-              ))}
+                            {/* HOVER TEXT */}
+                            {item.hoverText && (
+                              <div className="absolute inset-0 flex items-center justify-center bg-[#fcf6ed] px-2 text-center opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                                <p className="text-[13px] leading-5 text-[#2e2c2a]">
+                                  {item.hoverText}
+                                </p>
+                              </div>
+                            )}
+                          </div>
+
+                          {/* NAME */}
+                          <p className="text-[15px] leading-[1.15]">
+                            {item.name}
+                          </p>
+
+                          {/* QUANTITY */}
+                          <p className="mt-2 text-[14px]">x{item.quantity}</p>
+                        </div>
+                      ))}
+                    </div>
+                  );
+                },
+              )}
             </div>
           )}
-
           {/* ADD TO CART */}
-          <button className="w-full bg-[#2e2c2a] py-5 text-[17px] text-white transition hover:opacity-90">
+          <button className="w-full bg-[#2e2c2a] py-3 text-[17px] text-white transition hover:bg-[#1d1a17]">
             Add to cart — {product.price.toFixed(2)} EUR
           </button>
 
@@ -152,7 +188,6 @@ function ProductPage() {
             )}
           </div>
 
-          {/* INGREDIENTS & ALLERGENS */}
           <div className="border-b border-dotted border-gray-400">
             <button
               onClick={() => toggleSection("ingredients")}
@@ -160,15 +195,71 @@ function ProductPage() {
             >
               <span className="text-[17px]">Ingredients & allergens</span>
 
-              <span className="text-[22px]">
+              <span className="text-[22px] font-light">
                 {openSection === "ingredients" ? "−" : "+"}
               </span>
             </button>
 
             {openSection === "ingredients" && (
               <div className="pb-8 text-[14px] leading-7 text-[#46413d]">
-                {/* INGREDIENTS */}
-                <h3 className="mb-4 text-[16px]">Ingredient list:</h3>
+                {/* ============================== */}
+                {/* NUTRITION */}
+                {/* ============================== */}
+
+                {product.details?.nutrition && (
+                  <div className="mb-8">
+                    <h3 className="mb-5 text-[15px]">
+                      Average nutritional values per 100g:
+                    </h3>
+
+                    <div className="grid grid-cols-2 border-t border-dotted border-gray-300">
+                      <div className="space-y-2 py-3 pr-5">
+                        <div className="flex justify-between gap-4">
+                          <span>Energy</span>
+                          <span>{product.details.nutrition.energy}</span>
+                        </div>
+
+                        <div className="flex justify-between gap-4">
+                          <span>Carbohydrate</span>
+                          <span>{product.details.nutrition.carbohydrate}</span>
+                        </div>
+
+                        <div className="flex justify-between gap-4">
+                          <span>Sugars</span>
+                          <span>{product.details.nutrition.sugars}</span>
+                        </div>
+
+                        <div className="flex justify-between gap-4">
+                          <span>Salt</span>
+                          <span>{product.details.nutrition.salt}</span>
+                        </div>
+                      </div>
+
+                      <div className="space-y-2 border-l border-dotted border-gray-300 py-3 pl-5">
+                        <div className="flex justify-between gap-4">
+                          <span>Fat</span>
+                          <span>{product.details.nutrition.fat}</span>
+                        </div>
+
+                        <div className="flex justify-between gap-4">
+                          <span>Saturated fat</span>
+                          <span>{product.details.nutrition.saturatedFat}</span>
+                        </div>
+
+                        <div className="flex justify-between gap-4">
+                          <span>Protein</span>
+                          <span>{product.details.nutrition.protein}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* ============================== */}
+                {/* INGREDIENT LIST */}
+                {/* ============================== */}
+
+                <h3 className="mb-4 text-[15px]">Ingredient list:</h3>
 
                 {product.details?.ingredients?.map((ingredient, index) => (
                   <div key={index} className="mb-6">
@@ -178,21 +269,35 @@ function ProductPage() {
                   </div>
                 ))}
 
+                {/* ============================== */}
                 {/* ALLERGENS */}
-                <h3 className="mb-3 mt-8 text-[16px]">Allergen list:</h3>
+                {/* ============================== */}
 
-                <ol className="list-decimal pl-5">
-                  {product.details?.allergens?.map((allergen, index) => (
-                    <li key={index}>{allergen}</li>
-                  ))}
-                </ol>
+                {product.details?.allergens?.length > 0 && (
+                  <div className="mt-8">
+                    <h3 className="mb-3 text-[15px]">Allergen list:</h3>
 
+                    <ol className="list-decimal pl-5 grid grid-cols-1 md:grid-cols-2">
+                      {product.details.allergens.map((allergen, index) => (
+                        <li key={index}>{allergen}</li>
+                      ))}
+                    </ol>
+                  </div>
+                )}
+
+                {/* MAY CONTAIN */}
+                {product.details?.mayContain && (
+                  <div className="mt-3">
+                    <h3 className="text-[15px]">
+                      May contain traces of: {product.details.mayContain}
+                    </h3>
+                  </div>
+                )}
                 {/* WEIGHT */}
-                <div className="mt-8 space-y-2">
+                <div className="mt-3">
                   <p>
                     <strong>Net weight:</strong> {product.details?.netWeight}
                   </p>
-
                   <p>
                     <strong>Price per kg:</strong> {product.details?.pricePerKg}
                   </p>
@@ -215,7 +320,7 @@ function ProductPage() {
             </button>
 
             {openSection === "storage" && (
-              <div className="pb-8 text-[14px] leading-7 text-[#46413d]">
+              <div className="pb-8 text-[14px] leading-6 text-[#46413d]">
                 {product.details?.storage?.map((storage, index) => (
                   <div key={index} className="mb-6">
                     <p className="mb-1 font-medium">{storage.product}:</p>
