@@ -2,12 +2,6 @@
 function ImageCard({ src, hoverSrc, alt }) {
   return (
     <div className="group relative overflow-hidden bg-[#fefbf4] cursor-pointer">
-      <div className="absolute left-1/2 top-4 z-20 -translate-x-1/2">
-        <span className="inline-block whitespace-nowrap bg-[#efdfbd] px-4 py-1 garamond text-[16px]">
-          Casablanca x Ladurée
-        </span>
-      </div>
-
       <img
         src={src}
         alt={alt}

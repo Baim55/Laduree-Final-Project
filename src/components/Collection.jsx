@@ -1,58 +1,84 @@
+import { useEffect, useState } from "react";
+import { Link } from "react-router";
+import { getProducts, getCategories } from "../services/api";
 import ImageCard from "./ImageCard";
 
 function Collection() {
+  const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    getProducts()
+      .then((data) => {
+        setProducts(data.slice(0, 5));
+      })
+      .catch(console.error);
+
+    getCategories().then(setCategories).catch(console.error);
+  }, []);
+
+  const mainCategories = categories.filter((c) => c.isMain);
+
   return (
     <section className="bg-[#fefbf4] py-15">
       <div className="container garamond px-3 lg:px-0">
-        <h2 className=" text-[#2e2c2a] text-[32px] md:text-[52px] text-center uppercase">
+        <h2 className="text-[#2e2c2a] text-[32px] md:text-[52px] text-center uppercase">
           Casablanca Collection
         </h2>
         <div className="overflow-x-auto scrollbar-hide px-3">
-          <ul className=" mx-auto flex w-max items-center gap-2 whitespace-nowrap py-4 text-[16px] text-[#53504e] md:gap-4 md:text-[24px]">
-            <li>Macarons</li>
-            <li className="text-[#827e7b] text-[12px]">•</li>
-            <li>Eugénie</li>
-            <li className="text-[#827e7b] text-[12px]">•</li>
-            <li>Chocolates</li>
-            <li className="text-[#827e7b] text-[12px]">•</li>
-            <li>Teas</li>
-            <li className="text-[#827e7b] text-[12px]">•</li>
-            <li>See all</li>
+          <ul className="mx-auto flex w-max items-center gap-2 whitespace-nowrap py-4 text-[16px] text-[#53504e] md:gap-4 md:text-[24px]">
+            {mainCategories.map((cat, index) => (
+              <li key={cat.id} className="flex items-center gap-2 md:gap-4">
+                <Link to={`/shop/${cat.slug}`} className="hover:text-black">
+                  {cat.name}
+                </Link>
+                {index < mainCategories.length - 1 && (
+                  <span className="text-[#827e7b] text-[12px]">•</span>
+                )}
+              </li>
+            ))}
+            {mainCategories.length > 0 && (
+              <li className="text-[#827e7b] text-[12px]">•</li>
+            )}
+            <li>
+              <Link to="/shop" className="hover:text-black">
+                See all
+              </Link>
+            </li>
           </ul>
         </div>
+        {/* PRODUCTS */}
         <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
-          <ImageCard
-            src="/assets/img/Casablanca_Bundle_big_2.webp"
-            alt="Bundle 1"
-            hoverSrc="/assets/img/Gift_box.webp"
-          />
+          {/* FIRST PRODUCT */}
+          {products[0] && (
+            <Link to={`/products/${products[0].slug}`}>
+              <ImageCard
+                src={products[0].image}
+                alt={products[0].name}
+                hoverSrc={products[0].hoverImage || products[0].image}
+              />
+            </Link>
+          )}
+          {/* OTHER 4 PRODUCTS */}
           <div className="grid grid-cols-2 gap-6">
-            <ImageCard
-              src="/assets/img/Casablancaeugenie_2.webp"
-              alt="Bundle 2"
-              hoverSrc="/assets/img/Casablancaeugenie_3.webp"
-            />
-            <ImageCard
-              src="/assets/img/Casablancamacaron.webp"
-              alt="Bundle 3"
-              hoverSrc="/assets/img/Casablancamac_1.webp"
-            />
-            <ImageCard
-              src="/assets/img/CasablancaBundlemac.webp"
-              alt="Bundle 4"
-              hoverSrc="/assets/img/LADUREE_10-04-26_pmonetta-9419.webp"
-            />
-            <ImageCard
-              src="/assets/img/CasablancaBundleEugenie_78e550e0-ae0f-4ab1-b4a6-866d9c16e655.webp"
-              alt="Bundle 5"
-              hoverSrc="/assets/img/Casablancaeugenie_3.webp"
-            />
+            {products.slice(1, 5).map((product) => (
+              <Link key={product.id} to={`/products/${product.slug}`}>
+                <ImageCard
+                  src={product.image}
+                  alt={product.name}
+                  hoverSrc={product.hoverImage || product.image}
+                />
+              </Link>
+            ))}
           </div>
         </div>
         <div className="text-center">
-          <button className="border border-[#2e2c2a] cursor-pointer px-35 py-3 my-10 hover:bg-[#2e2c2a] hover:text-white duration-150">
+          <Link
+            to="/shop"
+            className="inline-block border border-[#2e2c2a] cursor-pointer px-35 py-3 my-10 hover:bg-[#2e2c2a] hover:text-white duration-150"
+          >
             View all
-          </button>
+          </Link>
         </div>
       </div>
     </section>
