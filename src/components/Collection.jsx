@@ -47,26 +47,19 @@ function Collection() {
             </li>
           </ul>
         </div>
-        {/* PRODUCTS */}
         <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* FIRST PRODUCT */}
           {products[0] && (
             <Link to={`/products/${products[0].slug}`}>
               <ImageCard
-                src={products[0].image}
-                alt={products[0].name}
-                hoverSrc={products[0].hoverImage || products[0].image}
+                product={products}
               />
             </Link>
           )}
-          {/* OTHER 4 PRODUCTS */}
           <div className="grid grid-cols-2 gap-6">
             {products.slice(1, 5).map((product) => (
               <Link key={product.id} to={`/products/${product.slug}`}>
                 <ImageCard
-                  src={product.image}
-                  alt={product.name}
-                  hoverSrc={product.hoverImage || product.image}
+                  product={product}
                 />
               </Link>
             ))}

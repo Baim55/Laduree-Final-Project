@@ -3,9 +3,12 @@ import "./index.css";
 import { RouterProvider } from "react-router";
 import router from "./provider/router";
 import { ReactLenis } from "lenis/react";
+import { CartProvider } from "./context/CartContext";
 
 createRoot(document.getElementById("root")).render(
   <ReactLenis root>
-    <RouterProvider router={router} />
+    <CartProvider>
+      <RouterProvider router={router} />
+    </CartProvider>
   </ReactLenis>,
 );

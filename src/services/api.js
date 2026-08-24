@@ -1,3 +1,5 @@
+import { createSlug } from "../utils/createSlug";
+
 const BASE_URL = "http://localhost:3000/api";
 
 export async function getCategories() {
@@ -12,7 +14,12 @@ export async function getProducts() {
   return res.json();
 }
 
-export async function getProductBySlug(slug) {
-  const all = await getProducts();
-  return all.find((p) => p.slug === slug);
-}
+export const getProductBySlug = async (slug) => {
+  const products = await getProducts();
+
+  const product = products.find(
+    (item) => createSlug(item.name) === slug
+  );
+
+  return product || null;
+};

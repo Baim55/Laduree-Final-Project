@@ -5,12 +5,17 @@ import { FaRegUserCircle } from "react-icons/fa";
 import { IoSearchOutline } from "react-icons/io5";
 import MobileMenu from "./MobileMenu";
 import ShopMenu from "./ShopMenu";
+import CartDrawer from "./CartDrawer";
+import { useCart } from "../context/CartContext";
 
 function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isShopMenuOpen, setIsShopMenuOpen] = useState(false);
+  const [isCartOpen, setIsCartOpen] = useState(false);
   const location = useLocation();
+
+  const { itemCount } = useCart();
 
   const isHomePage = location.pathname === "/";
 
@@ -94,8 +99,6 @@ function Header() {
               <HiOutlineMenu size={26} />
             </button>
           </div>
-
-          {/* Logo */}
           <div className="justify-self-center">
             <Link to="/">
               <img
@@ -107,54 +110,64 @@ function Header() {
               />
             </Link>
           </div>
-
-          {/* Mobile cart */}
-          <img
-            src="/assets/cart.svg"
-            alt="cart"
-            className={`justify-self-end transition-all duration-300 lg:hidden ${
-              isScrolled ? "" : "brightness-0 invert"
-            }`}
-          />
-
-          {/* Right */}
+          <button
+            onClick={() => setIsCartOpen(true)}
+            className="relative justify-self-end lg:hidden"
+          >
+            <img
+              src="/assets/cart.svg"
+              alt="cart"
+              className={`transition-all duration-300 ${
+                shouldInvert ? "brightness-0 invert" : ""
+              }`}
+            />
+            {itemCount > 0 && (
+              <span className="absolute garamond -right-3 -top-3 flex h-4 w-4 items-center justify-center rounded-full text-[20px] font-bold text-white">
+                {itemCount}
+              </span>
+            )}
+          </button>
           <ul className="garamond hidden items-center gap-6 justify-self-end text-[16px] lg:flex">
             <li className={navItem}>
               <Link to="/club">Le Club Ladurée</Link>
             </li>
-
             <li className={navItem}>
               <button>IT / EN</button>
             </li>
-
             <li className={navItem}>
               <FaRegUserCircle size={20} />
             </li>
-
             <li className={navItem}>
-              <img
-                src="/assets/cart.svg"
-                alt="cart"
-                className={`transition-all duration-300 ${
-                  shouldInvert ? "brightness-0 invert" : ""
-                }`}
-              />
+              <button
+                onClick={() => setIsCartOpen(true)}
+                className="relative flex items-center"
+              >
+                <img
+                  src="/assets/cart.svg"
+                  alt="cart"
+                  className={`transition-all duration-300 ${
+                    shouldInvert ? "brightness-0 invert" : ""
+                  }`}
+                />
+                {itemCount > 0 && (
+                  <span className="absolute -right-3 -top-3 flex h-4 w-4 items-center justify-center rounded-full  text-[20px] font-bold text-white">
+                    {itemCount}
+                  </span>
+                )}
+              </button>
             </li>
           </ul>
         </div>
       </header>
-
-      {/* Mobile Menu */}
       <MobileMenu
         isOpen={isMobileMenuOpen}
         onClose={() => setIsMobileMenuOpen(false)}
       />
-
-      {/* Shop Menu */}
       <ShopMenu
         isOpen={isShopMenuOpen}
         onClose={() => setIsShopMenuOpen(false)}
       />
+      <CartDrawer isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
     </>
   );
 }
