@@ -8,6 +8,7 @@ import Club from "../pages/Club";
 import CategoryPage from "../components/CategoryPage";
 import ProductPage from "../components/ProductPage";
 import InfoPage from "../components/InfoPage";
+import StoreDetail from "../components/StoreDetail";
 
 const router = createBrowserRouter([
   {
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
       {
         path: "/stores",
         element: <OurStores />,
+      },
+      {
+        path: "/stores/:slug",
+        element: <StoreDetail />,
       },
       {
         path: "/corporate",
@@ -44,11 +49,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/products/:slug",
-        element: <ProductPage  />,
+        element: <ProductPage />,
       },
       {
         path: "/pages/:slug",
-        element: <InfoPage  />,
+        element: <InfoPage />,
       },
     ],
   },

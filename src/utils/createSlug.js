@@ -1,4 +1,5 @@
 export const createSlug = (name) => {
+  if (!name) return "";
   return name
     .toString()
     .normalize("NFD")

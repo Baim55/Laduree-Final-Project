@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router";
 import { getProducts, getCategories } from "../services/api";
+import { createSlug } from "../utils/createSlug";
 import ImageCard from "./ImageCard";
 
 function Collection() {
@@ -29,7 +30,10 @@ function Collection() {
           <ul className="mx-auto flex w-max items-center gap-2 whitespace-nowrap py-4 text-[16px] text-[#53504e] md:gap-4 md:text-[24px]">
             {mainCategories.map((cat, index) => (
               <li key={cat.id} className="flex items-center gap-2 md:gap-4">
-                <Link to={`/shop/${cat.slug}`} className="hover:text-black">
+                <Link
+                  to={`/shop/${cat.slug || createSlug(cat.name)}`}
+                  className="hover:text-black"
+                >
                   {cat.name}
                 </Link>
                 {index < mainCategories.length - 1 && (
@@ -49,18 +53,17 @@ function Collection() {
         </div>
         <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
           {products[0] && (
-            <Link to={`/products/${products[0].slug}`}>
-              <ImageCard
-                product={products}
-              />
+            <Link to={`/products/${createSlug(products[0].name)}`}>
+              <ImageCard product={products[0]} />
             </Link>
           )}
           <div className="grid grid-cols-2 gap-6">
             {products.slice(1, 5).map((product) => (
-              <Link key={product.id} to={`/products/${product.slug}`}>
-                <ImageCard
-                  product={product}
-                />
+              <Link
+                key={product.id}
+                to={`/products/${createSlug(product.name)}`}
+              >
+                <ImageCard product={product} />
               </Link>
             ))}
           </div>

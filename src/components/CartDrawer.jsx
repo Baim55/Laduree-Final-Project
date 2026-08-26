@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import { Link } from "react-router";
 import { HiOutlineShoppingBag, HiOutlineTrash } from "react-icons/hi";
 import { useCart } from "../context/CartContext";
@@ -28,6 +29,35 @@ function CartDrawer({ isOpen, onClose }) {
     itemCount,
   } = useCart();
 
+  const cartListRef = useRef(null);
+  const suggestListRef = useRef(null);
+
+  // Səbət və Yan Təkliflər üçün aktiv wheel dinləyiciləri:
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const cartEl = cartListRef.current;
+    const suggestEl = suggestListRef.current;
+
+    const handleCartWheel = (e) => {
+      e.preventDefault();
+      if (cartEl) cartEl.scrollTop += e.deltaY;
+    };
+
+    const handleSuggestWheel = (e) => {
+      e.preventDefault();
+      if (suggestEl) suggestEl.scrollTop += e.deltaY;
+    };
+
+    if (cartEl) cartEl.addEventListener("wheel", handleCartWheel, { passive: false });
+    if (suggestEl) suggestEl.addEventListener("wheel", handleSuggestWheel, { passive: false });
+
+    return () => {
+      if (cartEl) cartEl.removeEventListener("wheel", handleCartWheel);
+      if (suggestEl) suggestEl.removeEventListener("wheel", handleSuggestWheel);
+    };
+  }, [isOpen, cartItems]);
+
   return (
     <div
       className={`fixed inset-0 z-[110] transition-all duration-500 ${
@@ -36,15 +66,21 @@ function CartDrawer({ isOpen, onClose }) {
     >
       <div
         onClick={onClose}
+        onWheel={(event) => event.preventDefault()}
         className="absolute inset-0 bg-black/20 backdrop-blur-sm"
       />
+
       <div
         className={`garamond absolute right-0 top-0 flex h-screen transition-transform duration-500 ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
+        {/* Complete your order */}
         {sampleSuggestions.length > 0 && (
-          <div className="hidden w-[280px] overflow-y-auto bg-[#eef1e3] px-6 py-8 md:block">
+          <div
+            ref={suggestListRef}
+            className="hidden w-[280px] overflow-y-auto bg-[#eef1e3] px-6 py-8 md:block"
+          >
             <h3 className="mb-6 text-[24px] leading-[1.2]">
               Complete your order
             </h3>
@@ -59,7 +95,7 @@ function CartDrawer({ isOpen, onClose }) {
                     />
                     <button
                       type="button"
-                      className="absolute bottom-2 right-2 flex h-7 w-7 items-center justify-center border border-[#2e2c2a] bg-white text-[18px] leading-none transition hover:bg-[#2e2c2a] hover:text-white"
+                      className="absolute bottom-2 right-2 flex h-7 w-7 cursor-pointer items-center justify-center border border-[#2e2c2a] bg-white text-[18px] leading-none transition hover:bg-[#2e2c2a] hover:text-white"
                       aria-label={`${product.name} əlavə et`}
                     >
                       +
@@ -74,6 +110,8 @@ function CartDrawer({ isOpen, onClose }) {
             </div>
           </div>
         )}
+
+        {/* Əsas Cart Paneli */}
         <div className="flex h-full w-[480px] max-w-[90vw] flex-col bg-[#fefbf4] px-8 py-8">
           <div className="mb-6 flex items-center justify-between">
             <h2 className="text-[26px]">
@@ -82,11 +120,12 @@ function CartDrawer({ isOpen, onClose }) {
             <button
               type="button"
               onClick={onClose}
-              className="text-[15px] text-[#46413d] hover:underline"
+              className="cursor-pointer text-[15px] text-[#46413d] hover:underline"
             >
               Close
             </button>
           </div>
+
           <div className="mb-6 flex items-center gap-3 border-t border-b border-dotted border-gray-300 py-4 text-[14px] text-[#46413d]">
             <HiOutlineShoppingBag size={20} />
             <div>
@@ -94,7 +133,12 @@ function CartDrawer({ isOpen, onClose }) {
               <p className="text-gray-500">Free shipping for your order</p>
             </div>
           </div>
-          <div className="flex-1 space-y-6 overflow-y-auto">
+
+          {/* Səbət Məhsulları */}
+          <div
+            ref={cartListRef}
+            className="flex-1 space-y-6 overflow-y-auto"
+          >
             {cartItems.length === 0 ? (
               <p className="text-center text-[16px] text-gray-500">
                 Səbətiniz boşdur.
@@ -119,7 +163,7 @@ function CartDrawer({ isOpen, onClose }) {
                         <button
                           type="button"
                           onClick={() => decreaseQuantity(item.id)}
-                          className="flex h-8 w-8 items-center justify-center text-[16px] hover:bg-gray-100"
+                          className="flex h-8 w-8 cursor-pointer items-center justify-center text-[16px] hover:bg-gray-100"
                         >
                           −
                         </button>
@@ -129,7 +173,7 @@ function CartDrawer({ isOpen, onClose }) {
                         <button
                           type="button"
                           onClick={() => increaseQuantity(item.id)}
-                          className="flex h-8 w-8 items-center justify-center text-[16px] hover:bg-gray-100"
+                          className="flex h-8 w-8 cursor-pointer items-center justify-center text-[16px] hover:bg-gray-100"
                         >
                           +
                         </button>
@@ -138,7 +182,7 @@ function CartDrawer({ isOpen, onClose }) {
                         type="button"
                         onClick={() => removeFromCart(item.id)}
                         aria-label="Sil"
-                        className="text-gray-400 transition hover:text-black"
+                        className="cursor-pointer text-gray-400 transition hover:text-black"
                       >
                         <HiOutlineTrash size={20} />
                       </button>
@@ -148,6 +192,7 @@ function CartDrawer({ isOpen, onClose }) {
               ))
             )}
           </div>
+
           {cartItems.length > 0 && (
             <div className="mt-6 border-t border-gray-300 pt-6">
               <div className="mb-5 flex items-center justify-between text-[18px]">
@@ -158,7 +203,7 @@ function CartDrawer({ isOpen, onClose }) {
                 <button
                   type="button"
                   onClick={onClose}
-                  className="flex-1 border border-[#2e2c2a] py-3 text-[15px] transition hover:bg-gray-100"
+                  className="flex-1 cursor-pointer border border-[#2e2c2a] py-3 text-[15px] transition hover:bg-gray-100"
                 >
                   Continue shopping
                 </button>

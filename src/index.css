@@ -2,6 +2,21 @@
 @import "tailwindcss";
 @import "swiper/css";
 @import "swiper/css/pagination";
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  background-color: #fefbf4;
+}
+
+body.menu-open {
+  overflow: hidden !important;
+  height: 100vh !important;
+  touch-action: none;
+}
+
 .container {
   max-width: 1450px;
   margin: 0 auto;
@@ -17,9 +32,6 @@
 
 .scrollbar-hide {
   scrollbar-width: none;
-}
-
-.scrollbar-hide {
   -ms-overflow-style: none;
 }
 
@@ -43,4 +55,11 @@
   background-image: radial-gradient(circle, #c8c0b5 1px, transparent 1px);
   background-size: 6px 6px;
   background-repeat: repeat-x;
+}
+
+.laduree-dotted-v {
+  background-image: radial-gradient(circle, #8c827a 1px, transparent 1px);
+  background-size: 6px 6px;
+  background-repeat: repeat-y;
+  background-position: center;
 }

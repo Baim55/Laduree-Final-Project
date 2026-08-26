@@ -5,7 +5,6 @@ const CartContext = createContext();
 export function CartProvider({ children }) {
   const [cartItems, setCartItems] = useState(() => {
     const savedCart = localStorage.getItem("cart");
-
     return savedCart ? JSON.parse(savedCart) : [];
   });
 
@@ -19,7 +18,6 @@ export function CartProvider({ children }) {
     setCartItems((current) => {
       const existingItem = current.find((item) => item.id === product.id);
 
-      // Məhsul artıq səbətdədirsə → quantity artır
       if (existingItem) {
         return current.map((item) =>
           item.id === product.id
@@ -31,7 +29,6 @@ export function CartProvider({ children }) {
         );
       }
 
-      // Yeni məhsuldursa → səbətə əlavə et
       return [
         ...current,
         {
@@ -59,19 +56,17 @@ export function CartProvider({ children }) {
     );
   };
 
-  // Quantity azalt
+  // Quantity azalt (Minimum 1)
   const decreaseQuantity = (id) => {
     setCartItems((currentItems) =>
-      currentItems
-        .map((item) =>
-          item.id === id
-            ? {
-                ...item,
-                quantity: item.quantity - 1,
-              }
-            : item,
-        )
-        .filter((item) => item.quantity > 0),
+      currentItems.map((item) =>
+        item.id === id
+          ? {
+              ...item,
+              quantity: Math.max(1, item.quantity - 1),
+            }
+          : item,
+      ),
     );
   };
 

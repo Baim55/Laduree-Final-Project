@@ -6,6 +6,7 @@ import { IoSearchOutline } from "react-icons/io5";
 import MobileMenu from "./MobileMenu";
 import ShopMenu from "./ShopMenu";
 import CartDrawer from "./CartDrawer";
+import SearchDrawer from "./SearchDrawer";
 import { useCart } from "../context/CartContext";
 
 function Header() {
@@ -13,12 +14,14 @@ function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isShopMenuOpen, setIsShopMenuOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const location = useLocation();
 
   const { itemCount } = useCart();
 
   const isHomePage = location.pathname === "/";
 
+  // Scroll effekti (Header rəng dəyişimi)
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
@@ -28,14 +31,47 @@ function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // BURAYA ƏLAVƏ EDİLƏN HİSSƏ (Arxa fonun scroll olmasını 100% bağlayır)
   useEffect(() => {
-    const isAnyMenuOpen = isMobileMenuOpen || isShopMenuOpen;
-    document.body.style.overflow = isAnyMenuOpen ? "hidden" : "";
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [isMobileMenuOpen, isShopMenuOpen]);
+    const isAnyMenuOpen =
+      isMobileMenuOpen || isShopMenuOpen || isCartOpen || isSearchOpen;
 
+    if (isAnyMenuOpen) {
+      // 1. Cari scroll mövqeyini yadda saxlayırıq
+      const scrollY = window.scrollY;
+
+      // 2. Arxa fonu tamamilə yerində dondururuq
+      document.body.style.position = "fixed";
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.left = "0";
+      document.body.style.right = "0";
+      document.body.style.width = "100%";
+    } else {
+      // 3. Menyu bağlananda dondurmanı açırıq və səhifəni əvvəlki yerinə qaytarırıq
+      const scrollY = document.body.style.top;
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.left = "";
+      document.body.style.right = "";
+      document.body.style.width = "";
+
+      if (scrollY) {
+        window.scrollTo(0, parseInt(scrollY || "0") * -1);
+      }
+    }
+
+    return () => {
+      const scrollY = document.body.style.top;
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.left = "";
+      document.body.style.right = "";
+      document.body.style.width = "";
+      if (scrollY) {
+        window.scrollTo(0, parseInt(scrollY || "0") * -1);
+      }
+    };
+  }, [isMobileMenuOpen, isShopMenuOpen, isCartOpen, isSearchOpen]);
   const navItem =
     "relative flex items-center h-[92px] after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-0 after:bg-current after:transition-all after:duration-300 hover:after:w-full";
 
@@ -49,6 +85,7 @@ function Header() {
       : "border-white/20 bg-transparent text-[#fefbf4]";
 
   const shouldInvert = !isHomePage ? false : !isScrolled;
+  const countColor = shouldInvert ? "text-white" : "text-black";
 
   return (
     <>
@@ -59,8 +96,9 @@ function Header() {
           <ul className="garamond hidden items-center gap-5 justify-self-start whitespace-nowrap text-[16px] lg:flex">
             <li className={navItem}>
               <button
+                type="button"
                 onClick={() => setIsShopMenuOpen(true)}
-                className="h-full"
+                className="h-full cursor-pointer"
               >
                 E-Shop
               </button>
@@ -81,15 +119,17 @@ function Header() {
               </NavLink>
             </li>
             <li className={navItem}>
-              <NavLink
-                to="/search"
-                className={`${navLinkClass} flex items-center`}
+              <button
+                type="button"
+                onClick={() => setIsSearchOpen(true)}
+                className="flex h-full cursor-pointer items-center"
               >
                 <IoSearchOutline className="mr-2" />
                 Search
-              </NavLink>
+              </button>
             </li>
           </ul>
+
           <div className="menubar justify-self-start lg:hidden">
             <button
               onClick={() => setIsMobileMenuOpen(true)}
@@ -99,6 +139,7 @@ function Header() {
               <HiOutlineMenu size={26} />
             </button>
           </div>
+
           <div className="justify-self-center">
             <Link to="/">
               <img
@@ -110,6 +151,7 @@ function Header() {
               />
             </Link>
           </div>
+
           <button
             onClick={() => setIsCartOpen(true)}
             className="relative justify-self-end lg:hidden"
@@ -122,11 +164,14 @@ function Header() {
               }`}
             />
             {itemCount > 0 && (
-              <span className="absolute garamond -right-3 -top-3 flex h-4 w-4 items-center justify-center rounded-full text-[20px] font-bold text-white">
+              <span
+                className={`absolute garamond -right-3 -top-3 flex h-4 w-4 items-center justify-center rounded-full text-[20px] font-bold transition-colors duration-300 ${countColor}`}
+              >
                 {itemCount}
               </span>
             )}
           </button>
+
           <ul className="garamond hidden items-center gap-6 justify-self-end text-[16px] lg:flex">
             <li className={navItem}>
               <Link to="/club">Le Club Ladurée</Link>
@@ -139,8 +184,9 @@ function Header() {
             </li>
             <li className={navItem}>
               <button
+                type="button"
                 onClick={() => setIsCartOpen(true)}
-                className="relative flex items-center"
+                className="relative flex cursor-pointer items-center"
               >
                 <img
                   src="/assets/cart.svg"
@@ -150,7 +196,9 @@ function Header() {
                   }`}
                 />
                 {itemCount > 0 && (
-                  <span className="absolute -right-3 -top-3 flex h-4 w-4 items-center justify-center rounded-full  text-[20px] font-bold text-white">
+                  <span
+                    className={`absolute -right-3 -top-3 flex h-4 w-4 items-center justify-center rounded-full text-[20px] font-bold transition-colors duration-300 ${countColor}`}
+                  >
                     {itemCount}
                   </span>
                 )}
@@ -159,6 +207,7 @@ function Header() {
           </ul>
         </div>
       </header>
+
       <MobileMenu
         isOpen={isMobileMenuOpen}
         onClose={() => setIsMobileMenuOpen(false)}
@@ -168,6 +217,10 @@ function Header() {
         onClose={() => setIsShopMenuOpen(false)}
       />
       <CartDrawer isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
+      <SearchDrawer
+        isOpen={isSearchOpen}
+        onClose={() => setIsSearchOpen(false)}
+      />
     </>
   );
 }
