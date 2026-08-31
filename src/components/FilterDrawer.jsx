@@ -7,8 +7,8 @@ function FilterDrawer({
   isOpen,
   onClose,
   onApplyFilters,
-  maxPriceLimit = 170,
-  initialFilters = { sortBy: "bestsellers", maxPrice: 170, itemCount: null },
+  maxPriceLimit = 675,
+  initialFilters = { sortBy: "bestsellers", maxPrice: 675, itemCount: null },
 }) {
   const [openSections, setOpenSections] = useState({
     sort: true,
@@ -56,19 +56,15 @@ function FilterDrawer({
         isOpen ? "visible opacity-100" : "invisible opacity-0"
       }`}
     >
-      {/* Backdrop */}
       <div
         onClick={onClose}
         className="absolute inset-0 bg-black/30 backdrop-blur-sm"
       />
-
-      {/* Drawer Panel */}
       <div
         className={`garamond absolute right-0 top-0 flex h-full w-full max-w-[440px] flex-col bg-[#fefbf4] transition-transform duration-500 ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
-        {/* Header */}
         <div className="flex items-center justify-between border-b border-gray-200 px-8 py-6">
           <h2 className="text-[28px] text-[#2e2c2a]">Filter</h2>
           <button
@@ -79,10 +75,7 @@ function FilterDrawer({
             <IoCloseOutline size={26} />
           </button>
         </div>
-
-        {/* Accordion Content */}
         <div className="flex-1 overflow-y-auto px-8 py-2">
-          {/* SORT BY */}
           <div className="border-b border-dotted border-gray-300 py-5">
             <button
               type="button"
@@ -92,7 +85,6 @@ function FilterDrawer({
               <span>SORT BY</span>
               {openSections.sort ? <IoChevronUpOutline /> : <IoChevronDownOutline />}
             </button>
-
             {openSections.sort && (
               <div className="mt-5 space-y-4 text-[16px] text-[#46413d]">
                 {[
@@ -118,8 +110,6 @@ function FilterDrawer({
               </div>
             )}
           </div>
-
-          {/* PRICE */}
           <div className="border-b border-dotted border-gray-300 py-5">
             <button
               type="button"
@@ -129,7 +119,6 @@ function FilterDrawer({
               <span>PRICE</span>
               {openSections.price ? <IoChevronUpOutline /> : <IoChevronDownOutline />}
             </button>
-
             {openSections.price && (
               <div className="mt-5 px-1">
                 <input
@@ -148,8 +137,6 @@ function FilterDrawer({
               </div>
             )}
           </div>
-
-          {/* NUMBER OF ITEMS */}
           <div className="border-b border-dotted border-gray-300 py-5">
             <button
               type="button"
@@ -159,7 +146,6 @@ function FilterDrawer({
               <span>NUMBER OF ITEMS</span>
               {openSections.items ? <IoChevronUpOutline /> : <IoChevronDownOutline />}
             </button>
-
             {openSections.items && (
               <div className="mt-6 grid grid-cols-5 gap-3">
                 {ITEM_COUNTS.map((count) => (
@@ -182,8 +168,6 @@ function FilterDrawer({
             )}
           </div>
         </div>
-
-        {/* Footer Buttons */}
         <div className="grid grid-cols-2 border-t border-gray-200 bg-white">
           <button
             type="button"

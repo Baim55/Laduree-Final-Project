@@ -44,7 +44,6 @@ function ProductDetailsContent({ details }) {
           </div>
         </div>
       )}
-
       {details.ingredients?.length > 0 && (
         <div className="mb-8">
           <h3 className="mb-4 text-[15px]">Ingredient list:</h3>
@@ -56,15 +55,12 @@ function ProductDetailsContent({ details }) {
           ))}
         </div>
       )}
-
-      {/* Bəzi məhsullarda ingredients array yox, tək obyekt kimi gəlir */}
       {details.ingredients && !Array.isArray(details.ingredients) && (
         <div className="mb-8">
           <h3 className="mb-4 text-[15px]">Ingredient list:</h3>
           <p>{details.ingredients.text}</p>
         </div>
       )}
-
       {details.allergens?.length > 0 && (
         <div className="mt-8">
           <h3 className="mb-3 text-[15px]">Allergen list:</h3>
@@ -77,14 +73,12 @@ function ProductDetailsContent({ details }) {
           </ol>
         </div>
       )}
-
       {details.mayContain && (
         <div className="mt-6">
           <h3 className="mb-2 text-[15px]">May contain traces of:</h3>
           <p>{details.mayContain}</p>
         </div>
       )}
-
       {details.netWeight && (
         <div className="mt-6">
           <p>
@@ -92,7 +86,6 @@ function ProductDetailsContent({ details }) {
           </p>
         </div>
       )}
-
       {details.pricePerKg && (
         <div className="mt-1">
           <p>

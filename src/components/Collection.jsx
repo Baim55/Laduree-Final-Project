@@ -51,23 +51,42 @@ function Collection() {
             </li>
           </ul>
         </div>
+
         <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* 1. Böyük Məhsul */}
           {products[0] && (
             <Link to={`/products/${createSlug(products[0].name)}`}>
-              <ImageCard product={products[0]} />
+              <div className="relative w-full">
+                {products[0].badge && (
+                  <span className="pointer-events-none absolute top-3 left-1/2 z-10 w-max -translate-x-1/2 bg-[#efdfbd] px-3 py-1 text-[11px] uppercase tracking-wider text-[#2e2c2a]">
+                    {products[0].badge}
+                  </span>
+                )}
+                <ImageCard product={products[0]} />
+              </div>
             </Link>
           )}
+
+          {/* 2. Digər Məhsullar */}
           <div className="grid grid-cols-2 gap-6">
             {products.slice(1, 5).map((product) => (
               <Link
                 key={product.id}
                 to={`/products/${createSlug(product.name)}`}
               >
-                <ImageCard product={product} />
+                <div className="relative w-full">
+                  {product.badge && (
+                    <span className="pointer-events-none absolute top-2.5 left-1/2 z-10 w-max -translate-x-1/2 bg-[#efdfbd] px-2.5 py-0.5 text-[10px] uppercase tracking-wider text-[#2e2c2a]">
+                      {product.badge}
+                    </span>
+                  )}
+                  <ImageCard product={product} />
+                </div>
               </Link>
             ))}
           </div>
         </div>
+
         <div className="text-center">
           <Link
             to="/shop"

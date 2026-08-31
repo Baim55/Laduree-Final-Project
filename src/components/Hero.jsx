@@ -16,15 +16,18 @@ function Hero() {
         />
       </video>
 
-      <div className="absolute inset-0 bg-black/20"></div>
+      <div className="absolute inset-0 bg-black/20" />
 
-      <div className="relative z-10 flex flex-col h-full items-center justify-center">
+      <div className="relative z-10 flex flex-col h-full items-center justify-center px-4">
         <h1 className="garamond max-w-[600px] leading-15 md:leading-20 text-[50px] md:text-[74px] text-white uppercase text-center">
           Summer by Casablanca x Ladurée
         </h1>
-        <button className="bg-white mt-[35px] px-30 py-3 text-[15px] garamond">
-          <Link>Discover</Link>
-        </button>
+        <Link
+          to="/shop"
+          className="garamond mt-[35px] border border-white bg-white px-24 py-3 text-[15px] uppercase tracking-wider text-[#2e2c2a] transition hover:bg-[#2e2c2a] hover:border-[#2e2c2a] hover:text-white"
+        >
+          Discover
+        </Link>
       </div>
     </section>
   );

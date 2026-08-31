@@ -11,16 +11,6 @@ export const menuData = {
           slug: "summer-collection-casablanca-x-laduree",
           type: "collection",
         },
-        {
-          label: "Collector's Days",
-          slug: "collectors-days",
-          type: "info",
-        },
-        {
-          label: "Ice Creams & Sorbets",
-          slug: "laduree-ice-creams-sorbets",
-          type: "info",
-        },
       ],
     },
     {
@@ -30,17 +20,15 @@ export const menuData = {
       image: "/assets/img/macarons.avif",
       links: [
         {
-          label: '"Casablanca" Macarons gift box',
-          slug: "casablanca-macarons-gift-box",
-          type: "product",
+          label: "Macaron Gift Boxes",
+          slug: "macarons-boxes",
+          type: "collection",
         },
-        { label: "Macarons boxes", slug: "macarons-boxes", type: "collection" },
         {
-          label: "Boxes to compose",
-          slug: "macarons-boxes-to-compose",
+          label: "Flavor Guide",
+          slug: "macarons-flavors",
           type: "info",
         },
-        { label: "Flavor Guide", slug: "macarons-flavors", type: "info" },
       ],
     },
     {
@@ -50,36 +38,19 @@ export const menuData = {
       image: "/assets/img/eugenie.avif",
       links: [
         {
-          label: '"Casablanca" Eugénie gift box',
-          slug: "eugenie-gift-box",
-          type: "product",
+          label: "Eugénie Gift Boxes",
+          slug: "eugenie-boxes",
+          type: "collection",
         },
-        { label: "Eugénie boxes", slug: "eugenie-boxes", type: "collection" },
         {
-          label: "Boxes to compose",
-          slug: "eugenie-boxes-to-compose",
+          label: "Flavor Guide",
+          slug: "eugenie-flavors",
           type: "info",
         },
-        { label: "Flavor Guide", slug: "eugenie-flavors", type: "info" },
       ],
     },
     {
       id: 4,
-      title: "Selections",
-      slug: "selections",
-      image: "/assets/img/selections.avif",
-      links: [
-        { label: "Thank you", slug: "thank-you", type: "collection" },
-        { label: "Birthday boxes", slug: "birthday-boxes", type: "collection" },
-        {
-          label: "Congratulations",
-          slug: "congratulations",
-          type: "collection",
-        },
-      ],
-    },
-    {
-      id: 5,
       title: "Chocolates",
       slug: "chocolates",
       image: "/assets/img/chocolates.avif",
@@ -90,41 +61,32 @@ export const menuData = {
           type: "collection",
         },
         {
-          label: "Chocolate pearls",
-          slug: "chocolate-chocolate-pearls",
-          type: "info",
-        },
-        {
           label: "Marshmallow bears",
           slug: "marshmallow-bears",
           type: "collection",
         },
+      ],
+    },
+    {
+      id: 5,
+      title: "Tea Time",
+      slug: "tea-time",
+      image: "/assets/img/teaTime.avif",
+      links: [
         {
-          label: "Sugared Almonds",
-          slug: "sugared-almonds",
+          label: "Signature Teas",
+          slug: "signature-teas",
+          type: "collection",
+        },
+        {
+          label: "Biscuits & Delicacies",
+          slug: "biscuits",
           type: "collection",
         },
       ],
     },
     {
       id: 6,
-      title: "Tea Time",
-      slug: "tea-time",
-      image: "/assets/img/teaTime.avif",
-      links: [
-        { label: "Signature Teas", slug: "signature-teas", type: "collection" },
-        { label: "Jams & Honeys", slug: "jams-honeys", type: "collection" },
-        { label: "Biscuits", slug: "biscuits", type: "collection" },
-        { label: "Fondants", slug: "fondants", type: "collection" },
-        {
-          label: "All our tea products",
-          slug: "all-tea-products",
-          type: "collection",
-        },
-      ],
-    },
-    {
-      id: 7,
       title: "Gifts",
       slug: "gifts",
       image: "/assets/img/gifts.avif",
@@ -133,22 +95,6 @@ export const menuData = {
           label: "Assortments ready to offer",
           slug: "assortments-ready-to-offer",
           type: "collection",
-        },
-        {
-          label: "Create your own hamper",
-          slug: "hampers-hampers-to-personalize",
-          type: "info",
-        },
-        { label: "Accessories", slug: "accessories", type: "collection" },
-        {
-          label: "Personalisation offers",
-          slug: "personalisation-offers",
-          type: "info",
-        },
-        {
-          label: "Experiences to offer",
-          slug: "experiences-to-offer",
-          type: "info",
         },
         {
           label: "Gifting occasions",
@@ -171,11 +117,10 @@ export const menuData = {
           type: "product",
         },
         {
-          label: "Pyramid of gold macarons",
-          slug: "pyramid-classic-macarons",
-          type: "product",
+          label: "All our Pyramids",
+          slug: "all-pyramids",
+          type: "collection",
         },
-        { label: "All our Pyramids", slug: "all-pyramids", type: "collection" },
       ],
     },
     {
@@ -185,17 +130,9 @@ export const menuData = {
       image: "/assets/img/patisserie.avif",
       links: [
         {
-          label: "Milk Chocolate XXL Marshmallow",
-          slug: "milk-chocolate-xxl-marshmallow",
+          label: "Ispahan",
+          slug: "ispahan-pastry",
           type: "product",
-        },
-        { label: "Ispahan", slug: "ispahan-pastry", type: "product" },
-        { label: "Plaisir Sucré", slug: "plaisir-sucre", type: "product" },
-        { label: "Flan", slug: "flan", type: "product" },
-        {
-          label: "Number & Letter cakes",
-          slug: "number-letter-cakes",
-          type: "collection",
         },
         {
           label: "All our pastries",

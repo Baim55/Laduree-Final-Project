@@ -16,7 +16,7 @@ function Adress() {
           Our Adresses and Restaurants
         </h1>
         <Link
-          to="/"
+          to="/stores"
           className="garamond mt-9  bg-white px-30 py-3 text-[15px] text-[#2e2c2a] transition hover:bg-[#2e2c2a] hover:text-white"
         >
           Discover Now

@@ -7,8 +7,8 @@ function ProductPageBundle({ product }) {
   const [selectedOption, setSelectedOption] = useState(
     product.options?.[0] || null,
   );
-  
-  const {addToCart} = useCart()
+
+  const { addToCart } = useCart();
   const displayPrice = selectedOption?.price ?? product.price;
 
   const handleAddToCart = () => {
@@ -22,8 +22,11 @@ function ProductPageBundle({ product }) {
 
   return (
     <div className="grid grid-cols-1 items-start gap-10 md:grid-cols-2">
-      <ProductImageGallery product={product} overrideImage={selectedOption?.image} />
-      <div className="px-8 pt-10">
+      <ProductImageGallery
+        product={product}
+        overrideImage={selectedOption?.image}
+      />
+      <div className="md:px-8 md:pt-10">
         {product.badge && (
           <div className="mb-7 flex justify-center">
             <span className="bg-[#efdfbd] px-4 py-2 text-[14px] italic">
@@ -39,7 +42,6 @@ function ProductPageBundle({ product }) {
             <p className="mb-3 text-center text-[15px] uppercase tracking-wide">
               Select your box
             </p>
-
             <div
               className="grid gap-3"
               style={{
@@ -73,7 +75,10 @@ function ProductPageBundle({ product }) {
                   rowIndex * 4 + 4,
                 );
                 return (
-                  <div key={rowIndex} className="mb-4 flex justify-center gap-1">
+                  <div
+                    key={rowIndex}
+                    className="mb-4 flex justify-center gap-1"
+                  >
                     {rowItems.map((item, itemIndex) => (
                       <div
                         key={`${item.id}-${itemIndex}`}
@@ -89,7 +94,6 @@ function ProductPageBundle({ product }) {
                                 : ""
                             }`}
                           />
-
                           {item.hoverText && (
                             <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-[#fcf6ed] px-2 text-center opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                               <p className="text-[13px] leading-5 text-[#2e2c2a]">
@@ -98,7 +102,9 @@ function ProductPageBundle({ product }) {
                             </div>
                           )}
                         </div>
-                        <p className="text-[15px] leading-[1.15]">{item.name}</p>
+                        <p className="text-[15px] leading-[1.15]">
+                          {item.name}
+                        </p>
                         <p className="mt-2 text-[14px]">x{item.quantity}</p>
                       </div>
                     ))}
@@ -115,10 +121,6 @@ function ProductPageBundle({ product }) {
         >
           Add to cart — {displayPrice.toFixed(2)} EUR
         </button>
-        <div className="flex items-center justify-center gap-3 py-6 text-[15px] text-[#46413d]">
-          <span>🚚</span>
-          <span>Express delivery in 24h/48h (Metropolitan France)</span>
-        </div>
         <ProductAccordions product={product} showDescription />
       </div>
     </div>

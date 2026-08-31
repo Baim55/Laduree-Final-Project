@@ -15,13 +15,19 @@ function Header() {
   const [isShopMenuOpen, setIsShopMenuOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [allProducts, setAllProducts] = useState([]);
+
   const location = useLocation();
-
   const { itemCount } = useCart();
-
   const isHomePage = location.pathname === "/";
 
-  // Scroll effekti (Header rəng dəyişimi)
+  useEffect(() => {
+    fetch("http://localhost:3000/api/products")
+      .then((res) => res.json())
+      .then((data) => setAllProducts(data))
+      .catch((err) => console.log(err));
+  }, []);
+
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
@@ -31,47 +37,6 @@ function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // BURAYA ƏLAVƏ EDİLƏN HİSSƏ (Arxa fonun scroll olmasını 100% bağlayır)
-  useEffect(() => {
-    const isAnyMenuOpen =
-      isMobileMenuOpen || isShopMenuOpen || isCartOpen || isSearchOpen;
-
-    if (isAnyMenuOpen) {
-      // 1. Cari scroll mövqeyini yadda saxlayırıq
-      const scrollY = window.scrollY;
-
-      // 2. Arxa fonu tamamilə yerində dondururuq
-      document.body.style.position = "fixed";
-      document.body.style.top = `-${scrollY}px`;
-      document.body.style.left = "0";
-      document.body.style.right = "0";
-      document.body.style.width = "100%";
-    } else {
-      // 3. Menyu bağlananda dondurmanı açırıq və səhifəni əvvəlki yerinə qaytarırıq
-      const scrollY = document.body.style.top;
-      document.body.style.position = "";
-      document.body.style.top = "";
-      document.body.style.left = "";
-      document.body.style.right = "";
-      document.body.style.width = "";
-
-      if (scrollY) {
-        window.scrollTo(0, parseInt(scrollY || "0") * -1);
-      }
-    }
-
-    return () => {
-      const scrollY = document.body.style.top;
-      document.body.style.position = "";
-      document.body.style.top = "";
-      document.body.style.left = "";
-      document.body.style.right = "";
-      document.body.style.width = "";
-      if (scrollY) {
-        window.scrollTo(0, parseInt(scrollY || "0") * -1);
-      }
-    };
-  }, [isMobileMenuOpen, isShopMenuOpen, isCartOpen, isSearchOpen]);
   const navItem =
     "relative flex items-center h-[92px] after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-0 after:bg-current after:transition-all after:duration-300 hover:after:w-full";
 
@@ -85,7 +50,6 @@ function Header() {
       : "border-white/20 bg-transparent text-[#fefbf4]";
 
   const shouldInvert = !isHomePage ? false : !isScrolled;
-  const countColor = shouldInvert ? "text-white" : "text-black";
 
   return (
     <>
@@ -114,7 +78,7 @@ function Header() {
               </NavLink>
             </li>
             <li className={navItem}>
-              <NavLink to="/laMaison" className={navLinkClass}>
+              <NavLink to="/la-maison" className={navLinkClass}>
                 La Maison
               </NavLink>
             </li>
@@ -129,7 +93,6 @@ function Header() {
               </button>
             </li>
           </ul>
-
           <div className="menubar justify-self-start lg:hidden">
             <button
               onClick={() => setIsMobileMenuOpen(true)}
@@ -139,7 +102,6 @@ function Header() {
               <HiOutlineMenu size={26} />
             </button>
           </div>
-
           <div className="justify-self-center">
             <Link to="/">
               <img
@@ -151,10 +113,9 @@ function Header() {
               />
             </Link>
           </div>
-
           <button
             onClick={() => setIsCartOpen(true)}
-            className="relative justify-self-end lg:hidden"
+            className="relative justify-self-end lg:hidden cursor-pointer"
           >
             <img
               src="/assets/cart.svg"
@@ -164,14 +125,11 @@ function Header() {
               }`}
             />
             {itemCount > 0 && (
-              <span
-                className={`absolute garamond -right-3 -top-3 flex h-4 w-4 items-center justify-center rounded-full text-[20px] font-bold transition-colors duration-300 ${countColor}`}
-              >
+              <span className="absolute garamond -right-3 -top-3 flex h-4 w-4 items-center justify-center rounded-full text-[16px] font-bold">
                 {itemCount}
               </span>
             )}
           </button>
-
           <ul className="garamond hidden items-center gap-6 justify-self-end text-[16px] lg:flex">
             <li className={navItem}>
               <Link to="/club">Le Club Ladurée</Link>
@@ -180,7 +138,12 @@ function Header() {
               <button>IT / EN</button>
             </li>
             <li className={navItem}>
-              <FaRegUserCircle size={20} />
+              <Link
+                to="/login"
+                className="flex h-full items-center cursor-pointer"
+              >
+                <FaRegUserCircle size={20} />
+              </Link>
             </li>
             <li className={navItem}>
               <button
@@ -196,9 +159,7 @@ function Header() {
                   }`}
                 />
                 {itemCount > 0 && (
-                  <span
-                    className={`absolute -right-3 -top-3 flex h-4 w-4 items-center justify-center rounded-full text-[20px] font-bold transition-colors duration-300 ${countColor}`}
-                  >
+                  <span className="absolute -right-3 -top-3 flex h-4 w-4 items-center justify-center rounded-full text-[16px] font-bold">
                     {itemCount}
                   </span>
                 )}
@@ -216,7 +177,11 @@ function Header() {
         isOpen={isShopMenuOpen}
         onClose={() => setIsShopMenuOpen(false)}
       />
-      <CartDrawer isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
+      <CartDrawer
+        isOpen={isCartOpen}
+        onClose={() => setIsCartOpen(false)}
+        allProducts={allProducts}
+      />
       <SearchDrawer
         isOpen={isSearchOpen}
         onClose={() => setIsSearchOpen(false)}

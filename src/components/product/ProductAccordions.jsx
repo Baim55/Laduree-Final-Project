@@ -14,7 +14,6 @@ function ProductAccordions({ product, showDescription = false }) {
 
   return (
     <div className="border-t border-gray-400">
-      {/* Description — yalnız showDescription=true olanda görünür (Bundle üçün) */}
       {showDescription && product.description && (
         <AccordionSection
           title="Description"
@@ -24,8 +23,6 @@ function ProductAccordions({ product, showDescription = false }) {
           <p>{product.description}</p>
         </AccordionSection>
       )}
-
-      {/* Usage tips — yalnız details.usageTips varsa görünür */}
       {details?.usageTips && (
         <AccordionSection
           title="Usage tips"
@@ -35,7 +32,6 @@ function ProductAccordions({ product, showDescription = false }) {
           <p>{details.usageTips}</p>
         </AccordionSection>
       )}
-
       {details && (
         <AccordionSection
           title="Ingredients & allergens"
@@ -45,7 +41,6 @@ function ProductAccordions({ product, showDescription = false }) {
           <ProductDetailsContent details={details} />
         </AccordionSection>
       )}
-
       {details?.storage && (
         <AccordionSection
           title="Storage"

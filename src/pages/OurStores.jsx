@@ -11,13 +11,10 @@ import { createSlug } from "../utils/createSlug";
 
 function OurStores() {
   const [searchParams, setSearchParams] = useSearchParams();
-
-  // URL-dən parametrləri oxuyuruq (yoxdursa default dəyərlər)
   const searchQuery = searchParams.get("search") || "";
   const selectedSubRegion = searchParams.get("city") || "Central Paris";
   const selectedService = searchParams.get("service") || "All";
 
-  // URL parametrlərini tənzimləyən köməkçi funksiya
   const updateParams = (key, value) => {
     const newParams = new URLSearchParams(searchParams);
     if (!value || value === "All" || (key === "city" && value === "Central Paris" && !newParams.get("search"))) {
@@ -32,7 +29,6 @@ function OurStores() {
     setSearchParams(newParams);
   };
 
-  // Region menyularının açıq/bağlı olması (Seçilmiş alt region hansı ana regiondadırsa, o avtomatik açıq olsun)
   const isWorldActive = REGIONS.find((r) => r.name === "WORLD")?.subRegions.includes(selectedSubRegion);
 
   const filteredStores = useMemo(() => {
@@ -57,7 +53,6 @@ function OurStores() {
 
   return (
     <div className="min-h-screen bg-[#fefbf4] pt-[92px]">
-      {/* HEADER SECTION */}
       <div className="garamond mx-auto max-w-[900px] px-6 pt-16 pb-12 text-center">
         <h1 className="text-[44px] leading-17 font-semibold uppercase tracking-wider text-[#2e2c2a] sm:text-[60px] lg:text-[72px]">
           OUR STORES &<br />
@@ -69,11 +64,8 @@ function OurStores() {
           Ladurée.
         </p>
       </div>
-
-      {/* SEARCH BAR & FILTERS */}
       <div className="border-t border-b border-[#e5dfd5] px-6 py-4 lg:px-16">
         <div className="mx-auto flex max-w-[1280px] flex-col gap-4 md:flex-row md:items-center">
-          {/* Search Input */}
           <div className="relative flex-1">
             <input
               type="text"
@@ -87,8 +79,6 @@ function OurStores() {
               className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400"
             />
           </div>
-
-          {/* Service Dropdown */}
           <div className="garamond flex items-center gap-4 border-t border-gray-200 pt-3 md:border-t-0 md:border-l md:pl-6 md:pt-0">
             <span className="text-[15px] text-gray-500">Service:</span>
             <select
@@ -105,12 +95,8 @@ function OurStores() {
           </div>
         </div>
       </div>
-
-      {/* MAIN CONTENT (SIDEBAR + STORES GRID) */}
       <div className="mx-auto px-6 py-12">
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-4">
-          
-          {/* SIDEBAR NAVIGATION */}
           <div className="garamond lg:border-r lg:border-[#e5dfd5] lg:pr-8">
             {REGIONS.map((region) => {
               const isOpen = region.name === "WORLD" ? isWorldActive : !isWorldActive;
@@ -125,7 +111,6 @@ function OurStores() {
                       <IoChevronDownOutline size={16} />
                     )}
                   </div>
-
                   <ul className="mt-4 space-y-3 pl-2 text-[15px] text-[#706b66]">
                     {region.subRegions.map((sub) => {
                       const isActive =
@@ -155,15 +140,12 @@ function OurStores() {
               );
             })}
           </div>
-
-          {/* STORES GRID */}
           <div className="lg:col-span-3">
             <h2 className="garamond mb-8 text-[32px] font-normal uppercase tracking-wide text-[#2e2c2a]">
               {searchQuery
                 ? `Search Results for "${searchQuery}"`
                 : selectedSubRegion}
             </h2>
-
             {filteredStores.length === 0 ? (
               <p className="garamond py-12 text-[18px] text-gray-500">
                 Seçilmiş meyarlara uyğun mağaza və ya restoran tapılmadı.
@@ -176,7 +158,6 @@ function OurStores() {
                     to={`/stores/${createSlug(store.name)}`}
                     className="group flex flex-col border border-[#aeaeae] bg-[#fefbf4] transition duration-200 hover:border-[#333] hover:bg-[#faf6ec]"
                   >
-                    {/* Store Image */}
                     <div className="aspect-[4/3] w-full overflow-hidden">
                       <img
                         src={store.image}
@@ -184,8 +165,6 @@ function OurStores() {
                         className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
                       />
                     </div>
-
-                    {/* Store Info */}
                     <div className="garamond flex flex-1 flex-col p-4">
                       <h3 className="text-[24px] font-semibold text-[#1d1a17]">
                         {store.name}
@@ -193,8 +172,6 @@ function OurStores() {
                       <p className="mt-1 text-[18px]  leading-relaxed text-[#1d1a17]">
                         {store.address}
                       </p>
-
-                      {/* Open Status & Hours */}
                       <div className="mt-4 flex flex-col gap-1.5 text-[18px]">
                         <p className="flex items-center gap-2 font-normal text-[#1d1a17]">
                           <span
@@ -206,7 +183,6 @@ function OurStores() {
                           />
                           <span>{store.openStatus}</span>
                         </p>
-
                         {store.hours && (
                           <div className="flex items-start gap-1.5 text-[#1d1a17]">
                             <IoTimeOutline
@@ -219,7 +195,6 @@ function OurStores() {
                           </div>
                         )}
                       </div>
-
                       {store.features && store.features.length > 0 && (
                         <div className="mt-4 flex flex-wrap gap-2 pt-2 text-[18px] italic text-[#595550]">
                           {store.features.join("  •  ")}

@@ -8,12 +8,10 @@ export function CartProvider({ children }) {
     return savedCart ? JSON.parse(savedCart) : [];
   });
 
-  // Cart dəyişəndə localStorage-a yaz
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(cartItems));
   }, [cartItems]);
 
-  // Add to cart
   const addToCart = (product) => {
     setCartItems((current) => {
       const existingItem = current.find((item) => item.id === product.id);
@@ -42,7 +40,6 @@ export function CartProvider({ children }) {
     });
   };
 
-  // Quantity artır
   const increaseQuantity = (id) => {
     setCartItems((currentItems) =>
       currentItems.map((item) =>
@@ -56,7 +53,6 @@ export function CartProvider({ children }) {
     );
   };
 
-  // Quantity azalt (Minimum 1)
   const decreaseQuantity = (id) => {
     setCartItems((currentItems) =>
       currentItems.map((item) =>
@@ -70,25 +66,20 @@ export function CartProvider({ children }) {
     );
   };
 
-  // Məhsulu sil
   const removeFromCart = (id) => {
     setCartItems((currentItems) =>
       currentItems.filter((item) => item.id !== id),
     );
   };
 
-  // Basketi təmizlə
   const clearCart = () => {
     setCartItems([]);
   };
 
-  // Ümumi qiymət
   const total = cartItems.reduce(
     (sum, item) => sum + item.price * item.quantity,
     0,
   );
-
-  // Ümumi məhsul sayı
   const itemCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
   return (

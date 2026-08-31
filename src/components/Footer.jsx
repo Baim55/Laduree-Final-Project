@@ -4,45 +4,67 @@ import { IoAdd, IoRemove } from "react-icons/io5";
 import { FaInstagram, FaTiktok, FaLinkedin } from "react-icons/fa";
 
 function Footer() {
+  const [email, setEmail] = useState("");
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState(false);
+
+  const handleNewsletterSubmit = (e) => {
+    e.preventDefault();
+
+    // Sadə email validasiyası
+    if (!email.trim()) {
+      setError("Email address is required.");
+      setSuccess(false);
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setError("Please enter a valid email address.");
+      setSuccess(false);
+      return;
+    }
+
+    setError("");
+    setSuccess(true);
+    setEmail("");
+
+    // 4 saniyə sonra uğur mesajını təmizləyirik
+    setTimeout(() => {
+      setSuccess(false);
+    }, 4000);
+  };
+
   const footerLinks = [
     {
       title: "Ladurée",
       items: [
-        { label: "Macarons boxes", to: "#" },
-        { label: "Eugénie boxes", to: "#" },
-        { label: "Gourmet assortments", to: "#" },
-        { label: "Chocolates", to: "#" },
-        { label: "Store Experiences", to: "#" },
-        { label: "Le Club Ladurée", to: "#" },
+        { label: "Macarons boxes", to: "/shop/macarons" },
+        { label: "Eugénie boxes", to: "/shop/eugenie" },
+        { label: "Chocolates", to: "/shop/chocolates" },
       ],
     },
     {
       title: "More information",
       items: [
-        { label: "Our collections", to: "#" },
-        { label: "Ladurée history", to: "#" },
-        { label: "Our Macarons in Paris", to: "#" },
-        { label: "Our Macarons in the French Riviera", to: "#" },
-        { label: "Allergens & Packagings", to: "#" },
-        { label: "Ladurée Café", to: "#" },
+        { label: "Our collections", to: "/shop" },
+        { label: "Ladurée history", to: "/la-maison" },
+        { label: "Flavor Guide", to: "/pages/macarons-flavors" },
       ],
     },
     {
       title: "Corporate",
       items: [
-        { label: "Corporate gifts", to: "#" },
-        { label: "Supplier offer", to: "#" },
-        { label: "Personalized gifts", to: "#" },
-        { label: "Sweet and savory offer", to: "#" },
-        { label: "Events & receptions", to: "#" },
+        { label: "Corporate gifts", to: "/shop/gifts" },
+        { label: "Events & receptions", to: "/shop" },
       ],
     },
     {
       title: "Help",
       items: [
-        { label: "Contact us", to: "#" },
-        { label: "FAQ", to: "#" },
-        { label: "Le Club Ladurée conditions", to: "#" },
+        { label: "Contact us", to: "/contact" },
+        { label: "FAQ", to: "/faq" },
+        { label: "Le Club Ladurée conditions", to: "/le-club-conditions" },
       ],
     },
   ];
@@ -58,21 +80,17 @@ function Footer() {
 
   return (
     <footer className="bg-[#dce7c6] text-[#2e2c2a]">
-      {/* Top Frise */}
       <div
         className="h-[23px] w-full bg-repeat-x"
         style={{ backgroundImage: "url(/assets/img/frise.png)" }}
       />
-
       <div className="container px-6 py-14">
-        {/* DESKTOP */}
         <div className="hidden grid-cols-5 gap-10 lg:grid">
           {footerLinks.map((section) => (
             <div key={section.title}>
               <h3 className="garamond mb-5 text-[15px] uppercase tracking-wide">
                 {section.title}
               </h3>
-
               <ul className="flex flex-col">
                 {section.items.map((item) => (
                   <li key={item.label} className={linkHoverClass}>
@@ -87,35 +105,49 @@ function Footer() {
               </ul>
             </div>
           ))}
-
-          {/* Newsletter */}
           <div>
             <h3 className="garamond mb-5 text-[15px] uppercase tracking-wide">
               Join our newsletter
             </h3>
 
-            <form className="flex items-center justify-between border-b border-[#2e2c2a]/40 pb-2">
+            <form
+              onSubmit={handleNewsletterSubmit}
+              className="flex items-center justify-between border-b border-[#2e2c2a]/40 pb-2"
+            >
               <input
                 type="email"
+                value={email}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  if (error) setError("");
+                }}
                 placeholder="Email address*"
                 className="w-full bg-transparent text-[15px] outline-none placeholder:text-[#2e2c2a]/70"
               />
-
-              <button type="submit" aria-label="Subscribe">
+              <button
+                type="submit"
+                aria-label="Subscribe"
+                className="cursor-pointer"
+              >
                 →
               </button>
             </form>
+
+            {error && <p className="mt-2 text-[12px] text-red-700">{error}</p>}
+            {success && (
+              <p className="mt-2 text-[12px] text-[#2e2c2a] font-medium">
+                Thank you for subscribing!
+              </p>
+            )}
 
             <label className="mt-4 flex cursor-pointer items-start gap-2 text-[13px] text-[#2e2c2a]/80">
               <input type="checkbox" className="mt-1 accent-[#2e2c2a]" />I agree
               to receive news and exclusive creations from Ladurée via email,
               phone, WhatsApp, and Wallet.
             </label>
-
             <h3 className="garamond mb-4 mt-10 text-[15px] uppercase tracking-wide">
               Follow us
             </h3>
-
             <div className="flex items-center gap-4 text-[18px]">
               <a
                 href="https://www.instagram.com/laduree.cafe/"
@@ -125,7 +157,6 @@ function Footer() {
               >
                 <FaInstagram />
               </a>
-
               <a
                 href="https://www.tiktok.com/@ladureecafe"
                 aria-label="TikTok"
@@ -134,7 +165,6 @@ function Footer() {
               >
                 <FaTiktok />
               </a>
-
               <a
                 href="https://www.linkedin.com/company/maison-laduree/"
                 aria-label="LinkedIn"
@@ -147,7 +177,7 @@ function Footer() {
           </div>
         </div>
 
-        {/* MOBILE */}
+        {/* Mobile Accordion */}
         <div className="lg:hidden">
           {footerLinks.map((section, index) => (
             <div
@@ -156,7 +186,7 @@ function Footer() {
             >
               <button
                 onClick={() => toggleSection(index)}
-                className="flex w-full items-center justify-between"
+                className="flex w-full items-center justify-between cursor-pointer"
               >
                 <span className="garamond text-[17px] uppercase tracking-wide">
                   {section.title}
@@ -189,24 +219,39 @@ function Footer() {
               </div>
             </div>
           ))}
-
-          {/* Mobile Newsletter */}
           <div className="mt-10">
             <h3 className="garamond mb-5 text-[17px] uppercase tracking-wide">
               Join our newsletter
             </h3>
-
-            <form className="flex items-center justify-between border-b border-[#2e2c2a]/40 pb-2">
+            <form
+              onSubmit={handleNewsletterSubmit}
+              className="flex items-center justify-between border-b border-[#2e2c2a]/40 pb-2"
+            >
               <input
                 type="email"
+                value={email}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  if (error) setError("");
+                }}
                 placeholder="Email address*"
                 className="w-full bg-transparent text-[15px] outline-none placeholder:text-[#2e2c2a]/70"
               />
-
-              <button type="submit" aria-label="Subscribe">
+              <button
+                type="submit"
+                aria-label="Subscribe"
+                className="cursor-pointer"
+              >
                 →
               </button>
             </form>
+
+            {error && <p className="mt-2 text-[12px] text-red-700">{error}</p>}
+            {success && (
+              <p className="mt-2 text-[12px] text-[#2e2c2a] font-medium">
+                Thank you for subscribing!
+              </p>
+            )}
 
             <label className="mt-4 flex cursor-pointer items-start gap-2 text-[13px] text-[#2e2c2a]/80">
               <input type="checkbox" className="mt-1 accent-[#2e2c2a]" />I agree
@@ -214,13 +259,10 @@ function Footer() {
               phone, WhatsApp, and Wallet.
             </label>
           </div>
-
-          {/* Mobile Socials */}
           <div className="mt-10 text-center">
             <h3 className="garamond mb-5 text-[17px] uppercase tracking-wide">
               Follow us
             </h3>
-
             <div className="flex items-center justify-center gap-6 text-[20px]">
               <a
                 href="https://www.instagram.com/laduree.cafe/"
@@ -230,7 +272,6 @@ function Footer() {
               >
                 <FaInstagram />
               </a>
-
               <a
                 href="https://www.tiktok.com/@ladureecafe"
                 aria-label="TikTok"
@@ -239,7 +280,6 @@ function Footer() {
               >
                 <FaTiktok />
               </a>
-
               <a
                 href="https://www.linkedin.com/company/maison-laduree/"
                 aria-label="LinkedIn"
@@ -253,9 +293,7 @@ function Footer() {
         </div>
       </div>
 
-      {/* Logo */}
       <hr className="text-[#2e2c2a]/20" />
-
       <div className="flex items-center justify-center">
         <img
           src="/assets/img/logo-footer.webp"
@@ -263,48 +301,33 @@ function Footer() {
           className="my-20 w-[250px] lg:w-[200px]"
         />
       </div>
-
       <hr className="text-[#2e2c2a]/20" />
 
-      {/* Bottom Links */}
       <div className="container px-6 font-garamond">
         <div className="py-6 text-[14px] text-[#2e2c2a]/80">
           <div className="grid grid-cols-1 items-center gap-4 lg:grid-cols-3">
-            {/* Left */}
             <div className="hidden items-center gap-6 lg:flex lg:justify-self-start">
-              <Link to="#" className="transition-colors hover:text-[#2e2c2a]">
+              <Link
+                to="/contact"
+                className="transition-colors hover:text-[#2e2c2a]"
+              >
                 Terms &amp; Conditions
               </Link>
-
-              <Link to="#" className="transition-colors hover:text-[#2e2c2a]">
-                Legal Notice
-              </Link>
             </div>
-
-            {/* Copyright */}
             <p className="text-center lg:justify-self-center">
               © Copyright Ladurée Paris 2026
             </p>
-
-            {/* Right */}
             <div className="hidden items-center gap-6 lg:flex lg:justify-self-end">
-              <Link to="#" className="transition-colors hover:text-[#2e2c2a]">
-                Data Protection Policy
-              </Link>
-
-              <Link to="#" className="transition-colors hover:text-[#2e2c2a]">
-                Cookies Management
-              </Link>
-
-              <Link to="#" className="transition-colors hover:text-[#2e2c2a]">
-                Accessibility
+              <Link
+                to="/faq"
+                className="transition-colors hover:text-[#2e2c2a]"
+              >
+                FAQ
               </Link>
             </div>
           </div>
         </div>
       </div>
-
-      {/* Bottom Frise */}
       <div
         className="h-[23px] w-full bg-repeat-x"
         style={{ backgroundImage: "url(/assets/img/frise.png)" }}

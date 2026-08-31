@@ -1,3 +1,5 @@
+import { Link } from "react-router";
+
 function LaMaison() {
   return (
     <>
@@ -14,9 +16,12 @@ function LaMaison() {
             craftsmanship and art of living.
           </p>
           <div className="text-center">
-            <button className="garamond border border-[#2e2c2a] cursor-pointer px-15 lg:px-25 py-4 lg:py-3 text-[19px] hover:bg-[#2e2c2a] hover:text-white duration-150">
+            <Link
+              to="/la-maison"
+              className="inline-block garamond border border-[#2e2c2a] cursor-pointer px-15 lg:px-25 py-4 lg:py-3 text-[19px] hover:bg-[#2e2c2a] hover:text-white duration-150"
+            >
               Discover La Maison
-            </button>
+            </Link>
           </div>
         </div>
       </section>

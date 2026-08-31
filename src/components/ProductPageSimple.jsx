@@ -7,7 +7,7 @@ function ProductPageSimple({ product }) {
   return (
     <div className="grid grid-cols-1 items-start gap-10 md:grid-cols-2">
       <ProductImageGallery product={product} />
-      <div className="px-8 pt-10">
+      <div className="md:px-8 md:pt-10">
         {product.badge && (
           <div className="mb-7 flex justify-center">
             <span className="bg-[#efdfbd] px-4 py-2 text-[14px] italic">
@@ -30,10 +30,6 @@ function ProductPageSimple({ product }) {
         >
           Add to cart — {product.price.toFixed(2)} EUR
         </button>
-        <div className="flex items-center justify-center gap-3 py-6 text-[15px] text-[#46413d]">
-          <span>🚚</span>
-          <span>Express delivery in 24h/48h (Metropolitan France)</span>
-        </div>
         <ProductAccordions product={product} />
       </div>
     </div>

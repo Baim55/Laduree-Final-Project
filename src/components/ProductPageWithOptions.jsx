@@ -8,12 +8,14 @@ function ProductPageWithOptions({ product }) {
     product.options?.[0] || null,
   );
 
+  const displayName = selectedOption?.name || product.name;
   const displayPrice = selectedOption?.price ?? product.price;
   const { addToCart } = useCart();
 
   const handleAddToCart = () => {
     addToCart({
       ...product,
+      name: displayName,
       price: displayPrice,
       image: selectedOption?.image || product.image,
       selectedOption: selectedOption?.label,
@@ -26,7 +28,7 @@ function ProductPageWithOptions({ product }) {
         product={product}
         overrideImage={selectedOption?.image}
       />
-      <div className="px-8 pt-10">
+      <div className="md:px-8 md:pt-10">
         {product.badge && (
           <div className="mb-7 flex justify-center">
             <span className="bg-[#efdfbd] px-4 py-2 text-[14px] italic">
@@ -35,7 +37,7 @@ function ProductPageWithOptions({ product }) {
           </div>
         )}
         <h1 className="mb-6 text-center text-[36px] font-semibold uppercase leading-[1.1] text-[#2e2c2a]">
-          {product.name}
+          {displayName}
         </h1>
         {product.description && (
           <p className="mb-8 text-center text-[16px] leading-7 text-[#46413d]">
@@ -47,7 +49,6 @@ function ProductPageWithOptions({ product }) {
             <p className="mb-3 text-center text-[15px] uppercase tracking-wide">
               Select your box
             </p>
-
             <div
               className="grid"
               style={{
@@ -71,6 +72,28 @@ function ProductPageWithOptions({ product }) {
             </div>
           </div>
         )}
+        {selectedOption?.flavors?.length > 0 && (
+          <div className="flex items-center justify-center gap-8 my-6">
+            {selectedOption.flavors.map((flavor, index) => (
+              <div
+                key={index}
+                className="flex flex-col items-center text-center"
+              >
+                <img
+                  src={flavor.image}
+                  alt={flavor.name}
+                  className="w-16 h-16 object-contain mb-2"
+                />
+                <span className="garamond text-[16px] text-[#2e2c2a]">
+                  {flavor.name}
+                </span>
+                <span className="garamond text-[14px] text-[#706c67]">
+                  x{flavor.quantity}
+                </span>
+              </div>
+            ))}
+          </div>
+        )}
         <button
           type="button"
           onClick={handleAddToCart}
@@ -78,10 +101,6 @@ function ProductPageWithOptions({ product }) {
         >
           Add to cart — {displayPrice.toFixed(2)} EUR
         </button>
-        <div className="flex items-center justify-center gap-3 py-6 text-[15px] text-[#46413d]">
-          <span>🚚</span>
-          <span>Express delivery in 24h/48h (Metropolitan France)</span>
-        </div>
         <ProductAccordions product={product} />
       </div>
     </div>

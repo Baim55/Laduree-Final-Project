@@ -77,7 +77,6 @@ function ShopMenu({ isOpen, onClose }) {
             </button>
           </div>
         </div>
-
         <div className="garamond mt-2 grid grid-cols-2 gap-x-10 gap-y-8 pb-5">
           {menuData[activeTab].map((section) => (
             <Fragment key={section.id}>
@@ -100,7 +99,6 @@ function ShopMenu({ isOpen, onClose }) {
                   ))}
                 </ul>
               </div>
-
               <Link to={`/shop/${section.slug}`} onClick={onClose}>
                 <img
                   src={section.image}
@@ -110,7 +108,6 @@ function ShopMenu({ isOpen, onClose }) {
               </Link>
             </Fragment>
           ))}
-
           <Link to="/shop" onClick={onClose}>
             <p className={menuItemClass}>See all</p>
           </Link>
