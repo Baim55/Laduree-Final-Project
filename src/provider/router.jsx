@@ -23,6 +23,7 @@ import IceCreamsPage from "../pages/IceCreamsPage";
 import EugenieFlavors from "../pages/EugenieFlavors";
 import ChocolatePearlsPage from "../pages/ChocolatePearlsPage";
 import MarshmallowBearsPage from "../pages/MarshmallowBearsPage";
+import NotFound from "../pages/NotFound";
 
 const router = createBrowserRouter([
   {
@@ -116,6 +117,10 @@ const router = createBrowserRouter([
       {
         path: "pages/marshmallow-bears",
         element: <MarshmallowBearsPage />,
+      },
+      {
+        path: "*",
+        element: <NotFound />,
       },
     ],
   },

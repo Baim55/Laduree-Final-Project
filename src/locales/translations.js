@@ -464,6 +464,10 @@ export const translations = {
     ingredientsAllergens: "Ingredients & Allergens",
     storage: "Storage",
     usageTips: "Usage tips",
+    pageNotFoundTitle: "Page Not Found",
+    pageNotFoundDesc:
+      "The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.",
+    backToHome: "Back to Home",
   },
   az: {
     eshop: "E-Mağaza",
@@ -930,5 +934,9 @@ export const translations = {
     ingredientsAllergens: "İnqrediyentlər və Allergenlər",
     storage: "Saxlanma qaydası",
     usageTips: "İstifadə qaydası",
+    pageNotFoundTitle: "Səhifə Tapılmadı",
+    pageNotFoundDesc:
+      "Axtardığınız səhifə silinmiş, adı dəyişdirilmiş və ya müvəqqəti olaraq əlçatmaz ola bilər.",
+    backToHome: "Ana səhifəyə qayıt",
   },
 };
