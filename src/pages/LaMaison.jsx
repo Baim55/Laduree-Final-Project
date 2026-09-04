@@ -7,7 +7,6 @@ function LaMaison() {
 
   return (
     <div className="bg-[#fefbf4] pt-[92px]">
-      {/* 1. Hero Section: Savoir-Faire */}
       <div className="mx-auto px-6 pt-16 pb-12 text-center">
         <h1 className="garamond text-[44px] font-semibold uppercase tracking-[0.1em] text-[#2e2c2a] sm:text-[64px] lg:text-[120px]">
           {t("savoirFaireTitle")}
@@ -16,8 +15,6 @@ function LaMaison() {
           {t("savoirFaireDesc")}
         </p>
       </div>
-
-      {/* 2. Section: The Choice of Excellence */}
       <div className="container border-t border-[#e5dfd5] py-16">
         <div className="mx-auto grid grid-cols-1 items-center gap-12 px-6 lg:grid-cols-2">
           <div className="overflow-hidden bg-[#faf6ec]">
@@ -44,8 +41,6 @@ function LaMaison() {
           </div>
         </div>
       </div>
-
-      {/* 3. Banner / Video Break with Since 1862 */}
       <div className="relative h-[80vh] w-full overflow-hidden bg-black/20">
         <video
           className="absolute inset-0 h-full w-full object-cover"
@@ -66,8 +61,6 @@ function LaMaison() {
           </h2>
         </div>
       </div>
-
-      {/* 4. Section: The Art of Transmission */}
       <div className="container border-t border-[#e5dfd5] py-16">
         <div className="mx-auto grid grid-cols-1 items-center gap-12 px-6 lg:grid-cols-2">
           <div className="garamond order-2 text-center lg:order-1 lg:text-left">
@@ -91,8 +84,6 @@ function LaMaison() {
           </div>
         </div>
       </div>
-
-      {/* 5. Section: Sensorial Exploration */}
       <div className="container border-t border-[#e5dfd5] py-16">
         <div className="mx-auto grid grid-cols-1 items-center gap-12 px-6 lg:grid-cols-2">
           <div className="overflow-hidden bg-[#faf6ec]">
@@ -123,8 +114,6 @@ function LaMaison() {
           </div>
         </div>
       </div>
-
-      {/* 6. Bottom Quote Section */}
       <div className="border-t border-[#e5dfd5] bg-[#fefbf4] py-20 px-6 text-center">
         <div className="mx-auto max-w-[900px] garamond">
           <p className="text-[13px] uppercase tracking-[0.2em] text-[#706b66] mb-4">

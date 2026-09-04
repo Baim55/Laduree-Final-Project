@@ -173,7 +173,6 @@ function Footer() {
           </div>
         </div>
 
-        {/* Mobile Accordion */}
         <div className="lg:hidden">
           {footerLinks.map((section, index) => (
             <div

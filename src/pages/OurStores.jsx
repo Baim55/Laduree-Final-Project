@@ -6,8 +6,8 @@ import {
   IoSearchOutline,
   IoTimeOutline,
 } from "react-icons/io5";
-import { getRegions } from "../data/storesData"; // Regionlar hələ də köməkçi fayldan gəlir
-import { getStores } from "../services/api"; // API-dən gələn funksiya
+import { getRegions } from "../data/storesData"; 
+import { getStores } from "../services/api"; 
 import { createSlug } from "../utils/createSlug";
 import { useLanguage } from "../context/LanguageContext";
 
@@ -19,7 +19,6 @@ function OurStores() {
   const [storesData, setStoresData] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Mağazaları API-dən çəkirik
   useEffect(() => {
     getStores()
       .then((data) => {

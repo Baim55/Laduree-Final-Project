@@ -9,6 +9,7 @@ import CartDrawer from "./CartDrawer";
 import SearchDrawer from "./SearchDrawer";
 import { useCart } from "../context/CartContext";
 import { useLanguage } from "../context/LanguageContext";
+import { getProducts } from "../services/api"; 
 
 function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -24,8 +25,7 @@ function Header() {
   const isHomePage = location.pathname === "/";
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/products")
-      .then((res) => res.json())
+    getProducts()
       .then((data) => setAllProducts(data))
       .catch((err) => console.log(err));
   }, []);

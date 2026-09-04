@@ -88,7 +88,7 @@ function ProductPage() {
       {relatedProducts.length > 0 && (
         <div className="mt-20 border-t border-[#e6decb] pt-14">
           <h2 className="mb-10 text-center text-[28px] uppercase tracking-widest text-[#2e2c2a]">
-            {t("youMayAlsoLike")} {/* 4. Dinamik başlıq */}
+            {t("youMayAlsoLike")}
           </h2>
 
           <div className="grid grid-cols-2 gap-x-4 gap-y-10 md:grid-cols-4 md:gap-6">

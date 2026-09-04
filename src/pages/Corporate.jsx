@@ -37,7 +37,6 @@ function Corporate() {
 
   return (
     <div className="bg-[#fefbf4] pt-[92px]">
-      {/* 1. Başlıq Hissəsi */}
       <section className="pt-20 px-6 text-center">
         <div className="mx-auto max-w-[900px]">
           <h1 className="garamond whitespace-pre-line text-[45px] font-semibold uppercase leading-[1.15] text-[#2e2c2a] sm:text-[65px] lg:text-[75px] tracking-wide">
@@ -45,8 +44,6 @@ function Corporate() {
           </h1>
         </div>
       </section>
-
-      {/* 2. Oval Şəkil Hissəsi */}
       <section className="pb-16 px-6">
         <div className="mx-auto mt-10 max-w-[480px] overflow-hidden rounded-t-[240px] p-1 shadow-xs">
           <img
@@ -56,8 +53,6 @@ function Corporate() {
           />
         </div>
       </section>
-
-      {/* 3. Açıqlama və Düymə */}
       <section className="pb-24 px-6 text-center">
         <div className="mx-auto max-w-[700px]">
           <p className="garamond text-[17px] leading-relaxed text-[#46413de3] sm:text-[18px]">
@@ -73,8 +68,6 @@ function Corporate() {
           </div>
         </div>
       </section>
-
-      {/* 4. Başlıq: Explore all our offers */}
       <section className="py-16 text-center border-t border-[#e5dfd5]">
         <span className="garamond italic text-[18px] text-[#706b66]">
           {t("giftsAndExperiences")}
@@ -83,8 +76,6 @@ function Corporate() {
           {t("exploreAllOffers")}
         </h2>
       </section>
-
-      {/* 5. Şəkilli Bannerlər (Map ilə dinamik) */}
       <section>
         {corporateBanners.map((banner) => (
           <div
@@ -115,7 +106,6 @@ function Corporate() {
           </div>
         ))}
       </section>
-
       <section className="py-16 text-center px-6 max-w-[800px] mx-auto border-t border-[#e5dfd5]">
         <p className="garamond text-[18px] leading-relaxed text-[#46413de3] sm:text-[20px]">
           {t("salesTeamSupport")}

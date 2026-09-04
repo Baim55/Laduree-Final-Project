@@ -5,7 +5,6 @@ import { createSlug } from "../utils/createSlug";
 import ImageCard from "./ImageCard";
 import Features from "./Features";
 import FilterDrawer from "./FilterDrawer";
-import SkeletonLoader from "./SkeletonLoader"; // Skeleton-u daxil edirik
 import { useLanguage } from "../context/LanguageContext";
 
 function CategoryPage() {
@@ -142,7 +141,6 @@ function CategoryPage() {
 
       <div className="px-4 py-12 sm:px-6 lg:px-12">
         {loading ? (
-          /* Məhsullar yüklənərkən sadə mətn əvəzinə birbaşa Skeleton kartlarını göstəririk */
           <div className="grid grid-cols-2 gap-x-4 gap-y-10 sm:gap-x-6 sm:gap-y-12 lg:grid-cols-4 animate-pulse">
             {[1, 2, 3, 4, 5, 6, 7, 8].map((item) => (
               <div key={item} className="flex flex-col space-y-3">
