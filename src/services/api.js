@@ -1,6 +1,6 @@
 import { createSlug } from "../utils/createSlug";
 
-const BASE_URL = "http://localhost:3000/api";
+const BASE_URL = "https://vercel-api-eight-xi.vercel.app/api";
 
 export async function getCategories() {
   const res = await fetch(`${BASE_URL}/category`);
