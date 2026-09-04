@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router";
 import { HiOutlineTrash } from "react-icons/hi2";
 import { BsChatDots } from "react-icons/bs";
 import { useCart } from "../context/CartContext";
+import { useLanguage } from "../context/LanguageContext";
+import { toast } from "react-toastify";
 
 function CartDrawer({ isOpen, onClose, allProducts = [] }) {
   const {
@@ -15,12 +17,84 @@ function CartDrawer({ isOpen, onClose, allProducts = [] }) {
     itemCount,
   } = useCart();
 
+  const { t } = useLanguage();
   const [bagCount, setBagCount] = useState(0);
+  const drawerRef = useRef(null);
 
   const cartIds = cartItems.map((item) => item.id);
-  const suggestions = allProducts
+  const suggestions = [...allProducts]
+    .reverse()
     .filter((product) => !cartIds.includes(product.id))
-    .slice(0, 3);
+    .slice(1, 7);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const drawer = drawerRef.current;
+    if (!drawer) return;
+
+    const handleWheel = (event) => {
+      event.stopPropagation();
+    };
+
+    drawer.addEventListener("wheel", handleWheel, { passive: false });
+    return () => drawer.removeEventListener("wheel", handleWheel);
+  }, [isOpen]);
+
+  const handleRemove = (item) => {
+    removeFromCart(item.id);
+    toast.info(
+      <div className="flex items-center gap-3">
+        <img
+          src={item.image}
+          alt={item.name}
+          className="h-10 w-10 object-contain bg-white border border-gray-200 p-0.5"
+        />
+        <div className="text-[13px] leading-tight text-[#2e2c2a]">
+          <span>Removed from cart </span>
+          <span className="font-semibold">"{item.name}"</span>
+        </div>
+      </div>,
+      {
+        position: "top-right",
+        autoClose: 3000,
+        icon: false,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        className:
+          "!bg-[#fefbf4] !text-[#2e2c2a] !border !border-[#e5dfd5] !shadow-md",
+      },
+    );
+  };
+
+  const handleAddToCart = (product) => {
+    addToCart(product);
+    toast.success(
+      <div className="flex items-center gap-3">
+        <img
+          src={product.image}
+          alt={product.name}
+          className="h-10 w-10 object-contain bg-white border border-gray-200 p-0.5"
+        />
+        <div className="text-[13px] leading-tight text-[#2e2c2a]">
+          <span>Added to cart </span>
+          <span className="font-semibold">"{product.name}"</span>
+        </div>
+      </div>,
+      {
+        position: "top-right",
+        autoClose: 3000,
+        icon: false,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        className:
+          "!bg-[#fefbf4] !text-[#2e2c2a] !border !border-[#e5dfd5] !shadow-md",
+      },
+    );
+  };
 
   return (
     <div
@@ -31,6 +105,8 @@ function CartDrawer({ isOpen, onClose, allProducts = [] }) {
       <div onClick={onClose} className="absolute inset-0 bg-black/25" />
 
       <div
+        ref={drawerRef}
+        onWheel={(event) => event.stopPropagation()}
         className={`garamond absolute right-0 top-0 flex h-screen max-w-[100vw] transition-transform duration-300 ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
@@ -53,7 +129,7 @@ function CartDrawer({ isOpen, onClose, allProducts = [] }) {
                     />
                     <button
                       type="button"
-                      onClick={() => addToCart(product)}
+                      onClick={() => handleAddToCart(product)}
                       className="absolute bottom-1.5 right-1.5 flex h-6 w-6 cursor-pointer items-center justify-center border border-[#2e2c2a] bg-white text-[16px] hover:bg-[#2e2c2a] hover:text-white"
                     >
                       +
@@ -70,38 +146,36 @@ function CartDrawer({ isOpen, onClose, allProducts = [] }) {
             </div>
           </div>
         )}
-        <div className="flex h-full w-[460px] max-w-[95vw] flex-col bg-[#fefbf4] px-6 py-6 sm:px-8">
+        <div className="flex h-full w-[460px] max-w-[95vw] flex-col bg-[#fefbf4] px-6 py-6 sm:px-8 overflow-y-auto">
           <div className="flex items-center justify-between border-b border-[#e5dfd5] pb-4">
             <h2 className="text-[24px] text-[#2e2c2a]">
-              Your Cart <span className="text-[16px]">({itemCount})</span>
+              {t("cart")} <span className="text-[16px]">({itemCount})</span>
             </h2>
             <button
               type="button"
               onClick={onClose}
               className="cursor-pointer text-[13px] uppercase tracking-wider text-[#706b66] hover:text-black"
             >
-              Close
+              {t("close")}
             </button>
           </div>
           <div className="flex items-center justify-between py-3 text-[13px] text-[#5c5752]">
             <div className="flex items-center gap-2">
               <BsChatDots size={15} />
-              <span>Customer service is available to help</span>
+              <span>{t("customerServiceHelp")}</span>
             </div>
           </div>
 
           <div className="flex-1 space-y-5 overflow-y-auto border-t border-[#e5dfd5] pt-4 pr-1">
             {cartItems.length === 0 ? (
               <div className="flex h-full flex-col items-center justify-center text-center">
-                <p className="text-[16px] text-[#706b66]">
-                  Your cart is currently empty.
-                </p>
+                <p className="text-[16px] text-[#706b66]">{t("emptyCart")}</p>
                 <button
                   type="button"
                   onClick={onClose}
                   className="mt-4 border border-[#2e2c2a] px-6 py-2 text-[13px] uppercase tracking-widest text-[#2e2c2a] hover:bg-[#2e2c2a] hover:text-white"
                 >
-                  Discover products
+                  {t("discoverProducts")}
                 </button>
               </div>
             ) : (
@@ -151,7 +225,7 @@ function CartDrawer({ isOpen, onClose, allProducts = [] }) {
 
                       <button
                         type="button"
-                        onClick={() => removeFromCart(item.id)}
+                        onClick={() => handleRemove(item)}
                         className="cursor-pointer text-[#a39c93] hover:text-[#b8533c]"
                       >
                         <HiOutlineTrash size={17} />
@@ -166,7 +240,7 @@ function CartDrawer({ isOpen, onClose, allProducts = [] }) {
           {cartItems.length > 0 && (
             <div className="space-y-4 border-t border-[#e5dfd5] pt-4">
               <div className="flex items-center justify-between text-[13px] text-[#5c5752]">
-                <span>Add shopping bags</span>
+                <span>{t("addShoppingBags")}</span>
                 <div className="flex items-center border border-[#d5cebf] bg-white">
                   <button
                     type="button"
@@ -189,7 +263,7 @@ function CartDrawer({ isOpen, onClose, allProducts = [] }) {
               </div>
 
               <div className="flex items-center justify-between text-[16px] text-[#2e2c2a]">
-                <span>Total</span>
+                <span>{t("total")}</span>
                 <span className="font-semibold">{total.toFixed(2)} EUR</span>
               </div>
 
@@ -199,14 +273,14 @@ function CartDrawer({ isOpen, onClose, allProducts = [] }) {
                   onClick={onClose}
                   className="flex-1 cursor-pointer border border-[#2e2c2a] bg-transparent py-2.5 text-center text-[13px] uppercase tracking-wider text-[#2e2c2a] hover:bg-[#2e2c2a] hover:text-white"
                 >
-                  Continue shopping
+                  {t("continueShopping")}
                 </button>
                 <Link
                   to="/checkout"
                   onClick={onClose}
                   className="flex-1 cursor-pointer border border-[#2e2c2a] bg-[#2e2c2a] py-2.5 text-center text-[13px] uppercase tracking-wider text-white hover:bg-black"
                 >
-                  Checkout
+                  {t("checkout")}
                 </Link>
               </div>
             </div>

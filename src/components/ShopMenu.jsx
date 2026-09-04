@@ -1,16 +1,19 @@
 import { useEffect, useRef, useState, Fragment } from "react";
 import { Link } from "react-router";
-import { menuData } from "../data/menuData";
+import { getMenuData } from "../data/menuData";
+import { useLanguage } from "../context/LanguageContext";
 
 function getLinkPath(type, slug) {
   if (type === "product") return `/products/${slug}`;
   if (type === "info") return `/pages/${slug}`;
-  return `/shop/${slug}`; // collection
+  return `/shop/${slug}`;
 }
 
 function ShopMenu({ isOpen, onClose }) {
   const menuRef = useRef(null);
   const [activeTab, setActiveTab] = useState("delivery");
+  const { t } = useLanguage();
+  const menuData = getMenuData(t);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -54,26 +57,26 @@ function ShopMenu({ isOpen, onClose }) {
                 setActiveTab("delivery");
                 menuRef.current.scrollTop = 0;
               }}
-              className={`h-[50px] text-[16px] transition-all ${
+              className={`h-[50px] text-[16px] transition-all cursor-pointer ${
                 activeTab === "delivery"
                   ? "border border-black text-[#2e2c2a]"
                   : "text-gray-500"
               }`}
             >
-              Delivery
+              {t("delivery")}
             </button>
             <button
               onClick={() => {
                 setActiveTab("pickup");
                 menuRef.current.scrollTop = 0;
               }}
-              className={`h-[50px] text-[16px] transition-all ${
+              className={`h-[50px] text-[16px] transition-all cursor-pointer ${
                 activeTab === "pickup"
                   ? "border border-black text-[#2e2c2a]"
                   : "text-gray-500"
               }`}
             >
-              Pickup
+              {t("pickup")}
             </button>
           </div>
         </div>
@@ -81,11 +84,9 @@ function ShopMenu({ isOpen, onClose }) {
           {menuData[activeTab].map((section) => (
             <Fragment key={section.id}>
               <div>
-                <Link to={`/shop/${section.slug}`} onClick={onClose}>
-                  <h3 className="mb-2 text-[18px] hover:underline">
-                    {section.title}
-                  </h3>
-                </Link>
+                <h3 className="mb-2 text-[20px] text-[#2e2c2a] font-semibold cursor-default">
+                  {section.title}
+                </h3>
                 <ul className="space-y-2 text-[16px]">
                   {section.links.map((link) => (
                     <li key={link.slug} className={menuItemClass}>
@@ -109,7 +110,7 @@ function ShopMenu({ isOpen, onClose }) {
             </Fragment>
           ))}
           <Link to="/shop" onClick={onClose}>
-            <p className={menuItemClass}>See all</p>
+            <p className={menuItemClass}>{t("seeAll")}</p>
           </Link>
         </div>
       </div>

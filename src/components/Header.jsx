@@ -8,6 +8,7 @@ import ShopMenu from "./ShopMenu";
 import CartDrawer from "./CartDrawer";
 import SearchDrawer from "./SearchDrawer";
 import { useCart } from "../context/CartContext";
+import { useLanguage } from "../context/LanguageContext";
 
 function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -19,6 +20,7 @@ function Header() {
 
   const location = useLocation();
   const { itemCount } = useCart();
+  const { lang, toggleLanguage, t } = useLanguage(); 
   const isHomePage = location.pathname === "/";
 
   useEffect(() => {
@@ -64,22 +66,22 @@ function Header() {
                 onClick={() => setIsShopMenuOpen(true)}
                 className="h-full cursor-pointer"
               >
-                E-Shop
+                {t("eshop")}
               </button>
             </li>
             <li className={navItem}>
               <NavLink to="/stores" className={navLinkClass}>
-                Our stores
+                {t("ourStores")}
               </NavLink>
             </li>
             <li className={navItem}>
               <NavLink to="/corporate" className={navLinkClass}>
-                Corporate
+                {t("corporate")}
               </NavLink>
             </li>
             <li className={navItem}>
               <NavLink to="/la-maison" className={navLinkClass}>
-                La Maison
+                {t("laMaison")}
               </NavLink>
             </li>
             <li className={navItem}>
@@ -89,10 +91,11 @@ function Header() {
                 className="flex h-full cursor-pointer items-center"
               >
                 <IoSearchOutline className="mr-2" />
-                Search
+                {t("search")}
               </button>
             </li>
           </ul>
+
           <div className="menubar justify-self-start lg:hidden">
             <button
               onClick={() => setIsMobileMenuOpen(true)}
@@ -102,6 +105,7 @@ function Header() {
               <HiOutlineMenu size={26} />
             </button>
           </div>
+
           <div className="justify-self-center">
             <Link to="/">
               <img
@@ -113,6 +117,7 @@ function Header() {
               />
             </Link>
           </div>
+
           <button
             onClick={() => setIsCartOpen(true)}
             className="relative justify-self-end lg:hidden cursor-pointer"
@@ -130,12 +135,19 @@ function Header() {
               </span>
             )}
           </button>
+
           <ul className="garamond hidden items-center gap-6 justify-self-end text-[16px] lg:flex">
             <li className={navItem}>
-              <Link to="/club">Le Club Ladurée</Link>
+              <Link to="/club">{t("clubLadurée")}</Link>
             </li>
             <li className={navItem}>
-              <button>IT / EN</button>
+              <button
+                type="button"
+                onClick={toggleLanguage}
+                className="cursor-pointer uppercase tracking-wider"
+              >
+                {lang === "en" ? "AZ / EN" : "EN / AZ"}
+              </button>
             </li>
             <li className={navItem}>
               <Link

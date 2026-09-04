@@ -1,31 +1,36 @@
-export const menuData = {
+export const getMenuData = (t) => ({
   delivery: [
     {
       id: 1,
-      title: "Summer editions",
+      title: t("summerEditions"),
       slug: "summer-editions",
       image: "/assets/img/casablanca.avif",
       links: [
         {
-          label: '"Casablanca x Ladurée" Collection',
-          slug: "summer-collection-casablanca-x-laduree",
+          label: t("collectorsDays"),
+          slug: "collectors-days-collection",
           type: "collection",
+        },
+        {
+          label: t("iceCreams"),
+          slug: "laduree-ice-creams-sorbets",
+          type: "info",
         },
       ],
     },
     {
       id: 2,
-      title: "Macarons",
+      title: t("macarons"),
       slug: "macarons",
       image: "/assets/img/macarons.avif",
       links: [
         {
-          label: "Macaron Gift Boxes",
-          slug: "macarons-boxes",
+          label: t("macaronGiftBoxesLink"),
+          slug: "macarons",
           type: "collection",
         },
         {
-          label: "Flavor Guide",
+          label: t("flavorGuideLink"),
           slug: "macarons-flavors",
           type: "info",
         },
@@ -33,17 +38,17 @@ export const menuData = {
     },
     {
       id: 3,
-      title: "Eugénie",
+      title: t("eugenie"),
       slug: "eugenie",
       image: "/assets/img/eugenie.avif",
       links: [
         {
-          label: "Eugénie Gift Boxes",
-          slug: "eugenie-boxes",
+          label: t("eugenieGiftBoxesLink"),
+          slug: "eugenie",
           type: "collection",
         },
         {
-          label: "Flavor Guide",
+          label: t("flavorGuideLink"),
           slug: "eugenie-flavors",
           type: "info",
         },
@@ -51,54 +56,64 @@ export const menuData = {
     },
     {
       id: 4,
-      title: "Chocolates",
+      title: t("chocolatesMenu"),
       slug: "chocolates",
       image: "/assets/img/chocolates.avif",
       links: [
         {
-          label: "Chocolates & Confectioneries",
-          slug: "chocolates-confectioneries",
+          label: t("chocolatesConfectioneriesLink"),
+          slug: "chocolates",
           type: "collection",
         },
         {
-          label: "Marshmallow bears",
+          label: t("chocolatePearlsLink"),
+          slug: "chocolate-pearls",
+          type: "info",
+        },
+        {
+          label: t("marshmallowBearsLink"),
           slug: "marshmallow-bears",
-          type: "collection",
+          type: "info",
         },
       ],
     },
     {
       id: 5,
-      title: "Tea Time",
+      title: t("teaTime"),
       slug: "tea-time",
       image: "/assets/img/teaTime.avif",
       links: [
         {
-          label: "Signature Teas",
-          slug: "signature-teas",
+          label: t("signatureTeasLink"),
+          slug: "tea-time",
           type: "collection",
         },
         {
-          label: "Biscuits & Delicacies",
+          label: t("biscuitsDelicaciesLink"),
           slug: "biscuits",
+          type: "collection",
+        },
+        {
+          label: t("jamsHoneysLink"),
+          slug: "jams-honeys",
           type: "collection",
         },
       ],
     },
     {
       id: 6,
-      title: "Gifts",
+      title: t("gifts"),
       slug: "gifts",
       image: "/assets/img/gifts.avif",
       links: [
         {
-          label: "Assortments ready to offer",
-          slug: "assortments-ready-to-offer",
+          label: t("assortmentsReadyLink"),
+          slug: "gifts",
           type: "collection",
         },
         {
-          label: "Gifting occasions",
-          slug: "gifting-occasions",
+          label: t("accessoriesLink"),
+          slug: "accessories",
           type: "collection",
         },
       ],
@@ -107,39 +122,29 @@ export const menuData = {
   pickup: [
     {
       id: 1,
-      title: "Macarons Pyramids",
+      title: t("macaronsPyramids"),
       slug: "macarons-pyramids",
       image: "/assets/img/pyramidas.avif",
       links: [
         {
-          label: "Pyramid of classic macarons",
-          slug: "pyramid-classic-macarons",
-          type: "product",
-        },
-        {
-          label: "All our Pyramids",
-          slug: "all-pyramids",
+          label: t("allPyramidsLink"),
+          slug: "macarons-pyramids",
           type: "collection",
         },
       ],
     },
     {
       id: 2,
-      title: "Pastries to share",
+      title: t("pastriesToShare"),
       slug: "pastries-to-share",
       image: "/assets/img/patisserie.avif",
       links: [
         {
-          label: "Ispahan",
-          slug: "ispahan-pastry",
-          type: "product",
-        },
-        {
-          label: "All our pastries",
-          slug: "all-pastries",
+          label: t("allPastriesLink"),
+          slug: "pastries-to-share",
           type: "collection",
         },
       ],
     },
   ],
-};
+});

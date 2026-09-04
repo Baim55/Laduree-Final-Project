@@ -5,22 +5,25 @@ import { createSlug } from "../utils/createSlug";
 import ImageCard from "./ImageCard";
 import Features from "./Features";
 import FilterDrawer from "./FilterDrawer";
+import SkeletonLoader from "./SkeletonLoader"; // Skeleton-u daxil edirik
+import { useLanguage } from "../context/LanguageContext";
 
 function CategoryPage() {
   const { slug } = useParams();
+  const { t } = useLanguage();
 
   const [categories, setCategories] = useState([]);
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [filters, setFilters] = useState({
-    sortBy: "bestsellers",
+    sortBy: "asc",
     maxPrice: 675,
     itemCount: null,
   });
 
   const activeCategory = categories.find(
-    (c) => (c.slug || createSlug(c.name)) === slug
+    (c) => (c.slug || createSlug(c.name)) === slug,
   );
   const mainCategories = categories.filter((c) => c.isMain);
 
@@ -71,27 +74,27 @@ function CategoryPage() {
     <div className="min-h-screen bg-[#fefbf4] pt-[92px]">
       <div className="garamond flex items-center justify-center gap-2 pt-10 text-[13px] text-[#706b66] sm:text-[14px]">
         <Link to="/" className="hover:text-black">
-          Home
+          {t("home")}
         </Link>
         <span>•</span>
         <Link to="/shop" className="hover:text-black">
-          Eshop
+          {t("eshop")}
         </Link>
         <span>•</span>
         <span className="italic text-[#2e2c2a]">
-          {activeCategory ? activeCategory.name : "All products"}
+          {activeCategory ? activeCategory.name : t("allProducts")}
         </span>
       </div>
       <h1 className="garamond px-4 pt-8 pb-12 text-center text-[38px] uppercase tracking-wide text-[#2e2c2a] sm:pt-10 sm:pb-16 sm:text-[56px] lg:text-[72px]">
-        {activeCategory ? activeCategory.name : "Macaron Gift Boxes"}
+        {activeCategory ? activeCategory.name : t("allTheCreations")}
       </h1>
       <div className="sticky top-[92px] z-30 flex h-[62px] items-center border-t border-b border-[#e5dfd5] bg-[#fefbf4] lg:justify-between lg:px-12">
         <button
           type="button"
           onClick={() => setIsFilterOpen(true)}
-          className="garamond flex h-full shrink-0 items-center border-r border-[#e5dfd5] px-5 text-[15px] text-[#2e2c2a] lg:hidden"
+          className="garamond flex h-full shrink-0 items-center border-r border-[#e5dfd5] px-5 text-[15px] text-[#2e2c2a] lg:hidden cursor-pointer"
         >
-          Filter & Sort
+          {t("filterAndSort")}
         </button>
         <div className="garamond flex h-full items-center gap-3 overflow-x-auto px-4 text-[15px] italic text-[#53504e] [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:h-auto lg:overflow-visible lg:px-0">
           {mainCategories.map((category, index) => {
@@ -99,11 +102,16 @@ function CategoryPage() {
             const isActive = catSlug === slug;
 
             return (
-              <div key={category.id} className="flex items-center gap-3 whitespace-nowrap">
+              <div
+                key={category.id}
+                className="flex items-center gap-3 whitespace-nowrap"
+              >
                 <Link
                   to={`/shop/${catSlug}`}
                   className={`transition ${
-                    isActive ? "font-semibold text-black not-italic" : "hover:text-black"
+                    isActive
+                      ? "font-semibold text-black not-italic"
+                      : "hover:text-black"
                   }`}
                 >
                   {category.name}
@@ -116,8 +124,11 @@ function CategoryPage() {
           })}
 
           <span className="not-italic text-[#a8a39d]">•</span>
-          <Link to="/shop" className="whitespace-nowrap not-italic hover:text-black">
-            See all
+          <Link
+            to="/shop"
+            className="whitespace-nowrap not-italic hover:text-black"
+          >
+            {t("seeAll")}
           </Link>
         </div>
         <button
@@ -125,17 +136,25 @@ function CategoryPage() {
           onClick={() => setIsFilterOpen(true)}
           className="garamond hidden cursor-pointer whitespace-nowrap text-[15px] text-[#2e2c2a] hover:text-black lg:block"
         >
-          Filter & Sort
+          {t("filterAndSort")}
         </button>
       </div>
+
       <div className="px-4 py-12 sm:px-6 lg:px-12">
         {loading ? (
-          <p className="garamond py-20 text-center text-[18px] text-[#706b66]">
-            Loading...
-          </p>
+          /* Məhsullar yüklənərkən sadə mətn əvəzinə birbaşa Skeleton kartlarını göstəririk */
+          <div className="grid grid-cols-2 gap-x-4 gap-y-10 sm:gap-x-6 sm:gap-y-12 lg:grid-cols-4 animate-pulse">
+            {[1, 2, 3, 4, 5, 6, 7, 8].map((item) => (
+              <div key={item} className="flex flex-col space-y-3">
+                <div className="w-full h-[250px] md:h-[320px] bg-[#e6decb]/55" />
+                <div className="h-4 bg-[#e6decb]/55 w-3/4 mx-auto" />
+                <div className="h-4 bg-[#e6decb]/55 w-1/4 mx-auto" />
+              </div>
+            ))}
+          </div>
         ) : displayedProducts.length === 0 ? (
           <p className="garamond py-20 text-center text-[18px] text-[#706b66]">
-            No products found for this filter.
+            {t("noProducts")}
           </p>
         ) : (
           <div className="grid grid-cols-2 gap-x-4 gap-y-10 sm:gap-x-6 sm:gap-y-12 lg:grid-cols-4">
@@ -169,6 +188,18 @@ function CategoryPage() {
           </div>
         )}
       </div>
+
+      <div className="border-t border-[#e5dfd5] bg-[#fefbf4] py-20 px-6 text-center">
+        <div className="mx-auto max-w-[800px] garamond">
+          <p className="text-[13px] uppercase tracking-[0.2em] text-[#706b66] mb-4">
+            {t("maisonSubtitle")}
+          </p>
+          <h2 className="text-[32px] md:text-[46px] text-[#2e2c2a] leading-snug font-normal">
+            {t("maisonFooterText")}
+          </h2>
+        </div>
+      </div>
+
       <Features />
       <FilterDrawer
         isOpen={isFilterOpen}

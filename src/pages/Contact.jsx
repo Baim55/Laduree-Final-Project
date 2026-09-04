@@ -2,8 +2,10 @@ import { useState } from "react";
 import { Link } from "react-router";
 import { IoChevronForwardOutline, IoCloseOutline } from "react-icons/io5";
 import { LuPackageSearch } from "react-icons/lu";
+import { useLanguage } from "../context/LanguageContext";
 
 function Contact() {
+  const { t } = useLanguage();
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
@@ -17,30 +19,30 @@ function Contact() {
   const [errors, setErrors] = useState({});
 
   const categories = [
-    { id: 1, title: "Question about your online order" },
-    { id: 2, title: "Get a quote for an event (seminar, wedding, etc.)" },
-    { id: 3, title: "Job applications" },
-    { id: 4, title: "Request for collaboration" },
-    { id: 5, title: "My data and rights" },
-    { id: 6, title: "Other request" },
+    { id: 1, title: t("catOnlineOrder") },
+    { id: 2, title: t("catEventQuote") },
+    { id: 3, title: t("catJobApplications") },
+    { id: 4, title: t("catCollaboration") },
+    { id: 5, title: t("catDataRights") },
+    { id: 6, title: t("catOther") },
   ];
 
   const guarantees = [
     {
-      title: "HOME DELIVERY",
-      desc: "In France and Europe. Free over 75€ in Métropolitain France (see conditions).",
+      title: t("homeDeliveryTitle"),
+      desc: t("homeDeliveryText"),
     },
     {
-      title: "COLD CHAIN",
-      desc: "Orders shipped fresh the day before the delivery.",
+      title: t("coldChainTitle"),
+      desc: t("coldChainText"),
     },
     {
-      title: "PROTECTED PRODUCTS",
-      desc: "Packaging made from recyclable materials for perfect preservation and protection.",
+      title: t("protectedProductsTitle"),
+      desc: t("protectedProductsText"),
     },
     {
-      title: "CUSTOMER SERVICE",
-      desc: "Monday to Friday, from 9 a.m to 5 p.m by :\n- Mail to contact@laduree.com\n- Form on our website",
+      title: t("customerServiceTitle"),
+      desc: t("customerServiceText"),
     },
   ];
 
@@ -98,22 +100,16 @@ function Contact() {
     <div className="min-h-screen bg-[#fefbf4] pt-[92px]">
       <div className="garamond mx-auto max-w-[850px] px-6 pt-16 pb-12 text-center">
         <h1 className="text-[44px] font-normal uppercase tracking-[0.15em] text-[#2e2c2a] sm:text-[56px]">
-          CONTACT
+          {t("contactMainTitle")}
         </h1>
         <h2 className="mt-6 text-[18px] font-semibold text-[#2e2c2a]">
-          Please select the appropriate contact category before submitting your
-          request.
+          {t("contactSubtitle")}
         </h2>
         <p className="mx-auto mt-4 max-w-[700px] text-[15px] leading-relaxed text-[#5c5752]">
-          If your request is urgent,{" "}
-          <span className="font-semibold text-[#2e2c2a]">
-            do NOT select "Other inquiry"
-          </span>
-          . Instead, choose the category that best matches your request;
-          otherwise, your inquiry may not be routed to the correct team and may
-          not be processed in time.
+          {t("contactWarning")}
         </p>
       </div>
+
       <div className="mx-auto max-w-[1000px] px-6">
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           {categories.map((cat) => (
@@ -132,26 +128,22 @@ function Contact() {
           ))}
         </div>
         <div
-          onClick={() =>
-            setSelectedCategory("Question about your online order")
-          }
+          onClick={() => setSelectedCategory(t("catOnlineOrder"))}
           className="mt-4 cursor-pointer border border-[#e5dfd5] bg-white/70 p-8 text-center shadow-xs transition duration-200 hover:border-[#2e2c2a]"
         >
           <div className="flex flex-col items-center justify-center gap-2">
             <LuPackageSearch size={38} className="text-[#2e2c2a]" />
             <span className="garamond text-[17px] font-medium text-[#2e2c2a]">
-              Track order
+              {t("trackOrder")}
             </span>
           </div>
         </div>
       </div>
+
       <div className="mt-24 border-t border-[#e5dfd5] bg-[#fefbf4] px-6 py-16 lg:px-16">
         <div className="mx-auto grid max-w-[1300px] grid-cols-1 gap-12 text-center md:grid-cols-2 lg:grid-cols-4">
           {guarantees.map((item) => (
-            <div
-              key={item.title}
-              className="garamond flex flex-col items-center"
-            >
+            <div key={item.title} className="garamond flex flex-col items-center">
               <h4 className="text-[16px] font-semibold uppercase tracking-[0.12em] text-[#2e2c2a]">
                 {item.title}
               </h4>
@@ -163,13 +155,15 @@ function Contact() {
           ))}
         </div>
       </div>
+
       <div className="garamond border-t border-[#e5dfd5] py-5 text-center text-[13px] text-[#706b66]">
         <Link to="/" className="hover:underline">
-          Home
+          {t("home")}
         </Link>
         <span className="mx-2">•</span>
-        <span>Contact</span>
+        <span>{t("contact")}</span>
       </div>
+
       {selectedCategory && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 pt-[100px]">
           <div className="garamond relative w-full max-w-[460px] border border-[#e5dfd5] bg-[#fefbf4] p-6 shadow-2xl">
@@ -185,16 +179,15 @@ function Contact() {
               {selectedCategory}
             </h3>
             <p className="mt-1 text-[13px] text-[#706b66]">
-              Please fill out the form below to submit your message.
+              {t("fillFormPrompt")}
             </p>
 
             {isSubmitted ? (
               <div className="my-6 border border-[#c4e3cb] bg-[#eaf4ec] p-4 text-center text-[#2d7a4d]">
-                <h4 className="text-[16px] font-semibold">Thank you!</h4>
-                <p className="mt-1 text-[13px]">
-                  Your message has been sent successfully. We will contact you
-                  soon.
-                </p>
+                <h4 className="text-[16px] font-semibold">
+                  {t("thankYouTitle")}
+                </h4>
+                <p className="mt-1 text-[13px]">{t("thankYouMessage")}</p>
               </div>
             ) : (
               <form
@@ -204,13 +197,13 @@ function Contact() {
               >
                 <div>
                   <label className="block text-[13px] font-medium text-[#5c5752]">
-                    Full Name *
+                    {t("fullNameLabel")}
                   </label>
                   <input
                     type="text"
                     value={formData.name}
                     onChange={(e) => handleInputChange("name", e.target.value)}
-                    placeholder="Enter your full name"
+                    placeholder={t("fullNamePlaceholder")}
                     className={`mt-1 w-full border bg-white px-3 py-2 text-[14px] outline-none transition ${
                       errors.name
                         ? "border-[#b8533c] focus:border-[#b8533c]"
@@ -225,13 +218,13 @@ function Contact() {
                 </div>
                 <div>
                   <label className="block text-[13px] font-medium text-[#5c5752]">
-                    Email Address *
+                    {t("emailAddressLabel")}
                   </label>
                   <input
                     type="email"
                     value={formData.email}
                     onChange={(e) => handleInputChange("email", e.target.value)}
-                    placeholder="name@example.com"
+                    placeholder={t("emailPlaceholderText")}
                     className={`mt-1 w-full border bg-white px-3 py-2 text-[14px] outline-none transition ${
                       errors.email
                         ? "border-[#b8533c] focus:border-[#b8533c]"
@@ -247,7 +240,7 @@ function Contact() {
                 {selectedCategory.toLowerCase().includes("order") && (
                   <div>
                     <label className="block text-[13px] font-medium text-[#5c5752]">
-                      Order Reference / Number (Optional)
+                      {t("orderReferenceLabel")}
                     </label>
                     <input
                       type="text"
@@ -262,7 +255,7 @@ function Contact() {
                 )}
                 <div>
                   <label className="block text-[13px] font-medium text-[#5c5752]">
-                    Message *
+                    {t("messageLabel")}
                   </label>
                   <textarea
                     rows={3}
@@ -270,7 +263,7 @@ function Contact() {
                     onChange={(e) =>
                       handleInputChange("message", e.target.value)
                     }
-                    placeholder="How can we help you?"
+                    placeholder={t("messagePlaceholder")}
                     className={`mt-1 w-full resize-none border bg-white px-3 py-2 text-[14px] outline-none transition ${
                       errors.message
                         ? "border-[#b8533c] focus:border-[#b8533c]"
@@ -287,7 +280,7 @@ function Contact() {
                   type="submit"
                   className="mt-1 w-full cursor-pointer border border-[#2e2c2a] bg-[#2e2c2a] py-2.5 text-[14px] uppercase tracking-widest text-white transition duration-200 hover:bg-transparent hover:text-[#2e2c2a]"
                 >
-                  Send Inquiry
+                  {t("sendInquiry")}
                 </button>
               </form>
             )}

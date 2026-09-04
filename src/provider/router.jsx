@@ -14,8 +14,15 @@ import FAQ from "../pages/FAQ";
 import LeClubConditions from "../pages/LeClubConditions";
 import SignIn from "../pages/SignIn";
 import Checkout from "../pages/Checkout";
-import LaMaisonDetail from "../pages/LaMaisonDetail";
 import MacaronFlavors from "../pages/MacaronFlavors";
+import CorporateGifts from "../pages/CorporateGifts";
+import SupplierOffer from "../pages/SupplierOffer";
+import CustomizedGifts from "../pages/CustomizedGifts";
+import EventCatering from "../pages/EventCatering";
+import IceCreamsPage from "../pages/IceCreamsPage";
+import EugenieFlavors from "../pages/EugenieFlavors";
+import ChocolatePearlsPage from "../pages/ChocolatePearlsPage";
+import MarshmallowBearsPage from "../pages/MarshmallowBearsPage";
 
 const router = createBrowserRouter([
   {
@@ -23,7 +30,7 @@ const router = createBrowserRouter([
     element: <Layout />,
     children: [
       {
-        index: true, 
+        index: true,
         element: <Home />,
       },
       {
@@ -41,10 +48,6 @@ const router = createBrowserRouter([
       {
         path: "la-maison",
         element: <LaMaison />,
-      },
-      {
-        path: "la-maison/:slug",
-        element: <LaMaisonDetail />,
       },
       {
         path: "club",
@@ -81,6 +84,38 @@ const router = createBrowserRouter([
       {
         path: "pages/macarons-flavors",
         element: <MacaronFlavors />,
+      },
+      {
+        path: "pages/eugenie-flavors",
+        element: <EugenieFlavors />,
+      },
+      {
+        path: "shop/corporate-gifts",
+        element: <CorporateGifts />,
+      },
+      {
+        path: "shop/supplier",
+        element: <SupplierOffer />,
+      },
+      {
+        path: "shop/customized",
+        element: <CustomizedGifts />,
+      },
+      {
+        path: "shop/events-catering",
+        element: <EventCatering />,
+      },
+      {
+        path: "pages/laduree-ice-creams-sorbets",
+        element: <IceCreamsPage />,
+      },
+      {
+        path: "pages/chocolate-pearls",
+        element: <ChocolatePearlsPage />,
+      },
+      {
+        path: "pages/marshmallow-bears",
+        element: <MarshmallowBearsPage />,
       },
     ],
   },

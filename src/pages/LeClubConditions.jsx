@@ -1,22 +1,25 @@
 import { Link } from "react-router";
+import { useLanguage } from "../context/LanguageContext";
 
 function LeClubConditions() {
+  const { t } = useLanguage();
+
   const guarantees = [
     {
-      title: "HOME DELIVERY",
-      desc: "In France and Europe. Free over 75€ in Métropolitain France (see conditions).",
+      title: t("homeDeliveryTitle"),
+      desc: t("homeDeliveryText"),
     },
     {
-      title: "COLD CHAIN",
-      desc: "Orders shipped fresh the day before the delivery.",
+      title: t("coldChainTitle"),
+      desc: t("coldChainText"),
     },
     {
-      title: "PROTECTED PRODUCTS",
-      desc: "Packaging made from recyclable materials for perfect preservation and protection.",
+      title: t("protectedProductsTitle"),
+      desc: t("protectedProductsText"),
     },
     {
-      title: "CUSTOMER SERVICE",
-      desc: "Monday to Friday, from 9 a.m to 5 p.m by :\n- Mail to contact@laduree.com\n- Form on our website",
+      title: t("customerServiceTitle"),
+      desc: t("customerServiceText"),
     },
   ];
 
@@ -24,13 +27,13 @@ function LeClubConditions() {
     <div className="min-h-screen bg-[#fefbf4] pt-[92px]">
       <div className="garamond mx-auto max-w-[1000px] px-6 pt-16 pb-12 text-center">
         <h1 className="text-[34px] font-normal uppercase tracking-[0.12em] text-[#2e2c2a] sm:text-[46px] lg:text-[52px]">
-          TERMS AND CONDITIONS OF LE CLUB LADURÉE
+          {t("termsConditionsClubTitle")}
         </h1>
       </div>
       <div className="garamond mx-auto max-w-[820px] px-6 pb-20 text-center text-[#5c5752] leading-relaxed">
         <div className="space-y-4">
           <h2 className="text-[17px] font-semibold uppercase tracking-wider text-[#2e2c2a]">
-            ARTICLE 1 : Preamble
+            {t("article1Title")}
           </h2>
           <p className="text-[14px]">
             1.1 PATISSERIE E. LADUREE, a société par actions simplifiée (simplified joint stock company) with capital of €372.584,80, registered in the Paris Trade and Companies Register under number 572 045 540, whose registered office is located at 84 avenue d'Iéna, 75116 Paris, FRANCE (hereinafter referred to as "LADUREE"), has created and manages a loyalty program called "the LADUREE Club" (hereinafter referred to as the "Program") intended for its customers making a purchase in one of the eligible Ladurée boutiques (see §1.2) or on the website www.laduree.fr (hereinafter referred to as the "Website").
@@ -39,7 +42,7 @@ function LeClubConditions() {
             1.2 The purpose of these general terms and conditions relating to the Program (hereinafter the "General Terms and Conditions") is to set out the terms and conditions of membership and operation of the Program. Any person joining the Program is deemed to have read and accepted the General Terms and Conditions without reservation.
           </p>
           <p className="text-[14px] font-medium text-[#2e2c2a]">
-            The Program is valid for purchases made on the Internet Site and in the following Ladurée boutiques:
+            {t("programValidText")}
           </p>
           <div className="space-y-1 text-[13px] italic text-[#4a4540]">
             <p>Ladurée Paris Victor Hugo – 4 place Victor Hugo 75016</p>
@@ -72,7 +75,7 @@ function LeClubConditions() {
         </div>
         <div className="mt-10 space-y-3">
           <h2 className="text-[17px] font-semibold uppercase tracking-wider text-[#2e2c2a]">
-            ARTICLE 2 : Purpose
+            {t("article2Title")}
           </h2>
           <p className="text-[14px]">
             The Program enables its members (hereinafter the "Member(s)") to benefit from advantages, services and/or offers proposed by LADUREE.
@@ -80,7 +83,7 @@ function LeClubConditions() {
         </div>
         <div className="mt-10 space-y-3">
           <h2 className="text-[17px] font-semibold uppercase tracking-wider text-[#2e2c2a]">
-            ARTICLE 3 : Membership and validity
+            {t("article3Title")}
           </h2>
           <p className="text-[14px]">
             3.1. Membership is open to all individuals over the age of 18. It is not possible to benefit from the Program for a legal entity (company, professional organization, association...).
@@ -94,7 +97,7 @@ function LeClubConditions() {
         </div>
         <div className="mt-10 space-y-3">
           <h2 className="text-[17px] font-semibold uppercase tracking-wider text-[#2e2c2a]">
-            ARTICLE 4 & 5 : Benefits & Operations
+            {t("article4And5Title")}
           </h2>
           <p className="text-[14px]">
             4.1 The Program enables the Member to receive communications relating to the Maison Ladurée and the events it organizes. In addition, the Member will benefit from advantages such as a gift against purchase for his/her birthday and access to LADUREE private sales.
@@ -105,7 +108,7 @@ function LeClubConditions() {
         </div>
         <div className="mt-10 space-y-3">
           <h2 className="text-[17px] font-semibold uppercase tracking-wider text-[#2e2c2a]">
-            ARTICLE 7 & 8 : Personal data & Termination
+            {t("article7And8Title")}
           </h2>
           <p className="text-[14px]">
             7.1. Registration for the Program implies that the Member provides basic information (Name, Email, Date of Birth). All personal data is processed according to data protection regulations.
@@ -132,10 +135,10 @@ function LeClubConditions() {
       </div>
       <div className="garamond border-t border-[#e5dfd5] py-5 text-center text-[13px] text-[#706b66]">
         <Link to="/" className="hover:underline">
-          Home
+          {t("home")}
         </Link>
         <span className="mx-2">•</span>
-        <span>Le Club Ladurée Conditions</span>
+        <span>{t("leClubConditionsTitle")}</span>
       </div>
     </div>
   );

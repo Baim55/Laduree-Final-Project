@@ -3,8 +3,10 @@ import { Link } from "react-router";
 import { getProducts, getCategories } from "../services/api";
 import { createSlug } from "../utils/createSlug";
 import ImageCard from "./ImageCard";
+import { useLanguage } from "../context/LanguageContext";
 
 function Collection() {
+  const { t } = useLanguage();
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
 
@@ -24,7 +26,7 @@ function Collection() {
     <section className="bg-[#fefbf4] py-15">
       <div className="container garamond px-3 lg:px-0">
         <h2 className="text-[#2e2c2a] text-[32px] md:text-[52px] text-center uppercase">
-          Casablanca Collection
+          {t("casablancaCollection")}
         </h2>
         <div className="overflow-x-auto scrollbar-hide px-3">
           <ul className="mx-auto flex w-max items-center gap-2 whitespace-nowrap py-4 text-[16px] text-[#53504e] md:gap-4 md:text-[24px]">
@@ -46,14 +48,13 @@ function Collection() {
             )}
             <li>
               <Link to="/shop" className="hover:text-black">
-                See all
+                {t("seeAll")}
               </Link>
             </li>
           </ul>
         </div>
 
         <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* 1. Böyük Məhsul */}
           {products[0] && (
             <Link to={`/products/${createSlug(products[0].name)}`}>
               <div className="relative w-full">
@@ -67,7 +68,6 @@ function Collection() {
             </Link>
           )}
 
-          {/* 2. Digər Məhsullar */}
           <div className="grid grid-cols-2 gap-6">
             {products.slice(1, 5).map((product) => (
               <Link
@@ -92,7 +92,7 @@ function Collection() {
             to="/shop"
             className="inline-block border border-[#2e2c2a] cursor-pointer px-35 py-3 my-10 hover:bg-[#2e2c2a] hover:text-white duration-150"
           >
-            View all
+            {t("viewAll")}
           </Link>
         </div>
       </div>

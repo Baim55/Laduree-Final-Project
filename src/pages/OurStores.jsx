@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { Link, useSearchParams } from "react-router";
 import {
   IoChevronDownOutline,
@@ -6,11 +6,32 @@ import {
   IoSearchOutline,
   IoTimeOutline,
 } from "react-icons/io5";
-import { storesData, REGIONS } from "../data/storesData";
+import { getRegions } from "../data/storesData"; // Regionlar hələ də köməkçi fayldan gəlir
+import { getStores } from "../services/api"; // API-dən gələn funksiya
 import { createSlug } from "../utils/createSlug";
+import { useLanguage } from "../context/LanguageContext";
 
 function OurStores() {
   const [searchParams, setSearchParams] = useSearchParams();
+  const { t } = useLanguage();
+  const REGIONS = getRegions(t);
+
+  const [storesData, setStoresData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // Mağazaları API-dən çəkirik
+  useEffect(() => {
+    getStores()
+      .then((data) => {
+        setStoresData(data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("Xəta:", err);
+        setLoading(false);
+      });
+  }, []);
+
   const searchQuery = searchParams.get("search") || "";
   const selectedSubRegion = searchParams.get("city") || "Central Paris";
   const selectedService = searchParams.get("service") || "All";
@@ -29,7 +50,7 @@ function OurStores() {
     setSearchParams(newParams);
   };
 
-  const isWorldActive = REGIONS.find((r) => r.name === "WORLD")?.subRegions.includes(selectedSubRegion);
+  const isWorldActive = REGIONS.find((r) => r.name === t("regionWorld"))?.subRegions.some((sub) => sub.value === selectedSubRegion);
 
   const filteredStores = useMemo(() => {
     return storesData.filter((store) => {
@@ -49,19 +70,16 @@ function OurStores() {
 
       return matchesSearch && matchesRegion && matchesService;
     });
-  }, [searchQuery, selectedSubRegion, selectedService]);
+  }, [storesData, searchQuery, selectedSubRegion, selectedService]);
 
   return (
     <div className="min-h-screen bg-[#fefbf4] pt-[92px]">
       <div className="garamond mx-auto max-w-[900px] px-6 pt-16 pb-12 text-center">
         <h1 className="text-[44px] leading-17 font-semibold uppercase tracking-wider text-[#2e2c2a] sm:text-[60px] lg:text-[72px]">
-          OUR STORES &<br />
-          RESTAURANTS
+          {t("ourStoresTitle")}
         </h1>
         <p className="mx-auto mt-6 max-w-[650px] text-[16px] leading-relaxed text-[#5c5752] sm:text-[18px]">
-          For a sweet treat, a moment of sharing, or a gift idea, step inside
-          our boutiques and let yourself be enchanted by the magical world of
-          Ladurée.
+          {t("ourStoresDesc")}
         </p>
       </div>
       <div className="border-t border-b border-[#e5dfd5] px-6 py-4 lg:px-16">
@@ -71,7 +89,7 @@ function OurStores() {
               type="text"
               value={searchQuery}
               onChange={(e) => updateParams("search", e.target.value)}
-              placeholder="Search for a postal code, city..."
+              placeholder={t("searchStorePlaceholder")}
               className="garamond w-full bg-transparent py-3 pr-10 text-[16px] text-[#2e2c2a] placeholder-gray-400 outline-none"
             />
             <IoSearchOutline
@@ -80,17 +98,17 @@ function OurStores() {
             />
           </div>
           <div className="garamond flex items-center gap-4 border-t border-gray-200 pt-3 md:border-t-0 md:border-l md:pl-6 md:pt-0">
-            <span className="text-[15px] text-gray-500">Service:</span>
+            <span className="text-[15px] text-gray-500">{t("serviceLabel")}</span>
             <select
               value={selectedService}
               onChange={(e) => updateParams("service", e.target.value)}
               className="cursor-pointer bg-transparent text-[15px] text-[#2e2c2a] outline-none"
             >
-              <option value="All">All Services</option>
-              <option value="Tea salon">Tea salon</option>
-              <option value="Restaurant">Restaurant</option>
-              <option value="Terrace">Terrace</option>
-              <option value="Click & Collect">Click & Collect</option>
+              <option value="All">{t("allServices")}</option>
+              <option value="Tea salon">{t("teaSalon")}</option>
+              <option value="Restaurant">{t("restaurant")}</option>
+              <option value="Terrace">{t("terrace")}</option>
+              <option value="Click & Collect">{t("clickAndCollect")}</option>
             </select>
           </div>
         </div>
@@ -99,7 +117,7 @@ function OurStores() {
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-4">
           <div className="garamond lg:border-r lg:border-[#e5dfd5] lg:pr-8">
             {REGIONS.map((region) => {
-              const isOpen = region.name === "WORLD" ? isWorldActive : !isWorldActive;
+              const isOpen = region.name === t("regionWorld") ? isWorldActive : !isWorldActive;
 
               return (
                 <div key={region.name} className="border-b border-[#e5dfd5] py-4">
@@ -114,14 +132,14 @@ function OurStores() {
                   <ul className="mt-4 space-y-3 pl-2 text-[15px] text-[#706b66]">
                     {region.subRegions.map((sub) => {
                       const isActive =
-                        selectedSubRegion === sub && !searchQuery;
+                        selectedSubRegion === sub.value && !searchQuery;
                       return (
-                        <li key={sub}>
+                        <li key={sub.value}>
                           <button
                             type="button"
                             onClick={() => {
                               const newParams = new URLSearchParams(searchParams);
-                              newParams.set("city", sub);
+                              newParams.set("city", sub.value);
                               newParams.delete("search");
                               setSearchParams(newParams);
                             }}
@@ -130,7 +148,7 @@ function OurStores() {
                             }`}
                           >
                             {isActive && <span>•</span>}
-                            <span>{sub}</span>
+                            <span>{sub.label}</span>
                           </button>
                         </li>
                       );
@@ -143,12 +161,14 @@ function OurStores() {
           <div className="lg:col-span-3">
             <h2 className="garamond mb-8 text-[32px] font-normal uppercase tracking-wide text-[#2e2c2a]">
               {searchQuery
-                ? `Search Results for "${searchQuery}"`
-                : selectedSubRegion}
+                ? `${t("searchResultsFor")} "${searchQuery}"`
+                : REGIONS.flatMap(r => r.subRegions).find(s => s.value === selectedSubRegion)?.label || selectedSubRegion}
             </h2>
-            {filteredStores.length === 0 ? (
+            {loading ? (
+              <p className="garamond py-12 text-[18px] text-gray-500">Yüklənir...</p>
+            ) : filteredStores.length === 0 ? (
               <p className="garamond py-12 text-[18px] text-gray-500">
-                Seçilmiş meyarlara uyğun mağaza və ya restoran tapılmadı.
+                {t("noStoresFound")}
               </p>
             ) : (
               <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 xl:grid-cols-3">
@@ -169,7 +189,7 @@ function OurStores() {
                       <h3 className="text-[24px] font-semibold text-[#1d1a17]">
                         {store.name}
                       </h3>
-                      <p className="mt-1 text-[18px]  leading-relaxed text-[#1d1a17]">
+                      <p className="mt-1 text-[18px] leading-relaxed text-[#1d1a17]">
                         {store.address}
                       </p>
                       <div className="mt-4 flex flex-col gap-1.5 text-[18px]">

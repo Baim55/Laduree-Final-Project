@@ -1,13 +1,16 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router";
 import { useCart } from "../context/CartContext";
+import { useLanguage } from "../context/LanguageContext";
 import { FiLock, FiHelpCircle } from "react-icons/fi";
 import { FaCreditCard, FaPaypal } from "react-icons/fa";
 import { SiKlarna } from "react-icons/si";
 import CartDrawer from "../components/CartDrawer";
+import { toast } from "react-toastify";
 
 function Checkout() {
   const { cartItems, total, clearCart, itemCount } = useCart();
+  const { t } = useLanguage();
   const navigate = useNavigate();
 
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -54,8 +57,9 @@ function Checkout() {
     e.preventDefault();
     if (discountCode.trim().toUpperCase() === "LADUREE10") {
       setDiscountApplied(10);
+      toast.success("Discount applied successfully!");
     } else {
-      alert("Invalid gift card or discount code. (Try: LADUREE10)");
+      toast.error("Invalid discount code. (Try: LADUREE10)");
     }
   };
 
@@ -95,6 +99,7 @@ function Checkout() {
       setIsProcessing(false);
       setOrderSuccess(true);
       if (clearCart) clearCart();
+      toast.success("Order placed successfully!");
     }, 2000);
   };
 
@@ -105,9 +110,9 @@ function Checkout() {
           <img src="/assets/logo.svg" alt="Ladurée" className="w-[170px]" />
         </Link>
         <div className="mt-8 max-w-[500px] border border-[#e5dfd5] bg-white p-8 shadow-xs">
-          <h2 className="text-[28px] text-[#2e2c2a]">Thank you for your order!</h2>
+          <h2 className="text-[28px] text-[#2e2c2a]">{t("thankYouOrder")}</h2>
           <p className="mt-2 text-[15px] text-[#5c5752]">
-            Your order has been confirmed. A confirmation email has been sent to{" "}
+            {t("orderConfirmed")}{" "}
             <span className="font-semibold text-black">{formData.email}</span>.
           </p>
           <button
@@ -115,7 +120,7 @@ function Checkout() {
             onClick={() => navigate("/")}
             className="mt-6 w-full cursor-pointer bg-[#2e2c2a] py-3 text-[14px] uppercase tracking-wider text-white transition hover:bg-[#1d1a17]"
           >
-            Return to Homepage
+            {t("returnToHomepage")}
           </button>
         </div>
       </div>
@@ -153,12 +158,12 @@ function Checkout() {
           <form onSubmit={handleSubmitOrder} className="space-y-10">
             <div>
               <div className="flex items-center justify-between">
-                <h2 className="text-[22px] font-normal text-[#2e2c2a]">Contact</h2>
+                <h2 className="text-[22px] font-normal text-[#2e2c2a]">{t("contact")}</h2>
                 <Link
                   to="/login"
                   className="text-[13px] text-[#2e2c2a] underline hover:opacity-80"
                 >
-                  Sign in
+                  {t("signIn")}
                 </Link>
               </div>
               <div className="relative mt-3">
@@ -187,9 +192,9 @@ function Checkout() {
                     className="mt-0.5 h-4 w-4 rounded-none accent-[#2e2c2a]"
                   />
                   <div>
-                    <span className="font-semibold text-[#2e2c2a]">Receive our newsletter</span>
+                    <span className="font-semibold text-[#2e2c2a]">{t("receiveNewsletter")}</span>
                     <p className="text-[12px] text-[#706b66]">
-                      Sign up for our newsletter to be the first to discover our latest news and new collections.
+                      {t("newsletterSubText")}
                     </p>
                   </div>
                 </label>
@@ -203,27 +208,26 @@ function Checkout() {
                     className="mt-0.5 h-4 w-4 rounded-none accent-[#2e2c2a]"
                   />
                   <div>
-                    <span className="font-semibold text-[#2e2c2a]">Join the Club Ladurée</span>
+                    <span className="font-semibold text-[#2e2c2a]">{t("joinClubCheckout")}</span>
                     <p className="text-[12px] text-[#706b66]">
-                      Discover the privileges of the Club Ladurée : private sales, a birthday surprise and special treats throughout the year.
+                      {t("clubSubText")}
                     </p>
                   </div>
                 </label>
               </div>
               <p className="mt-4 text-[11px] leading-relaxed text-[#8c857f]">
-                By checking a box, you agree to our{" "}
+                {t("privacyPolicyAgree")}{" "}
                 <Link to="/le-club-conditions" className="underline">
-                  Privacy Policy
-                </Link>{" "}
-                and the use of tracking pixels to optimize our communications.
+                  {t("dataProtectionPolicy")}
+                </Link>
               </p>
             </div>
             <div>
-              <h2 className="text-[22px] font-normal text-[#2e2c2a]">Delivery</h2>
+              <h2 className="text-[22px] font-normal text-[#2e2c2a]">{t("delivery")}</h2>
               <div className="mt-3 space-y-3">
                 <div>
                   <label className="block text-[11px] uppercase tracking-wider text-[#706b66]">
-                    Country/Region
+                    {t("countryRegion")}
                   </label>
                   <select
                     value={formData.country}
@@ -240,7 +244,7 @@ function Checkout() {
                 <div className="grid grid-cols-2 gap-3">
                   <input
                     type="text"
-                    placeholder="First name"
+                    placeholder={t("firstName")}
                     value={formData.firstName}
                     onChange={(e) =>
                       handleInputChange("firstName", e.target.value)
@@ -251,7 +255,7 @@ function Checkout() {
                   />
                   <input
                     type="text"
-                    placeholder="Last name"
+                    placeholder={t("lastName")}
                     value={formData.lastName}
                     onChange={(e) =>
                       handleInputChange("lastName", e.target.value)
@@ -263,7 +267,7 @@ function Checkout() {
                 </div>
                 <input
                   type="text"
-                  placeholder="Address"
+                  placeholder={t("address")}
                   value={formData.address}
                   onChange={(e) => handleInputChange("address", e.target.value)}
                   className={`w-full border bg-white p-3 text-[14px] outline-none ${
@@ -272,7 +276,7 @@ function Checkout() {
                 />
                 <input
                   type="text"
-                  placeholder="Apartment, suite, etc. (optional)"
+                  placeholder={t("apartment")}
                   value={formData.apartment}
                   onChange={(e) =>
                     handleInputChange("apartment", e.target.value)
@@ -282,7 +286,7 @@ function Checkout() {
                 <div className="grid grid-cols-3 gap-3">
                   <input
                     type="text"
-                    placeholder="Postal code"
+                    placeholder={t("postalCode")}
                     value={formData.postalCode}
                     onChange={(e) =>
                       handleInputChange("postalCode", e.target.value)
@@ -293,7 +297,7 @@ function Checkout() {
                   />
                   <input
                     type="text"
-                    placeholder="City"
+                    placeholder={t("city")}
                     value={formData.city}
                     onChange={(e) => handleInputChange("city", e.target.value)}
                     className={`w-full border bg-white p-3 text-[14px] outline-none ${
@@ -302,7 +306,7 @@ function Checkout() {
                   />
                   <input
                     type="text"
-                    placeholder="Province"
+                    placeholder={t("province")}
                     value={formData.province}
                     onChange={(e) =>
                       handleInputChange("province", e.target.value)
@@ -312,7 +316,7 @@ function Checkout() {
                 </div>
                 <input
                   type="tel"
-                  placeholder="Phone (optional for delivery updates)"
+                  placeholder={t("phoneOptional")}
                   value={formData.phone}
                   onChange={(e) => handleInputChange("phone", e.target.value)}
                   className="w-full border border-[#d5cebf] bg-white p-3 text-[14px] outline-none focus:border-[#2e2c2a]"
@@ -320,9 +324,9 @@ function Checkout() {
               </div>
             </div>
             <div>
-              <h2 className="text-[22px] font-normal text-[#2e2c2a]">Payment</h2>
+              <h2 className="text-[22px] font-normal text-[#2e2c2a]">{t("payment")}</h2>
               <p className="mt-1 text-[13px] text-[#706b66]">
-                All transactions are secure and encrypted.
+                {t("secureTransactions")}
               </p>
 
               <div className="mt-3 border border-[#d5cebf] bg-white">
@@ -340,7 +344,7 @@ function Checkout() {
                       onChange={() => setPaymentMethod("card")}
                       className="accent-[#2e2c2a]"
                     />
-                    <span>Credit card</span>
+                    <span>{t("creditCard")}</span>
                   </label>
                   <div className="flex items-center gap-1.5 text-gray-600">
                     <FaCreditCard size={18} />
@@ -351,7 +355,7 @@ function Checkout() {
                     <div className="relative">
                       <input
                         type="text"
-                        placeholder="Card number"
+                        placeholder={t("cardNumber")}
                         value={formData.cardNumber}
                         onChange={(e) =>
                           handleInputChange("cardNumber", e.target.value)
@@ -365,7 +369,7 @@ function Checkout() {
                     <div className="grid grid-cols-2 gap-3">
                       <input
                         type="text"
-                        placeholder="Expiration date (MM / YY)"
+                        placeholder={t("expirationDate")}
                         value={formData.expDate}
                         onChange={(e) =>
                           handleInputChange("expDate", e.target.value)
@@ -376,7 +380,7 @@ function Checkout() {
                       />
                       <input
                         type="text"
-                        placeholder="Security code (CVV)"
+                        placeholder={t("securityCode")}
                         value={formData.cvv}
                         onChange={(e) =>
                           handleInputChange("cvv", e.target.value)
@@ -388,7 +392,7 @@ function Checkout() {
                     </div>
                     <input
                       type="text"
-                      placeholder="Name on card"
+                      placeholder={t("nameOnCard")}
                       value={formData.cardName}
                       onChange={(e) =>
                         handleInputChange("cardName", e.target.value)
@@ -444,13 +448,13 @@ function Checkout() {
                 isProcessing ? "cursor-wait opacity-75" : ""
               }`}
             >
-              {isProcessing ? "Processing Order..." : "Pay now"}
+              {isProcessing ? t("processingOrder") : t("payNow")}
             </button>
           </form>
           <div className="mt-12 flex flex-wrap gap-4 text-[12px] text-[#706b66] underline">
-            <Link to="/le-club-conditions">Refund policy</Link>
-            <Link to="/le-club-conditions">Data Protection Policy</Link>
-            <Link to="/le-club-conditions">Terms of service</Link>
+            <Link to="/le-club-conditions">{t("refundPolicy")}</Link>
+            <Link to="/le-club-conditions">{t("dataProtectionPolicy")}</Link>
+            <Link to="/le-club-conditions">{t("termsOfService")}</Link>
           </div>
         </div>
         <div className="garamond px-6 py-10 sm:px-12 lg:col-span-5">
@@ -485,7 +489,7 @@ function Checkout() {
             <form onSubmit={handleApplyDiscount} className="flex gap-2 pt-2">
               <input
                 type="text"
-                placeholder="Gift card"
+                placeholder={t("giftCard")}
                 value={discountCode}
                 onChange={(e) => setDiscountCode(e.target.value)}
                 className="flex-1 border border-[#d5cebf] bg-white p-3 text-[14px] outline-none focus:border-[#2e2c2a]"
@@ -494,32 +498,32 @@ function Checkout() {
                 type="submit"
                 className="cursor-pointer border border-[#d5cebf] bg-[#f7f5ef] px-6 text-[14px] text-[#2e2c2a] transition hover:border-[#2e2c2a] hover:bg-white"
               >
-                Apply
+                {t("apply")}
               </button>
             </form>
             <div className="space-y-2 border-t border-[#eee8dc] pt-5 text-[14px] text-[#5c5752]">
               <div className="flex justify-between">
                 <span>
-                  Subtotal • {cartItems.reduce((acc, i) => acc + i.quantity, 0)}{" "}
+                  {t("subtotal")} • {cartItems.reduce((acc, i) => acc + i.quantity, 0)}{" "}
                   items
                 </span>
                 <span className="text-[#2e2c2a]">€{total.toFixed(2)}</span>
               </div>
               <div className="flex justify-between">
-                <span>Shipping</span>
+                <span>{t("shipping")}</span>
                 <span className="text-[#706b66]">
-                  {shippingCost === 0 ? "Free" : `€${shippingCost.toFixed(2)}`}
+                  {shippingCost === 0 ? t("free") : `€${shippingCost.toFixed(2)}`}
                 </span>
               </div>
               {discountApplied > 0 && (
                 <div className="flex justify-between text-[#2d7a4d]">
-                  <span>Discount</span>
+                  <span>{t("discount")}</span>
                   <span>-€{discountApplied.toFixed(2)}</span>
                 </div>
               )}
             </div>
             <div className="flex items-baseline justify-between border-t border-[#eee8dc] pt-5 text-[#2e2c2a]">
-              <span className="text-[18px]">Total</span>
+              <span className="text-[18px]">{t("total")}</span>
               <div className="text-right">
                 <span className="mr-2 text-[14px] font-normal text-[#706b66]">
                   EUR
@@ -528,7 +532,7 @@ function Checkout() {
                   €{finalTotal.toFixed(2)}
                 </span>
                 <p className="mt-0.5 text-[12px] text-[#8c857f]">
-                  Including €{(finalTotal * 0.18).toFixed(2)} in taxes
+                  {t("includingTaxes")} €{(finalTotal * 0.18).toFixed(2)}
                 </p>
               </div>
             </div>

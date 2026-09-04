@@ -1,6 +1,9 @@
 import { Link } from "react-router";
+import { useLanguage } from "../context/LanguageContext";
 
 function Hero() {
+  const { t } = useLanguage();
+
   return (
     <section className="relative h-screen overflow-hidden">
       <video
@@ -24,9 +27,9 @@ function Hero() {
         </h1>
         <Link
           to="/shop"
-          className="garamond mt-[35px] border border-white bg-white px-24 py-3 text-[15px] uppercase tracking-wider text-[#2e2c2a] transition hover:bg-[#2e2c2a] hover:border-[#2e2c2a] hover:text-white"
+          className="garamond mt-[35px] bg-white px-30 py-3 text-[15px] uppercase tracking-wider text-[#2e2c2a] transition hover:bg-[#dce7c6]"
         >
-          Discover
+          {t("discover")}
         </Link>
       </div>
     </section>

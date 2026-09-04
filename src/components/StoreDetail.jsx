@@ -1,25 +1,49 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router";
 import { IoTimeOutline } from "react-icons/io5";
-import { storesData } from "../data/storesData";
+import { getStores } from "../services/api";
 import Features from "./Features";
 import { createSlug } from "../utils/createSlug";
+import { useLanguage } from "../context/LanguageContext";
 
 function StoreDetail() {
   const { slug } = useParams();
+  const { t } = useLanguage();
+
+  const [storesData, setStoresData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [selectedImage, setSelectedImage] = useState(0);
+
+  useEffect(() => {
+    getStores()
+      .then((data) => {
+        setStoresData(data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("Xəta:", err);
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="garamond min-h-screen bg-[#fefbf4] pt-40 text-center text-[18px]">
+        {t("loading") || "Yüklənir..."}
+      </div>
+    );
+  }
 
   const store = storesData.find(
-    (s) => createSlug(s.name) === slug || String(s.id) === String(slug),
+    (s) => createSlug(s.name) === slug || String(s.id) === String(slug)
   );
-
-  const [selectedImage, setSelectedImage] = useState(0);
 
   if (!store) {
     return (
       <div className="garamond min-h-screen bg-[#fefbf4] pt-40 text-center">
-        <h2 className="text-[32px] text-[#2e2c2a]">Store not found</h2>
+        <h2 className="text-[32px] text-[#2e2c2a]">{t("storeNotFound") || "Store not found"}</h2>
         <Link to="/stores" className="mt-4 inline-block text-[16px] underline">
-          Back to all stores
+          {t("backToAllStores") || "Back to all stores"}
         </Link>
       </div>
     );
@@ -33,11 +57,11 @@ function StoreDetail() {
 
   return (
     <div className="min-h-screen bg-[#fefbf4] pt-[92px]">
-      <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 lg:items-stretch">
+      <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 lg:items-stretch mb-8">
         <div className="garamond flex flex-col items-center justify-center px-6 py-12 text-center sm:px-12">
           <div className="flex flex-col items-center">
             <span className="text-[20px] uppercase tracking-[0.25em] text-[#1d1a17] lg:text-[15px]">
-              WELCOME TO
+              {t("welcomeTo") || "WELCOME TO"}
             </span>
             <h1 className="mt-3 text-[32px] font-semibold leading-[1.12] tracking-wide text-[#1d1a17] uppercase sm:text-[42px] lg:text-[40px]">
               {store.name}
@@ -92,7 +116,7 @@ function StoreDetail() {
                     href={googleMapsUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex flex-1 items-center justify-center border border-[#2e2c2a] bg-transparent p-[20px] text-[20px] tracking-wide text-[#2e2c2a] transition hover:bg-[#2e2c2a] hover:text-white lg:p-[12px] lg:text-[16px]"
+                    className="flex flex-1 items-center justify-center border border-[#2e2c2a] bg-transparent p-[20px] text-[16px]  tracking-wider text-[#2e2c2a] transition hover:bg-[#2e2c2a] hover:text-white lg:p-[12px]"
                   >
                     Itinerary
                   </a>
@@ -100,7 +124,7 @@ function StoreDetail() {
                 {store.hasPastryClass && (
                   <button
                     type="button"
-                    className="flex flex-1 cursor-pointer items-center justify-center border border-[#2e2c2a] bg-[#2e2c2a] p-[20px] text-[20px] tracking-wide text-white transition hover:border-[#2e2c2a] hover:bg-[#fefbf4] hover:text-[#2e2c2a] lg:p-[12px] lg:text-[16px]"
+                    className="flex flex-1 cursor-pointer items-center justify-center border border-[#2e2c2a] bg-[#2e2c2a] p-[20px] text-[16px]  tracking-wider text-white transition hover:border-[#2e2c2a] hover:bg-[#fefbf4] hover:text-[#2e2c2a] lg:p-[12px]"
                   >
                     Book a Pastry Class
                   </button>
@@ -108,7 +132,7 @@ function StoreDetail() {
                 {store.reservationUrl && (
                   <a
                     href={store.reservationUrl}
-                    className="flex flex-1 items-center justify-center border border-[#2e2c2a] bg-[#2e2c2a] p-[20px] text-[20px] tracking-wide text-white transition hover:border-[#2e2c2a] hover:bg-[#fefbf4] hover:text-[#2e2c2a] lg:p-[12px] lg:text-[16px]"
+                    className="flex flex-1 items-center justify-center border border-[#2e2c2a] bg-[#2e2c2a] p-[20px] text-[16px]  tracking-wider text-white transition hover:border-[#2e2c2a] hover:bg-[#fefbf4] hover:text-[#2e2c2a] lg:p-[12px]"
                   >
                     Online Reservation
                   </a>
@@ -117,21 +141,11 @@ function StoreDetail() {
                   <a
                     target="_blank"
                     href={store.airportClickAndCollectUrl}
-                    className="flex flex-1 items-center justify-center border border-[#2e2c2a] bg-[#2e2c2a] p-[20px] text-[20px] tracking-wide text-white transition hover:border-[#2e2c2a] hover:bg-[#fefbf4] hover:text-[#2e2c2a] lg:p-[12px] lg:text-[16px]"
+                    className="flex flex-1 items-center justify-center border border-[#2e2c2a] bg-[#2e2c2a] p-[20px] text-[16px]  tracking-wider text-white transition hover:border-[#2e2c2a] hover:bg-[#fefbf4] hover:text-[#2e2c2a] lg:p-[12px]"
                   >
                     Airport Click & Collect
                   </a>
                 )}
-              </div>
-            )}
-            {store.menuUrl && (
-              <div className="mt-8">
-                <a
-                  href={store.menuUrl}
-                  className="text-[14px] text-[#2e2c2a] underline transition hover:opacity-75"
-                >
-                  Discover the menu
-                </a>
               </div>
             )}
           </div>

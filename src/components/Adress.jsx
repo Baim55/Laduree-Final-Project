@@ -1,6 +1,9 @@
 import { Link } from "react-router";
+import { useLanguage } from "../context/LanguageContext";
 
 function Adress() {
+  const { t } = useLanguage();
+
   return (
     <section className="relative h-[90vh] overflow-hidden">
       <img
@@ -13,13 +16,13 @@ function Adress() {
 
       <div className="relative z-10 flex h-full flex-col items-center justify-center">
         <h1 className="garamond max-w-[600px] text-center text-[50px] uppercase leading-[1.1] text-white md:text-[74px]">
-          Our Adresses and Restaurants
+          {t("ourAddressesTitle")}
         </h1>
         <Link
           to="/stores"
-          className="garamond mt-9  bg-white px-30 py-3 text-[15px] text-[#2e2c2a] transition hover:bg-[#2e2c2a] hover:text-white"
+          className="garamond mt-9 bg-white px-30 py-3 text-[15px] text-[#2e2c2a] transition hover:bg-[#2e2c2a] hover:text-white"
         >
-          Discover Now
+          {t("discoverNow")}
         </Link>
       </div>
     </section>

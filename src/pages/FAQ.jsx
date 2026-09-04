@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { Link } from "react-router";
+import { useLanguage } from "../context/LanguageContext";
 
 function FAQ() {
+  const { t } = useLanguage();
   const [activeCategory, setActiveCategory] = useState("Product Information");
   const [openItems, setOpenItems] = useState({});
 
@@ -96,20 +98,20 @@ function FAQ() {
 
   const guarantees = [
     {
-      title: "HOME DELIVERY",
-      desc: "In France and Europe. Free over 75€ in Métropolitain France (see conditions).",
+      title: t("homeDeliveryTitle"),
+      desc: t("homeDeliveryText"),
     },
     {
-      title: "COLD CHAIN",
-      desc: "Orders shipped fresh the day before the delivery.",
+      title: t("coldChainTitle"),
+      desc: t("coldChainText"),
     },
     {
-      title: "PROTECTED PRODUCTS",
-      desc: "Packaging made from recyclable materials for perfect preservation and protection.",
+      title: t("protectedProductsTitle"),
+      desc: t("protectedProductsText"),
     },
     {
-      title: "CUSTOMER SERVICE",
-      desc: "Monday to Friday, from 9 a.m to 5 p.m by :\n- Mail to contact@laduree.com\n- Form on our website",
+      title: t("customerServiceTitle"),
+      desc: t("customerServiceText"),
     },
   ];
 
@@ -117,7 +119,7 @@ function FAQ() {
     <div className="min-h-screen bg-[#fefbf4] pt-[92px]">
       <div className="garamond mx-auto max-w-[900px] px-6 pt-16 pb-12 text-center">
         <h1 className="text-[44px] font-normal uppercase tracking-[0.15em] text-[#2e2c2a] sm:text-[56px]">
-          FOIRE AUX QUESTIONS
+          {t("faqMainTitle")}
         </h1>
       </div>
       <div className="mx-auto max-w-[1200px] px-6 py-8">
@@ -144,7 +146,7 @@ function FAQ() {
                 to="/contact"
                 className="text-[14px] text-[#5c5752] underline transition hover:text-black"
               >
-                Contactez-nous
+                {t("contactUsFrench")}
               </Link>
             </div>
           </div>
@@ -194,10 +196,10 @@ function FAQ() {
       </div>
       <div className="garamond border-t border-[#e5dfd5] py-5 text-center text-[13px] text-[#706b66]">
         <Link to="/" className="hover:underline">
-          Home
+          {t("home")}
         </Link>
         <span className="mx-2">•</span>
-        <span>FAQ</span>
+        <span>{t("faqBreadcrumb")}</span>
       </div>
     </div>
   );

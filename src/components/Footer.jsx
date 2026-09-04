@@ -2,69 +2,71 @@ import { useState } from "react";
 import { Link } from "react-router";
 import { IoAdd, IoRemove } from "react-icons/io5";
 import { FaInstagram, FaTiktok, FaLinkedin } from "react-icons/fa";
+import { useLanguage } from "../context/LanguageContext";
+import { toast } from "react-toastify";
 
 function Footer() {
+  const { t } = useLanguage();
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
-  const [success, setSuccess] = useState(false);
 
   const handleNewsletterSubmit = (e) => {
     e.preventDefault();
 
-    // Sadə email validasiyası
     if (!email.trim()) {
-      setError("Email address is required.");
-      setSuccess(false);
+      setError(t("emailRequired"));
       return;
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      setError("Please enter a valid email address.");
-      setSuccess(false);
+      setError(t("emailInvalid"));
       return;
     }
 
     setError("");
-    setSuccess(true);
     setEmail("");
-
-    // 4 saniyə sonra uğur mesajını təmizləyirik
-    setTimeout(() => {
-      setSuccess(false);
-    }, 4000);
+    toast.success(t("subscribeSuccess") || "Successfully subscribed!");
   };
 
   const footerLinks = [
     {
       title: "Ladurée",
       items: [
-        { label: "Macarons boxes", to: "/shop/macarons" },
-        { label: "Eugénie boxes", to: "/shop/eugenie" },
-        { label: "Chocolates", to: "/shop/chocolates" },
+        { label: t("macaronsBoxes"), to: "/shop/macarons" },
+        { label: t("eugenieBoxes"), to: "/shop/eugenie" },
+        { label: "Gourmet assortments", to: "/shop/gifts" },
+        { label: t("chocolates"), to: "/shop/chocolates" },
+        { label: "Store Experiences", to: "/stores" },
+        { label: t("clubLadurée"), to: "/club" },
       ],
     },
     {
       title: "More information",
       items: [
-        { label: "Our collections", to: "/shop" },
-        { label: "Ladurée history", to: "/la-maison" },
-        { label: "Flavor Guide", to: "/pages/macarons-flavors" },
+        { label: t("ourCollections"), to: "/shop" },
+        { label: t("ladureeHistory"), to: "/la-maison" },
+        { label: "Ladurée macarons", to: "/pages/macarons-flavors" },
+        { label: "Our Macarons in Paris", to: "/pages/macarons-flavors" },
+        { label: "Allergens & Packagings", to: "/faq" },
+        { label: "Ladurée Café", to: "/stores" },
       ],
     },
     {
       title: "Corporate",
       items: [
-        { label: "Corporate gifts", to: "/shop/gifts" },
-        { label: "Events & receptions", to: "/shop" },
+        { label: t("corporateGifts"), to: "/shop/corporate-gifts" },
+        { label: "Supplier offer", to: "/shop/supplier" },
+        { label: "Personalized gifts", to: "/shop/customized" },
+        { label: "Events & receptions", to: "/shop/events-catering" },
       ],
     },
     {
       title: "Help",
       items: [
-        { label: "Contact us", to: "/contact" },
-        { label: "FAQ", to: "/faq" },
-        { label: "Le Club Ladurée conditions", to: "/le-club-conditions" },
+        { label: t("contactUs"), to: "/contact" },
+        { label: t("faq"), to: "/faq" },
+        { label: t("leClubConditions"), to: "/le-club-conditions" },
       ],
     },
   ];
@@ -91,7 +93,7 @@ function Footer() {
               <h3 className="garamond mb-5 text-[15px] uppercase tracking-wide">
                 {section.title}
               </h3>
-              <ul className="flex flex-col">
+              <ul className="flex flex-col gap-2">
                 {section.items.map((item) => (
                   <li key={item.label} className={linkHoverClass}>
                     <Link
@@ -107,7 +109,7 @@ function Footer() {
           ))}
           <div>
             <h3 className="garamond mb-5 text-[15px] uppercase tracking-wide">
-              Join our newsletter
+              {t("joinOurNewsletter")}
             </h3>
 
             <form
@@ -121,7 +123,7 @@ function Footer() {
                   setEmail(e.target.value);
                   if (error) setError("");
                 }}
-                placeholder="Email address*"
+                placeholder={t("emailPlaceholder")}
                 className="w-full bg-transparent text-[15px] outline-none placeholder:text-[#2e2c2a]/70"
               />
               <button
@@ -134,19 +136,13 @@ function Footer() {
             </form>
 
             {error && <p className="mt-2 text-[12px] text-red-700">{error}</p>}
-            {success && (
-              <p className="mt-2 text-[12px] text-[#2e2c2a] font-medium">
-                Thank you for subscribing!
-              </p>
-            )}
 
             <label className="mt-4 flex cursor-pointer items-start gap-2 text-[13px] text-[#2e2c2a]/80">
-              <input type="checkbox" className="mt-1 accent-[#2e2c2a]" />I agree
-              to receive news and exclusive creations from Ladurée via email,
-              phone, WhatsApp, and Wallet.
+              <input type="checkbox" className="mt-1 accent-[#2e2c2a]" />
+              {t("newsletterConsent")}
             </label>
             <h3 className="garamond mb-4 mt-10 text-[15px] uppercase tracking-wide">
-              Follow us
+              {t("followUs")}
             </h3>
             <div className="flex items-center gap-4 text-[18px]">
               <a
@@ -185,6 +181,7 @@ function Footer() {
               className="border-b border-[#2e2c2a]/20 py-4"
             >
               <button
+                type="button"
                 onClick={() => toggleSection(index)}
                 className="flex w-full items-center justify-between cursor-pointer"
               >
@@ -221,7 +218,7 @@ function Footer() {
           ))}
           <div className="mt-10">
             <h3 className="garamond mb-5 text-[17px] uppercase tracking-wide">
-              Join our newsletter
+              {t("joinOurNewsletter")}
             </h3>
             <form
               onSubmit={handleNewsletterSubmit}
@@ -229,12 +226,12 @@ function Footer() {
             >
               <input
                 type="email"
-                value={email}
+                valueemail={email}
                 onChange={(e) => {
                   setEmail(e.target.value);
                   if (error) setError("");
                 }}
-                placeholder="Email address*"
+                placeholder={t("emailPlaceholder")}
                 className="w-full bg-transparent text-[15px] outline-none placeholder:text-[#2e2c2a]/70"
               />
               <button
@@ -247,21 +244,15 @@ function Footer() {
             </form>
 
             {error && <p className="mt-2 text-[12px] text-red-700">{error}</p>}
-            {success && (
-              <p className="mt-2 text-[12px] text-[#2e2c2a] font-medium">
-                Thank you for subscribing!
-              </p>
-            )}
 
             <label className="mt-4 flex cursor-pointer items-start gap-2 text-[13px] text-[#2e2c2a]/80">
-              <input type="checkbox" className="mt-1 accent-[#2e2c2a]" />I agree
-              to receive news and exclusive creations from Ladurée via email,
-              phone, WhatsApp, and Wallet.
+              <input type="checkbox" className="mt-1 accent-[#2e2c2a]" />
+              {t("newsletterConsent")}
             </label>
           </div>
           <div className="mt-10 text-center">
             <h3 className="garamond mb-5 text-[17px] uppercase tracking-wide">
-              Follow us
+              {t("followUs")}
             </h3>
             <div className="flex items-center justify-center gap-6 text-[20px]">
               <a
@@ -305,26 +296,8 @@ function Footer() {
 
       <div className="container px-6 font-garamond">
         <div className="py-6 text-[14px] text-[#2e2c2a]/80">
-          <div className="grid grid-cols-1 items-center gap-4 lg:grid-cols-3">
-            <div className="hidden items-center gap-6 lg:flex lg:justify-self-start">
-              <Link
-                to="/contact"
-                className="transition-colors hover:text-[#2e2c2a]"
-              >
-                Terms &amp; Conditions
-              </Link>
-            </div>
-            <p className="text-center lg:justify-self-center">
-              © Copyright Ladurée Paris 2026
-            </p>
-            <div className="hidden items-center gap-6 lg:flex lg:justify-self-end">
-              <Link
-                to="/faq"
-                className="transition-colors hover:text-[#2e2c2a]"
-              >
-                FAQ
-              </Link>
-            </div>
+          <div>
+            <p className="text-center">© Copyright Ladurée Paris 2026</p>
           </div>
         </div>
       </div>

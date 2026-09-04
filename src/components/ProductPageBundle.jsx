@@ -2,8 +2,11 @@ import { useState } from "react";
 import ProductImageGallery from "./product/ProductImageGallery";
 import ProductAccordions from "./product/ProductAccordions";
 import { useCart } from "../context/CartContext";
+import { useLanguage } from "../context/LanguageContext";
+import { toast } from "react-toastify";
 
 function ProductPageBundle({ product }) {
+  const { t } = useLanguage();
   const [selectedOption, setSelectedOption] = useState(
     product.options?.[0] || null,
   );
@@ -18,6 +21,30 @@ function ProductPageBundle({ product }) {
       image: selectedOption?.image || product.image,
       selectedOption: selectedOption?.label,
     });
+    toast.success(
+      <div className="flex items-center gap-3">
+        <img
+          src={product.image}
+          alt={product.name}
+          className="h-10 w-10 object-contain bg-white border border-gray-200 p-0.5"
+        />
+        <div className="text-[13px] leading-tight text-[#2e2c2a]">
+          <span>Added to cart </span>
+          <span className="font-semibold">"{product.name}"</span>
+        </div>
+      </div>,
+      {
+        position: "top-right",
+        autoClose: 3000,
+        icon: false,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        className:
+          "!bg-[#fefbf4] !text-[#2e2c2a] !border !border-[#e5dfd5] !shadow-md",
+      },
+    );
   };
 
   return (
@@ -40,7 +67,7 @@ function ProductPageBundle({ product }) {
         {product.options?.length > 0 && (
           <div className="mb-10">
             <p className="mb-3 text-center text-[15px] uppercase tracking-wide">
-              Select your box
+              {t("selectYourBox")}
             </p>
             <div
               className="grid gap-3"
@@ -53,7 +80,7 @@ function ProductPageBundle({ product }) {
                   key={option.label}
                   type="button"
                   onClick={() => setSelectedOption(option)}
-                  className={`border py-3 text-[15px] transition ${
+                  className={`border py-3 text-[15px] transition cursor-pointer ${
                     selectedOption?.label === option.label
                       ? "border-black text-black"
                       : "border-gray-300 text-gray-500"
@@ -117,9 +144,9 @@ function ProductPageBundle({ product }) {
         <button
           type="button"
           onClick={handleAddToCart}
-          className="w-full bg-[#2e2c2a] py-3 text-[17px] text-white transition hover:bg-[#1d1a17]"
+          className="w-full bg-[#2e2c2a] py-3 text-[17px] text-white transition hover:bg-[#1d1a17] cursor-pointer"
         >
-          Add to cart — {displayPrice.toFixed(2)} EUR
+          {t("addToCart")} — {displayPrice.toFixed(2)} EUR
         </button>
         <ProductAccordions product={product} showDescription />
       </div>

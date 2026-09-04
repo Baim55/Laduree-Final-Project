@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { IoCloseOutline, IoChevronDownOutline, IoChevronUpOutline } from "react-icons/io5";
+import { useLanguage } from "../context/LanguageContext";
 
 const ITEM_COUNTS = [8, 12, 15, 16, 18, 20, 24, 28, 35, 42];
 
@@ -8,8 +9,9 @@ function FilterDrawer({
   onClose,
   onApplyFilters,
   maxPriceLimit = 675,
-  initialFilters = { sortBy: "bestsellers", maxPrice: 675, itemCount: null },
+  initialFilters = { sortBy: "asc", maxPrice: 675, itemCount: null },
 }) {
+  const { t } = useLanguage();
   const [openSections, setOpenSections] = useState({
     sort: true,
     price: false,
@@ -36,7 +38,7 @@ function FilterDrawer({
   };
 
   const handleClearAll = () => {
-    setSortBy("bestsellers");
+    setSortBy("asc");
     setMaxPrice(maxPriceLimit);
     setSelectedItemCount(null);
   };
@@ -66,11 +68,11 @@ function FilterDrawer({
         }`}
       >
         <div className="flex items-center justify-between border-b border-gray-200 px-8 py-6">
-          <h2 className="text-[28px] text-[#2e2c2a]">Filter</h2>
+          <h2 className="text-[28px] text-[#2e2c2a]">{t("filter")}</h2>
           <button
             type="button"
             onClick={onClose}
-            className="text-gray-500 transition hover:text-black"
+            className="text-gray-500 transition hover:text-black cursor-pointer"
           >
             <IoCloseOutline size={26} />
           </button>
@@ -80,17 +82,16 @@ function FilterDrawer({
             <button
               type="button"
               onClick={() => toggleSection("sort")}
-              className="flex w-full items-center justify-between text-[14px] tracking-widest text-[#2e2c2a]"
+              className="flex w-full items-center justify-between text-[14px] tracking-widest text-[#2e2c2a] cursor-pointer"
             >
-              <span>SORT BY</span>
+              <span>{t("sortByHeader")}</span>
               {openSections.sort ? <IoChevronUpOutline /> : <IoChevronDownOutline />}
             </button>
             {openSections.sort && (
               <div className="mt-5 space-y-4 text-[16px] text-[#46413d]">
                 {[
-                  { id: "bestsellers", label: "Bestsellers" },
-                  { id: "asc", label: "Ascending Price" },
-                  { id: "desc", label: "Price Descending" },
+                  { id: "asc", label: t("ascendingPrice") },
+                  { id: "desc", label: t("priceDescending") },
                 ].map((item) => (
                   <label
                     key={item.id}
@@ -114,9 +115,9 @@ function FilterDrawer({
             <button
               type="button"
               onClick={() => toggleSection("price")}
-              className="flex w-full items-center justify-between text-[14px] tracking-widest text-[#2e2c2a]"
+              className="flex w-full items-center justify-between text-[14px] tracking-widest text-[#2e2c2a] cursor-pointer"
             >
-              <span>PRICE</span>
+              <span>{t("priceHeader")}</span>
               {openSections.price ? <IoChevronUpOutline /> : <IoChevronDownOutline />}
             </button>
             {openSections.price && (
@@ -141,9 +142,9 @@ function FilterDrawer({
             <button
               type="button"
               onClick={() => toggleSection("items")}
-              className="flex w-full items-center justify-between text-[14px] tracking-widest text-[#2e2c2a]"
+              className="flex w-full items-center justify-between text-[14px] tracking-widest text-[#2e2c2a] cursor-pointer"
             >
-              <span>NUMBER OF ITEMS</span>
+              <span>{t("numberOfItemsHeader")}</span>
               {openSections.items ? <IoChevronUpOutline /> : <IoChevronDownOutline />}
             </button>
             {openSections.items && (
@@ -155,7 +156,7 @@ function FilterDrawer({
                     onClick={() =>
                       setSelectedItemCount((prev) => (prev === count ? null : count))
                     }
-                    className={`flex h-11 w-11 items-center justify-center rounded-full border text-[15px] transition ${
+                    className={`flex h-11 w-11 items-center justify-center rounded-full border text-[15px] transition cursor-pointer ${
                       selectedItemCount === count
                         ? "border-[#2e2c2a] bg-[#2e2c2a] text-white"
                         : "border-gray-300 text-[#46413d] hover:border-black"
@@ -172,16 +173,16 @@ function FilterDrawer({
           <button
             type="button"
             onClick={handleClearAll}
-            className="py-5 text-center text-[15px] text-[#2e2c2a] transition hover:bg-[#f5f1e8]"
+            className="py-5 text-center text-[15px] text-[#2e2c2a] transition hover:bg-[#f5f1e8] cursor-pointer"
           >
-            Clear all
+            {t("clearAll")}
           </button>
           <button
             type="button"
             onClick={handleShowResults}
-            className="bg-[#2e2c2a] py-5 text-center text-[15px] text-white transition hover:bg-[#1d1a17]"
+            className="bg-[#2e2c2a] py-5 text-center text-[15px] text-white transition hover:bg-[#1d1a17] cursor-pointer"
           >
-            Show Results
+            {t("showResults")}
           </button>
         </div>
       </div>

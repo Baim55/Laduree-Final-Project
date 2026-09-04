@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router";
 import { getProductBySlug, getProducts } from "../services/api";
 import { createSlug } from "../utils/createSlug";
+import { useLanguage } from "../context/LanguageContext"; 
 
 import ProductPageSimple from "./ProductPageSimple";
 import ProductPageWithOptions from "./ProductPageWithOptions";
@@ -11,6 +12,7 @@ import SkeletonLoader from "./SkeletonLoader";
 
 function ProductPage() {
   const { slug } = useParams();
+  const { t } = useLanguage(); 
   const [product, setProduct] = useState(null);
   const [relatedProducts, setRelatedProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -60,8 +62,8 @@ function ProductPage() {
 
   if (!product) {
     return (
-      <p className="garamond pt-[150px] text-center text-[18px]">
-        Məhsul tapılmadı.
+      <p className="garamond pt-[150px] text-center text-[18px] text-[#2e2c2a]">
+        {t("productNotFound")} {/* 3. Dinamik tərcümə */}
       </p>
     );
   }
@@ -86,7 +88,7 @@ function ProductPage() {
       {relatedProducts.length > 0 && (
         <div className="mt-20 border-t border-[#e6decb] pt-14">
           <h2 className="mb-10 text-center text-[28px] uppercase tracking-widest text-[#2e2c2a]">
-            You May Also Like
+            {t("youMayAlsoLike")} {/* 4. Dinamik başlıq */}
           </h2>
 
           <div className="grid grid-cols-2 gap-x-4 gap-y-10 md:grid-cols-4 md:gap-6">

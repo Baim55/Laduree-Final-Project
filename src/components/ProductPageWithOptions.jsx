@@ -2,8 +2,11 @@ import { useState } from "react";
 import ProductImageGallery from "./product/ProductImageGallery";
 import ProductAccordions from "./product/ProductAccordions";
 import { useCart } from "../context/CartContext";
+import { useLanguage } from "../context/LanguageContext";
+import { toast } from "react-toastify";
 
 function ProductPageWithOptions({ product }) {
+  const { t } = useLanguage();
   const [selectedOption, setSelectedOption] = useState(
     product.options?.[0] || null,
   );
@@ -20,6 +23,7 @@ function ProductPageWithOptions({ product }) {
       image: selectedOption?.image || product.image,
       selectedOption: selectedOption?.label,
     });
+    toast.success(`${displayName} added to cart!`);
   };
 
   return (
@@ -47,7 +51,7 @@ function ProductPageWithOptions({ product }) {
         {product.options?.length > 0 && (
           <div className="mb-8">
             <p className="mb-3 text-center text-[15px] uppercase tracking-wide">
-              Select your box
+              {t("selectYourBox")}
             </p>
             <div
               className="grid"
@@ -60,7 +64,7 @@ function ProductPageWithOptions({ product }) {
                   key={option.label}
                   type="button"
                   onClick={() => setSelectedOption(option)}
-                  className={`border py-3 text-[15px] transition ${
+                  className={`border py-3 text-[15px] transition cursor-pointer ${
                     selectedOption?.label === option.label
                       ? "border-black text-black"
                       : "border-gray-300 text-gray-500"
@@ -97,9 +101,9 @@ function ProductPageWithOptions({ product }) {
         <button
           type="button"
           onClick={handleAddToCart}
-          className="w-full bg-[#2e2c2a] py-3 text-[17px] text-white transition hover:bg-[#1d1a17]"
+          className="w-full bg-[#2e2c2a] py-3 text-[17px] text-white transition hover:bg-[#1d1a17] cursor-pointer"
         >
-          Add to cart — {displayPrice.toFixed(2)} EUR
+          {t("addToCart")} — {displayPrice.toFixed(2)} EUR
         </button>
         <ProductAccordions product={product} />
       </div>

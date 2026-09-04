@@ -2,8 +2,10 @@ import { useState } from "react";
 import AccordionSection from "./AccordionSection";
 import ProductDetailsContent from "./ProductDetailsContent";
 import ProductStorageContent from "./ProductStorageContent";
+import { useLanguage } from "../../context/LanguageContext";
 
 function ProductAccordions({ product, showDescription = false }) {
+  const { t } = useLanguage();
   const [openSection, setOpenSection] = useState(null);
 
   const toggleSection = (section) => {
@@ -16,7 +18,7 @@ function ProductAccordions({ product, showDescription = false }) {
     <div className="border-t border-gray-400">
       {showDescription && product.description && (
         <AccordionSection
-          title="Description"
+          title={t("description")}
           isOpen={openSection === "description"}
           onToggle={() => toggleSection("description")}
         >
@@ -25,7 +27,7 @@ function ProductAccordions({ product, showDescription = false }) {
       )}
       {details?.usageTips && (
         <AccordionSection
-          title="Usage tips"
+          title={t("usageTips")}
           isOpen={openSection === "usage"}
           onToggle={() => toggleSection("usage")}
         >
@@ -34,7 +36,7 @@ function ProductAccordions({ product, showDescription = false }) {
       )}
       {details && (
         <AccordionSection
-          title="Ingredients & allergens"
+          title={t("ingredientsAllergens")}
           isOpen={openSection === "ingredients"}
           onToggle={() => toggleSection("ingredients")}
         >
@@ -43,7 +45,7 @@ function ProductAccordions({ product, showDescription = false }) {
       )}
       {details?.storage && (
         <AccordionSection
-          title="Storage"
+          title={t("storage")}
           isOpen={openSection === "storage"}
           onToggle={() => toggleSection("storage")}
         >

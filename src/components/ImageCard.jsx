@@ -1,4 +1,5 @@
 import { useCart } from "../context/CartContext";
+import { toast } from "react-toastify";
 
 function ImageCard({ product }) {
   const { addToCart } = useCart();
@@ -7,6 +8,30 @@ function ImageCard({ product }) {
     e.preventDefault();
     e.stopPropagation();
     addToCart(product);
+    toast.success(
+      <div className="flex items-center gap-3">
+        <img
+          src={product.image}
+          alt={product.name}
+          className="h-10 w-10 object-contain bg-white border border-gray-200 p-0.5"
+        />
+        <div className="text-[13px] leading-tight text-[#2e2c2a]">
+          <span>Added to cart </span>
+          <span className="font-semibold">"{product.name}"</span>
+        </div>
+      </div>,
+      {
+        position: "top-right", 
+        autoClose: 3000,
+        icon: false,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        className:
+          "!bg-[#fefbf4] !text-[#2e2c2a] !border !border-[#e5dfd5] !shadow-md", 
+      },
+    );
   };
 
   return (
@@ -25,7 +50,7 @@ function ImageCard({ product }) {
         type="button"
         onClick={handleAddToCart}
         aria-label="Add to cart"
-        className="absolute bottom-2 right-2 z-20 flex h-7 w-7 items-center justify-center bg-white/90 text-[18px] font-light text-[#2e2c2a] shadow-sm transition hover:bg-[#dce7c6] md:hidden"
+        className="absolute bottom-2 right-2 z-20 flex h-7 w-7 items-center justify-center bg-white/90 text-[18px] font-light text-[#2e2c2a] shadow-sm transition hover:bg-[#dce7c6] md:hidden cursor-pointer"
       >
         +
       </button>

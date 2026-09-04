@@ -23,3 +23,9 @@ export const getProductBySlug = async (slug) => {
 
   return product || null;
 };
+
+export async function getStores() {
+  const res = await fetch(`${BASE_URL}/stores`);
+  if (!res.ok) throw new Error("Mağazalar yüklənmədi");
+  return res.json();
+}

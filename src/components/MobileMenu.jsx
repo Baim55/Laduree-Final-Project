@@ -9,19 +9,23 @@ import {
 import { FaRegUserCircle } from "react-icons/fa";
 import { HiOutlineGlobeAlt } from "react-icons/hi2";
 import { useCart } from "../context/CartContext";
-import { menuData } from "../data/menuData";
-
-const mainLinks = [
-  { label: "Our stores", to: "/stores" },
-  { label: "Corporate", to: "/corporate" },
-  { label: "La Maison", to: "/la-maison" },
-  { label: "Le Club Ladurée", to: "/club" },
-];
+import { getMenuData } from "../data/menuData";
+import { useLanguage } from "../context/LanguageContext";
 
 function MobileMenu({ isOpen, onClose }) {
   const { itemCount } = useCart();
+  const { lang, toggleLanguage, t } = useLanguage();
   const [view, setView] = useState("main");
-  const [activeTab, setActiveTab] = useState("delivery"); 
+  const [activeTab, setActiveTab] = useState("delivery");
+
+  const menuData = getMenuData(t);
+
+  const mainLinks = [
+    { label: t("ourStores"), to: "/stores" },
+    { label: t("corporate"), to: "/corporate" },
+    { label: t("laMaison"), to: "/la-maison" },
+    { label: t("clubLadurée"), to: "/club" },
+  ];
 
   const handleClose = () => {
     setView("main");
@@ -50,7 +54,7 @@ function MobileMenu({ isOpen, onClose }) {
                 onClick={handleClose}
                 className="cursor-pointer text-[18px] tracking-wide text-gray-700 hover:text-black"
               >
-                Close
+                {t("close")}
               </button>
 
               <Link to="/" onClick={handleClose}>
@@ -76,7 +80,7 @@ function MobileMenu({ isOpen, onClose }) {
                   <IoSearchOutline size={20} className="text-[#2e2c2a]" />
                   <input
                     type="text"
-                    placeholder="What are you looking for?"
+                    placeholder={t("searchPlaceholder")}
                     className="w-full bg-transparent text-[18px] text-[#2e2c2a] placeholder-[#2e2c2a]/70 outline-none"
                   />
                 </div>
@@ -88,7 +92,7 @@ function MobileMenu({ isOpen, onClose }) {
                     onClick={() => setView("eshop")}
                     className="flex w-full items-center justify-between py-5 text-left text-[24px] text-[#2e2c2a] transition-colors hover:text-gray-600 sm:text-[28px]"
                   >
-                    <span>E-Shop</span>
+                    <span>{t("eshop")}</span>
                     <IoChevronForward size={20} className="text-gray-400" />
                   </button>
                 </li>
@@ -112,14 +116,15 @@ function MobileMenu({ isOpen, onClose }) {
                 className="flex items-center gap-3 border-b border-gray-100 px-6 py-5 text-[15px] text-[#2e2c2a]"
               >
                 <FaRegUserCircle size={20} />
-                Account
+                {t("account")}
               </Link>
               <button
                 type="button"
-                className="flex w-full items-center gap-3 px-6 py-5 text-[15px] text-[#2e2c2a]"
+                onClick={toggleLanguage}
+                className="flex w-full items-center gap-3 px-6 py-5 text-[15px] text-[#2e2c2a] cursor-pointer"
               >
                 <HiOutlineGlobeAlt size={20} />
-                FR / EN
+                {lang === "en" ? "AZ / EN" : "EN / AZ"}
               </button>
             </div>
           </>
@@ -135,7 +140,7 @@ function MobileMenu({ isOpen, onClose }) {
                 <IoArrowBack size={22} />
               </button>
               <h2 className="garamond text-[18px] font-normal uppercase tracking-[0.15em] text-[#2e2c2a]">
-                E-Shop
+                {t("eshop")}
               </h2>
               <button
                 type="button"
@@ -151,24 +156,24 @@ function MobileMenu({ isOpen, onClose }) {
                 <button
                   type="button"
                   onClick={() => setActiveTab("delivery")}
-                  className={`h-[48px] text-[16px] transition ${
+                  className={`h-[48px] text-[16px] transition cursor-pointer ${
                     activeTab === "delivery"
                       ? "border border-black bg-[#fefbf4] font-medium text-[#2e2c2a]"
                       : "text-gray-500 hover:text-black"
                   }`}
                 >
-                  Delivery
+                  {t("delivery")}
                 </button>
                 <button
                   type="button"
                   onClick={() => setActiveTab("pickup")}
-                  className={`h-[48px] text-[16px] transition ${
-                    activeTab === "pickup"
+                  className={`h-[48px] text-[16px] transition cursor-pointer ${
+                    activeTab === ""
                       ? "border border-black bg-[#fefbf4] font-medium text-[#2e2c2a]"
                       : "text-gray-500 hover:text-black"
                   }`}
                 >
-                  Pickup
+                  {t("pickup")}
                 </button>
               </div>
             </div>
@@ -195,7 +200,7 @@ function MobileMenu({ isOpen, onClose }) {
                     onClick={handleClose}
                     className="block py-4 text-[22px] text-[#2e2c2a] hover:underline sm:text-[24px]"
                   >
-                    See all
+                    {t("seeAll")}
                   </Link>
                 </li>
               </ul>
