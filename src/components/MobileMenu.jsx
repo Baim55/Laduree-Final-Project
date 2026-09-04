@@ -80,7 +80,7 @@ function MobileMenu({ isOpen, onClose }) {
                   <IoSearchOutline size={20} className="text-[#2e2c2a]" />
                   <input
                     type="text"
-                    placeholder={t("searchPlaceholder")}
+                    placeholder={t("searchAnything")}
                     className="w-full bg-transparent text-[18px] text-[#2e2c2a] placeholder-[#2e2c2a]/70 outline-none"
                   />
                 </div>
